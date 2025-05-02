@@ -11,6 +11,8 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.7.2",
     "bootstrap": "^5.3.5",
+    "country-flag-icons": "^1.5.19",
+    "intl-tel-input": "^25.3.1",
     "vue": "^3.5.13",
     "vue-router": "^4.5.1"
   },
