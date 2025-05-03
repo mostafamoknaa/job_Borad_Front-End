@@ -4,6 +4,7 @@ import singlePage from "../components/singlepage.vue";
 import candidateDashborad from "../components/candidateDashborad.vue";
 import CandidateDashborad from "../pages/CandidateDashborad.vue"
 import Appliedjob from "../components/appliedjob.vue";
+import favoritejob from "../components/favoritejob.vue";
 
 
 const routes = [{
@@ -25,6 +26,11 @@ const routes = [{
         path: "/appliedjobs",
         name: "appliedjobs",
         component: Appliedjob
+    },
+    {
+        path: "/FavoriteJob",
+        name: "FavoriteJob",
+        component: favoritejob
     }
 ];
 
