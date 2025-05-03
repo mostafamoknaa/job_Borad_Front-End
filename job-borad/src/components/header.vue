@@ -138,20 +138,21 @@
         class="container justify-content-center justify-content-lg-between w-100"
       >
         <!-- Left Section -->
-        <div class="d-flex align-items-center w-md-100">
+        <div class="d-flex align-items-center flex-grow-1">
           <a
             class="navbar-brand fw-bold d-flex align-items-center me-4 d-none d-lg-block"
             href="#"
           >
-            <i class="fas fa-thin fa-briefcase fs-4 text-primary me-2"></i>
+            <i class="fas fa-briefcase fs-4 text-primary me-2"></i>
             Jobpilot
           </a>
 
           <form
             action=""
-            class="d-flex align-items-center border px-5 ms-2 rounded-2"
+            class="d-flex align-items-center flex-grow-1 border px-4 ms-2 rounded-2"
+            style="min-width: 0; max-width: 80%"
           >
-            <!-- Country Selector as Dropdown -->
+            <!-- Country Selector -->
             <div class="d-flex align-items-center">
               <div class="dropdown">
                 <button
@@ -194,15 +195,15 @@
 
             <span class="px-3 pb-2 text-light fs-3">|</span>
 
-            <!-- Search Input with Icon Inside -->
-            <div class="position-relative w-100 me-lg-3">
+            <!-- Search Input with Icon -->
+            <div class="position-relative flex-grow-1">
               <i
                 class="fas fa-search position-absolute top-50 start-0 translate-middle-y text-primary ms-3"
               ></i>
               <input
                 type="text"
                 v-model="searchQuery"
-                class="form-control ps-5 border-0 pe-5 midume-size"
+                class="form-control ps-5 border-0 pe-5 w-100"
                 placeholder="Job title, keyword, company"
               />
             </div>
@@ -210,7 +211,7 @@
         </div>
 
         <!-- Right Section -->
-        <div class="d-flex mt-3 mt-lg-0">
+        <div class="d-flex mt-3 mt-lg-0 ms-lg-3">
           <button
             class="btn btn-outline-primary border border-info px-3 me-2 rounded-1"
           >
