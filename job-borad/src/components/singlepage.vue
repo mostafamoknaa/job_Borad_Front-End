@@ -88,10 +88,10 @@ const jobs = ref([
     salaryMin: 60000,
     salaryMax: 75000,
     company: {
-      name: 'Google Inc.',
+      name: 'Face Book.',
       logo: 'https://cdn-icons-png.flaticon.com/512/2991/2991148.png'
     },
-    location: 'Dhaka, Bangladesh'
+    location: 'UK, London'
   },
   {
     id: 3,
