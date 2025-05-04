@@ -12,7 +12,7 @@
         <nav>
           <ul>
             <li v-for="(item, index) in menuItems" :key="index" 
-                :class="{ 'active': activeItem === item.id }">
+                :class="{ 'active': activeItem == item.id }">
               <a @click="selectItem(item.id)" href="#" class="menu-item">
                 <i :class="item.icon"></i>
                 <span v-if="!isCollapsed">{{ item.label }}</span>
@@ -38,7 +38,7 @@
           { id: 'Candidatedashbord', label: 'OverView', icon: 'fas fa-home' },
           { id: 'appliedjobs', label: 'Applied Job', icon: 'fas fa-user' },
           { id: 'FavoriteJob', label: 'Favorite Job', icon: 'fas fa-bookmark' },
-          { id: 'JobAlert', label: 'Job Alert', icon: 'fas fa-bell' },
+          { id: 'jobalert', label: 'Job Alert', icon: 'fas fa-bell' },
           { id: 'Settings', label: 'Settings', icon: 'fas fa-cog' },
             { id: 'Logout', label: 'Logout', icon: 'fas fa-sign-out-alt' }
         ]
@@ -47,9 +47,14 @@
     data() {
       return {
         isCollapsed: false,
-        activeItem: 'dashboard'
+        activeItem: 'Candidatedashbord'
       }
     },
+    computed: {
+    activeItem() {
+      return this.$route.name;  // activeItem = current route name
+    }
+  },
     methods: {
       toggleSidebar() {
         this.isCollapsed = !this.isCollapsed;
@@ -131,11 +136,12 @@
   }
   
   .sidebar-content .menu-item:hover {
-    background-color:rgb(146, 146, 241);
+    background-color:rgb(54, 54, 241);
   }
   
   .sidebar-content li.active .menu-item {
-    background-color: #3498db;
+    background-color: #b1daf5;
+    color:rgb(135, 135, 228);
   }
   
   .sidebar-content .menu-item i {
