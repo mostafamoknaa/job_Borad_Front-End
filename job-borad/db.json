@@ -1,0 +1,25 @@
+{
+    "jobs": [
+      {
+        "id": 1,
+        "title": "Frontend Developer",
+        "company": "Google",
+        "location": "Remote",
+        "description": "Work on our UI.",
+        "type": "Full-time",
+        "tags": ["Vue.js", "Bootstrap"],
+        "logo": "https://placehold.co/64x64"
+      },
+      {
+        "id": 2,
+        "title": "Backend Developer",
+        "company": "Meta",
+        "location": "NYC",
+        "description": "Build Node.js services.",
+        "type": "Part-time",
+        "tags": ["Node.js", "MongoDB"],
+        "logo": "https://placehold.co/64x64"
+      }
+    ]
+  }
+  
