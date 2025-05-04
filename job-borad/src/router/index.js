@@ -6,6 +6,7 @@ import CandidateDashborad from "../pages/CandidateDashborad.vue"
 import Appliedjob from "../components/appliedjob.vue";
 import favoritejob from "../components/favoritejob.vue";
 import JobAlert from "../components/JobAlert.vue";
+import Candidatesetting from "../components/candidatesetting.vue";
 
 
 const routes = [{
@@ -37,6 +38,11 @@ const routes = [{
         path: '/jobalert',
         name: 'jobalert',
         component: JobAlert
+    },
+    {
+        path: '/Settings',
+        name: 'Settings',
+        component: Candidatesetting
     }
 ];
 
