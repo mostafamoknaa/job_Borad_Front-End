@@ -15,6 +15,7 @@
                   <div>
                     <h3 class="job-title">{{ job.title }}</h3>
                     <p class="job-location">
+                      <i class="fa-duotone fa-light fa-location-dot"></i>
                       {{ job.location }} • 
                       <span class="job-salary">${{ job.salary }}</span>
                     </p>
@@ -23,7 +24,7 @@
   
                 <div class="job-action">
                   <span v-if="job.status === 'Expired'" class="expired-text">Deadline Expired</span>
-                  <span v-else class="active-text">{{ job.daysRemaining }} Days Remaining</span>
+                  <span v-else class="active-text"><i class="fa-solid fa-bookmark"></i> {{ job.daysRemaining }} Days Remaining</span>
   
                   <button v-if="job.status !== 'Expired'" class="apply-button">
                     Apply Now
@@ -107,14 +108,14 @@ import Sidebar from '../components/Sidebar.vue';
   </script>
   
   <style scoped>
-  /* Container */
+ 
   .container {
     padding: 24px;
     background-color: #f3f4f6;
     min-height: 100vh;
   }
   
-  /* Page Title */
+ 
   .page-title {
     font-size: 2rem;
     font-weight: bold;
@@ -122,7 +123,7 @@ import Sidebar from '../components/Sidebar.vue';
     margin-bottom: 32px;
   }
   
-  /* Job Card */
+  
   .job-card {
     background: #ffffff;
     padding: 24px;
@@ -139,7 +140,7 @@ import Sidebar from '../components/Sidebar.vue';
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
   }
   
-  /* Job Info */
+ 
   .job-info {
     display: flex;
     align-items: center;
@@ -170,7 +171,7 @@ import Sidebar from '../components/Sidebar.vue';
     color: #374151;
   }
   
-  /* Actions */
+  
   .job-action {
     display: flex;
     align-items: center;
@@ -204,7 +205,7 @@ import Sidebar from '../components/Sidebar.vue';
     background-color: #2563eb;
   }
   
-  /* Pagination */
+ 
   .pagination {
     display: flex;
     justify-content: center;
