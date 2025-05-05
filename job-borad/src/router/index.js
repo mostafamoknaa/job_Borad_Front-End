@@ -10,6 +10,8 @@ import Candidatesetting from "../components/Candidate/candidatesetting.vue";
 import Settingprofile from "../components/Candidate/settingprofile.vue";
 import Sociallink from "../components/Candidate/sociallink.vue";
 import AccountSetting from "../components/Candidate/AccountSetting.vue";
+import Page404 from "../components/Page404.vue";
+import ContactUs from "../components/ContactUs.vue";
 
 
 const routes = [{
@@ -61,6 +63,16 @@ const routes = [{
         path: '/AccountSetting',
         name: 'AccountSetting',
         component: AccountSetting
+    },
+    {
+        path: '/CustomerService',
+        name: 'CustomerService',
+        component: ContactUs
+    },
+    {
+        path: '/:pathMatch(.*)*',
+        name: 'NotFound',
+        component: Page404
     }
 ];
 
