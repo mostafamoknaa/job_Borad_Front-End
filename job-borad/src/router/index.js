@@ -7,6 +7,9 @@ import Appliedjob from "../components/Candidate/appliedjob.vue";
 import favoritejob from "../components/Candidate/favoritejob.vue";
 import JobAlert from "../components/Candidate/JobAlert.vue";
 import Candidatesetting from "../components/Candidate/candidatesetting.vue";
+import Settingprofile from "../components/Candidate/settingprofile.vue";
+import Sociallink from "../components/Candidate/sociallink.vue";
+import AccountSetting from "../components/Candidate/AccountSetting.vue";
 
 
 const routes = [{
@@ -43,6 +46,21 @@ const routes = [{
         path: '/Settings',
         name: 'Settings',
         component: Candidatesetting
+    },
+    {
+        path: '/SettingProfile',
+        name: 'SettingProfile',
+        component: Settingprofile
+    },
+    {
+        path: '/SocialLink',
+        name: 'SocialLink',
+        component: Sociallink
+    },
+    {
+        path: '/AccountSetting',
+        name: 'AccountSetting',
+        component: AccountSetting
     }
 ];
 
