@@ -1,5 +1,5 @@
 <template>
-    <div class="container-fluid p-0 mt-5">
+  <div class="container fluid p-0 mt-5">
     <div class="row">
         <div class="col-md-3">
             <Sidebar />
@@ -59,8 +59,7 @@
   
   
 <script>
-import Sidebar from '../components/Sidebar.vue';
-
+ import Sidebar from './Sidebar.vue';
   export default {
     components: {
       Sidebar
