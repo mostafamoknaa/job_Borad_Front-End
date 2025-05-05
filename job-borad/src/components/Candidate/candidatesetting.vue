@@ -6,14 +6,41 @@
         </div>
         <div class="col-md-9">
           <h1 class="page-title">Setting</h1>
-          <div class="card">
-            <div class="tabs">
-              <button class="tab active"><i class="fa-solid fa-person me-1"></i>Personal</button>
-              <button class="tab"><i class="fa-solid fa-person me-1"></i>Profile</button>
-              <button class="tab"><i class="fa-solid fa-globe icon me-1"></i>Social Links</button>
-              <button class="tab"><i class="fa-solid fa-gear icon"></i>Account Setting</button>
-            </div>
-  
+          <div class="card"><div class="tabs">
+            <router-link 
+              to="/Settings" 
+              class="tab" 
+              :class="{ active: $route.path === '/Settings' }"
+            >
+              <i class="fa-solid fa-user me-1"></i> Personal
+            </router-link>
+          
+            <router-link 
+              to="/SettingProfile" 
+              class="tab" 
+              :class="{ active: $route.path === '/SettingProfile' }"
+            >
+              <i class="fa-solid fa-id-card me-1"></i> Profile
+            </router-link>
+          
+            <router-link 
+              to="/SocialLink" 
+              class="tab" 
+              :class="{ active: $route.path === '/SocialLink' }"
+            >
+              <i class="fa-solid fa-globe me-1"></i> Social Links
+            </router-link>
+          
+            <router-link 
+              to="/AccountSetting" 
+              class="tab" 
+              :class="{ active: $route.path === '/AccountSetting' }"
+            >
+              <i class="fa-solid fa-gear me-1"></i> Account Setting
+            </router-link>
+          </div>
+          
+            
             <form @submit.prevent="saveChanges">
               <div class="form-grid">
                 <div class="upload-box">
@@ -129,6 +156,7 @@
     name: "SettingPage",
     data() {
       return {
+        activeTab: 'Settings',
         activeDropdown: null,
         showModal: false,
         form: {
