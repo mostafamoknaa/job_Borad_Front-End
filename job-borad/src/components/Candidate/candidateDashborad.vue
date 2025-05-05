@@ -1,6 +1,15 @@
 <template>
+  <div class="container fluid p-0 mt-5">
+    <div class="row">
+      <div class="col-md-3">
+        <Sidebar />
+      </div>
+      <div class="col-md-9">
+        <div class="container-fluid p-0">
+          <div class="row">
+            <div class="col-md-12">
+             
     <div class="dashboard">
-  
       <div class="top-greeting">
         <h1>Hello, Mostafa Moknaa </h1>
         <p>Here is your daily activities and job alerts</p>
@@ -105,14 +114,19 @@
           </div>
         </div>
       </div>
-  
-      <p class="footer">
-        © 2025 Mostafa - Job Board. All rights reserved.
-      </p>
     </div>
+  </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
   </template>
   
   <script setup>
+  import { ref } from 'vue';
+  import Sidebar from './Sidebar.vue';
   const jobs = [
     {
       id: 1,

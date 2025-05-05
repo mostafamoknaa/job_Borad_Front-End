@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container fluid p-0 mt-5">
       <div class="row">
         <div class="col-md-3">
           <Sidebar />

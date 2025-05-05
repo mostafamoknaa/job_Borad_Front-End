@@ -18,7 +18,7 @@
   </template>
   
   <script setup>
-  import candidateDashborad from '../components/candidateDashborad.vue';
-  import Sidebar from '../components/Sidebar.vue';
+  import candidateDashborad from '../components/Candidate/candidateDashborad.vue';
+  import Sidebar from '../components/Candidate/Sidebar.vue';
   </script>
   
