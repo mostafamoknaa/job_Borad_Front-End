@@ -1,11 +1,15 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomePage from "../pages/HomePage.vue";
 import singlePage from "../components/singlepage.vue";
-import candidateDashborad from "../components/candidateDashborad.vue";
+// import candidateDashborad from "../components/candidateDashborad.vue";
 import CandidateDashborad from "../pages/CandidateDashborad.vue"
 import Appliedjob from "../components/appliedjob.vue";
 import favoritejob from "../components/favoritejob.vue";
 import JobAlert from "../components/JobAlert.vue";
+import FilterSidevar from "../components/FilterSidevar.vue";
+import JobDetails from "../components/JobDetails.vue";
+import JobList from "../components/JobList.vue";
+import JobListPage from "../pages/JobListPage.vue";
 
 
 const routes = [{
@@ -37,6 +41,26 @@ const routes = [{
         path: '/jobalert',
         name: 'jobalert',
         component: JobAlert
+    },
+    {
+        path: '/filtersicevar',
+        name: 'filtersicevar',
+        component: FilterSidevar
+    },
+    {
+        path: '/jobdetails',
+        name: 'jobdetails',
+        component: JobDetails
+    },
+    {
+        path: '/jobs',
+        name: 'JobList',
+        component: JobList
+    },
+    {
+        path: '/joblistpage',
+        name: 'joblistpage',
+        component: JobListPage
     }
 ];
 

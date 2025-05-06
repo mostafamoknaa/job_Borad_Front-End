@@ -33,6 +33,7 @@
                 >Home</a
               >
             </li>
+            <router-link to="/jobs">Jobs</router-link>
             <li class="nav-item">
               <a
                 class="nav-link"
