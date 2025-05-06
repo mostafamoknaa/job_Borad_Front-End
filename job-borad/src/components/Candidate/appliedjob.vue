@@ -1,5 +1,5 @@
 <template>
-    <div class="container-fluid p-0 mt-5">
+  <div class="container fluid p-0 mt-5">
       <div class="row">
         <div class="col-md-3">
           <Sidebar />
@@ -85,9 +85,9 @@
   
   <script setup>
   import { ref, computed } from 'vue';
-  import Sidebar from '../components/Sidebar.vue';
+  import Sidebar from './Sidebar.vue';
   
-  // Sample Jobs Data
+
   const jobs = [
     { id: 1, logo: "https://cdn-icons-png.flaticon.com/512/732/732200.png", title: "Networking Engineer", location: "Washington", salary: "$50k–80k/month", dateApplied: "Feb 2, 2019 19:28", tags: ["Remote"] },
     { id: 2, logo: "https://cdn-icons-png.flaticon.com/512/732/732228.png", title: "Product Designer", location: "Dhaka", salary: "$50k–80k/month", dateApplied: "Dec 7, 2019 23:26", tags: ["Full Time"] },
@@ -108,7 +108,7 @@
 
   ];
   
-  // Pagination logic
+
   const currentPage = ref(1);
   const rowsPerPage = 5;
   
@@ -137,7 +137,7 @@
     padding: 0;
   }
   
-  /* Recently Applied Section */
+
   .recently-applied {
     max-width: 1200px;
     margin: 0 auto;
@@ -160,14 +160,14 @@
     color: #2d3748;
   }
   
-  /* Job List */
+
   .job-list {
     display: flex;
     flex-direction: column;
     gap: 16px;
   }
   
-  /* Job Card */
+
   .job-card {
     border: 1px solid #e2e8f0;
     border-radius: 12px;
@@ -190,7 +190,6 @@
     }
   }
   
-  /* Job Info */
   .job-info {
     display: flex;
     align-items: center;
@@ -218,8 +217,7 @@
     color: #718096;
     margin-top: 4px;
   }
-  
-  /* Tags */
+
   .job-tags {
     display: flex;
     flex-wrap: wrap;
@@ -235,7 +233,6 @@
     border-radius: 9999px;
   }
   
-  /* Date Applied */
   .job-date {
     color: #718096;
     font-size: 14px;
@@ -248,14 +245,13 @@
     }
   }
   
-  /* Job Status */
   .job-status {
     color: #16a34a;
     font-size: 14px;
     font-weight: 600;
   }
   
-  /* Details Button */
+
   .details-btn {
     background: #2563eb;
     color: #fff;

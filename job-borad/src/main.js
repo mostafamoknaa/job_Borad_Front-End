@@ -8,5 +8,7 @@ import "intl-tel-input/build/css/intlTelInput.css";
 
 // js imports
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import "intl-tel-input/build/js/intlTelInput.min.js";
+import "intl-tel-input/build/js/utils.js";
 
 createApp(App).use(router).mount("#app");

@@ -52,7 +52,7 @@
     },
     computed: {
     activeItem() {
-      return this.$route.name;  // activeItem = current route name
+      return this.$route.name;  
     }
   },
     methods: {
@@ -77,7 +77,7 @@
     flex-direction: column;
     width: 250px;
     height: 100vh;
-    color:rgb(97, 84, 84);
+    color:black;
     transition: all 0.3s ease;
   }
   
@@ -130,13 +130,13 @@
     display: flex;
     align-items: center;
     padding: 15px 20px;
-    color:rgb(97, 84, 84);
+    color:gray;
     text-decoration: none;
     transition: all 0.2s ease;
   }
   
   .sidebar-content .menu-item:hover {
-    background-color:rgb(54, 54, 241);
+    background-color:rgb(223, 223, 248);
   }
   
   .sidebar-content li.active .menu-item {

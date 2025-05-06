@@ -1,6 +1,6 @@
 <template>
   <nav>
-    <!-- Top Navbar with Logo and Country Selector -->
+   
     <div class="navbar navbar-expand-lg bg-body-tertiary">
       <div class="container justify-content-between">
         <a
@@ -28,7 +28,7 @@
                 class="nav-link"
                 :class="{ active: activeLink === 'home' }"
                 aria-current="page"
-                href="#"
+                href="/"
                 @click="setActiveLink('home')"
                 >Home</a
               >
@@ -56,25 +56,25 @@
               <a
                 class="nav-link"
                 :class="{ active: activeLink === 'candidates' }"
-                href="#"
+                href="/candidatedashbord"
                 @click="setActiveLink('candidates')"
-                >Candidates</a
+                >Dashboard</a
               >
             </li>
             <li class="nav-item">
               <a
                 class="nav-link"
-                :class="{ active: activeLink === 'pricing' }"
-                href="#"
-                @click="setActiveLink('pricing')"
-                >Pricing Plans</a
+                :class="{ active: activeLink === 'jobalert' }"
+                href="/jobalert"
+                @click="setActiveLink('jobalert')"
+                >Job Alert</a
               >
             </li>
             <li class="nav-item">
               <a
                 class="nav-link"
                 :class="{ active: activeLink === 'customer' }"
-                href="#"
+                href="/CustomerService"
                 @click="setActiveLink('customer')"
                 >Customer Supports</a
               >
@@ -145,7 +145,7 @@
             href="#"
           >
             <i class="fas fa-thin fa-briefcase fs-4 text-primary me-2"></i>
-            Jobpilot
+            Forsa
           </a>
 
           <form
@@ -231,7 +231,7 @@ const activeLink = ref("home");
 const setActiveLink = (link) => {
   activeLink.value = link;
 };
-const selectedCountry = ref("India");
+const selectedCountry = ref("Egypt");
 const searchQuery = ref("");
 
 const countries = ref([
