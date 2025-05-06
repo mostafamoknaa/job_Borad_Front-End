@@ -12,6 +12,9 @@ import Sociallink from "../components/Candidate/sociallink.vue";
 import AccountSetting from "../components/Candidate/AccountSetting.vue";
 import Page404 from "../components/Page404.vue";
 import ContactUs from "../components/ContactUs.vue";
+import SmallNab from "../components/Employeer/SmallNav.vue";
+import PersonalAccount from "../components/Employeer/PersonalAccount.vue";
+import SmallNav from "../components/Employeer/SmallNav.vue";
 
 
 const routes = [{
@@ -68,6 +71,16 @@ const routes = [{
         path: '/CustomerService',
         name: 'CustomerService',
         component: ContactUs
+    },
+    {
+        path: '/nav',
+        name: 'nav',
+        component: SmallNav
+    },
+    {
+        path: '/employeer/company',
+        name: 'company',
+        component: PersonalAccount
     },
     {
         path: '/:pathMatch(.*)*',

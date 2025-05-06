@@ -1,12 +1,19 @@
 <template>
   <div class="container-fluid p-0">
-    <header-component />
+    <HeaderComponent v-if="!isEmployeerPage" />
     <router-view />
-    <footer-component />
+    <FooterComponent v-if="!isEmployeerPage" />
   </div>
 </template>
 
 <script setup>
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
 import HeaderComponent from "./components/header.vue";
 import FooterComponent from "./components/footer.vue";
+
+const route = useRoute()
+
+// Check if the current route path contains "employeer"
+const isEmployeerPage = computed(() => route.path.includes('employeer'))
 </script>
