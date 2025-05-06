@@ -6,7 +6,7 @@
   </div>
 </template>
 
-<script setup>
+<script>
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import HeaderComponent from "./components/header.vue";
