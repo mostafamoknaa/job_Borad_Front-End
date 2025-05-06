@@ -33,13 +33,21 @@
                 >Home</a
               >
             </li>
-            <router-link to="/jobs">Jobs</router-link>
             <li class="nav-item">
               <a
                 class="nav-link"
-                :class="{ active: activeLink === 'findJob' }"
+                :class="{ active: activeLink === 'jobs' }"
                 href="#"
-                @click="setActiveLink('findJob')"
+                @click="setActiveLink('jobs')"
+                >Jobs</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                :class="{ active: activeLink === 'FindJob' }"
+                href="/find-job"
+                @click="setActiveLink('FindJob')"
                 >Find Job</a
               >
             </li>

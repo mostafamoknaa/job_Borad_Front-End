@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.7.2",
+    "axios": "^1.9.0",
     "bootstrap": "^5.3.5",
     "country-flag-icons": "^1.5.19",
     "intl-tel-input": "^25.3.1",

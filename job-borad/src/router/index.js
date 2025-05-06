@@ -16,9 +16,11 @@ import SmallNab from "../components/Employeer/SmallNav.vue";
 import PersonalAccount from "../components/Employeer/PersonalAccount.vue";
 import SmallNav from "../components/Employeer/SmallNav.vue";
 import FilterSidevar from "../components/FilterSidevar.vue";
-import JobDetails from "../components/JobDetails.vue";
-import JobList from "../components/JobList.vue";
-import JobListPage from "../pages/JobListPage.vue";
+import FindJob from "../pages/find_job.vue";
+import JobDetails from "../pages/job_details.vue";
+// import JobDetails from "../components/JobDetails.vue";
+// import JobList from "../components/JobList.vue";
+// import JobListPage from "../pages/JobListPage.vue";
 
 
 const routes = [{
@@ -97,20 +99,26 @@ const routes = [{
         component: FilterSidevar
     },
     {
-        path: '/jobdetails',
-        name: 'jobdetails',
+        path: '/find-job',
+        name: 'FindJob',
+        component: FindJob
+    },
+    {
+        path: '/job/:id',
+        name: 'JobDetails',
         component: JobDetails
-    },
-    {
-        path: '/jobs',
-        name: 'JobList',
-        component: JobList
-    },
-    {
-        path: '/joblistpage',
-        name: 'joblistpage',
-        component: JobListPage
-    }
+    },      
+      
+    // {
+    //     path: '/jobs',
+    //     name: 'JobList',
+    //     component: JobList
+    // },
+    // {
+    //     path: '/joblistpage',
+    //     name: 'joblistpage',
+    //     component: JobListPage
+    // }
 ];
 
 const router = createRouter({
