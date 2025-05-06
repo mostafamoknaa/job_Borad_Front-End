@@ -19,6 +19,8 @@ import PersonalProfile from "../components/Employeer/PersonalProfile.vue";
 import SocialMedia from "../components/Employeer/SocialMedia.vue";
 import EmployeerContact from "../components/Employeer/EmployeerContact.vue";
 import Congratulation from "../components/Employeer/Congratulation.vue";
+import Dashboard from "../components/Employeer/Dashboard.vue";
+import SelectPlan from "../components/Employeer/SelectPlan.vue";
 
 
 const routes = [{
@@ -105,6 +107,16 @@ const routes = [{
         path: '/employeer/congrats',
         name: 'employeer/congrats',
         component: Congratulation
+    },
+    {
+        path: '/employeer/dashboard',
+        name: 'employeer/dashboard',
+        component: Dashboard
+    },
+    {
+        path: '/employeer/selectplan',
+        name: 'employeer/selectplan',
+        component: SelectPlan
     },
     {
         path: '/:pathMatch(.*)*',
