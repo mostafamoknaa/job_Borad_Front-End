@@ -15,6 +15,10 @@ import ContactUs from "../components/ContactUs.vue";
 import SmallNab from "../components/Employeer/SmallNav.vue";
 import PersonalAccount from "../components/Employeer/PersonalAccount.vue";
 import SmallNav from "../components/Employeer/SmallNav.vue";
+import PersonalProfile from "../components/Employeer/PersonalProfile.vue";
+import SocialMedia from "../components/Employeer/SocialMedia.vue";
+import EmployeerContact from "../components/Employeer/EmployeerContact.vue";
+import Congratulation from "../components/Employeer/Congratulation.vue";
 
 
 const routes = [{
@@ -81,6 +85,26 @@ const routes = [{
         path: '/employeer/company',
         name: 'company',
         component: PersonalAccount
+    },
+    {
+        path: '/employeer/profile',
+        name: 'employeer/profile',
+        component: PersonalProfile
+    },
+    {
+        path: '/employeer/Social',
+        name: 'employeer/Social',
+        component: SocialMedia
+    },
+    {
+        path: '/employeer/contact',
+        name: 'employeer/contact',
+        component: EmployeerContact
+    },
+    {
+        path: '/employeer/congrats',
+        name: 'employeer/congrats',
+        component: Congratulation
     },
     {
         path: '/:pathMatch(.*)*',
