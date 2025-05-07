@@ -1,117 +1,114 @@
 <template>
-    <div class="container mt-5">
-      <div class="row justify-content-center">
-        <div class="col-md-6 col-lg-4">
-          <div class="card shadow">
-            <div class="card-body p-4">
-              <h2 class="text-center mb-4">Sign in</h2>
-              
-              <div class="text-center mb-4">
-                <p class="mb-0">Don't have account</p>
-                <button class="btn btn-link p-0 fw-bold">Create Account</button>
-              </div>
-              
-              <form @submit.prevent="handleLogin">
-                <div class="mb-3">
-                  <label for="email" class="form-label">Email address</label>
-                  <input type="email" class="form-control" id="email" v-model="email" required>
-                </div>
-                
-                <div class="mb-3">
-                  <label for="password" class="form-label">Password</label>
-                  <input type="password" class="form-control" id="password" v-model="password" required>
-                </div>
-                
-                <div class="mb-3 form-check">
-                  <input type="checkbox" class="form-check-input" id="remember" v-model="rememberMe">
-                  <label class="form-check-label" for="remember">Remember Me</label>
-                </div>
-                
-                <hr class="my-4">
-                
-                <button type="submit" class="btn btn-primary w-100 mb-3">Sign in →</button>
-                
-                <div class="text-center mb-3">or</div>
-                
-                <div class="d-grid gap-2">
-                  <button type="button" class="btn btn-outline-primary">
-                    <i class="bi bi-facebook me-2"></i> Sign in with Facebook
-                  </button>
-                  <button type="button" class="btn btn-outline-danger">
-                    <i class="bi bi-google me-2"></i> Sign in with Google
-                  </button>
-                </div>
-              </form>
-            </div>
+  <div class="container-fluid min-vh-100 p-0">
+    <div class="row g-0">
+      <!-- Left side (form) -->
+      <div class="col-12 col-md-6 d-flex align-items-center justify-content-center bg-white p-4">
+        <div class="w-100" style="max-width: 400px;">
+          <div class="text-center mb-4">
+            <h2 class="fw-bold mb-2">Sign in</h2>
+            <p>
+              Don't have account?
+              <router-link to="/register" class="text-primary fw-semibold">Create Account</router-link>
+            </p>
           </div>
-          
-          <div class="text-center mt-4">
-            <p>Over 1,75,324 candidates waiting for good employees.</p>
-          </div>
-          
-          <div class="row text-center mt-4">
-            <div class="col-6 col-md-3 mb-3">
-              <div class="p-3 border rounded">
-                <h5>Line Job</h5>
-                <p class="fw-bold mb-0">1,75,324</p>
-              </div>
+
+          <form @submit.prevent="handleLogin" novalidate :class="{ 'was-validated': wasValidated }">
+            <div class="mb-3">
+              <input
+                type="email"
+                class="form-control"
+                placeholder="Email address"
+                v-model="email"
+                required
+                :class="{ 'is-invalid': wasValidated && !email }"
+              />
+              <div class="invalid-feedback">Email is required.</div>
             </div>
-            <div class="col-6 col-md-3 mb-3">
-              <div class="p-3 border rounded">
-                <h5>Live Job</h5>
-                <p class="fw-bold mb-0">97,354</p>
-              </div>
+            <div class="mb-3">
+              <input
+                type="password"
+                class="form-control"
+                placeholder="Password"
+                v-model="password"
+                required
+                :class="{ 'is-invalid': wasValidated && !password }"
+              />
+              <div class="invalid-feedback">Password is required.</div>
             </div>
-            <div class="col-6 col-md-3 mb-3">
-              <div class="p-3 border rounded">
-                <h5>Campones</h5>
-                <p class="fw-bold mb-0">7,532</p>
-              </div>
+            <div class="form-check mb-3">
+              <input type="checkbox" class="form-check-input" id="remember" v-model="rememberMe" />
+              <label class="form-check-label" for="remember">Remember Me</label>
+              <router-link to="/forgot-password" class="float-end text-primary">Forgot password</router-link>
             </div>
-            <div class="col-6 col-md-3 mb-3">
-              <div class="p-3 border rounded">
-                <h5>New Jobs</h5>
-                <p class="fw-bold mb-0">5,321</p>
-              </div>
-            </div>
+            <button type="submit" class="btn btn-primary w-100 mb-3">
+              <router-link to="/candidatedashbord" class="text-white text-center no-underline " >   Sign In →</router-link>
+           </button>
+              
+          </form>
+
+          <div class="text-center mb-3">or</div>
+
+          <div class="d-flex gap-2">
+            <button type="button" class="btn btn-outline-primary flex-fill" @click="loginWithProvider('facebook')">
+              <i class="fab fa-facebook me-2"></i> Sign in with Facebook
+            </button>
+            <button type="button" class="btn btn-outline-primary flex-fill" @click="loginWithProvider('google')">
+              <i class="fab fa-google me-2"></i> Sign in with Google
+            </button>
           </div>
         </div>
       </div>
+
+      <!-- Right side (image and stats) -->
+      <div class="col-md-6 d-none d-md-flex flex-column justify-content-center align-items-center text-white p-4 stats-section">
+     
+   
+      </div>
     </div>
-  </template>
-  
-  <script>
-  export default {
-    name: 'LoginPage',
-    data() {
-      return {
-        email: '',
-        password: '',
-        rememberMe: false
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'LoginPage',
+  data() {
+    return {
+      email: '',
+      password: '',
+      rememberMe: false,
+      wasValidated: false,
+    };
+  },
+  methods: {
+    handleLogin() {
+      this.wasValidated = true;
+      if (!this.email || !this.password) {
+        return;
       }
+      console.log('Logging in with:', {
+        email: this.email,
+        password: this.password,
+        rememberMe: this.rememberMe,
+      });
     },
-    methods: {
-      handleLogin() {
-        console.log('Logging in with:', {
-          email: this.email,
-          password: this.password,
-          rememberMe: this.rememberMe
-        })
-      }
-    }
-  }
-  </script>
-  
-  <style scoped>
-  .card {
-    border-radius: 10px;
-  }
-  .btn-outline-primary {
-    color: #0d6efd;
-    border-color: #0d6efd;
-  }
-  .btn-outline-danger {
-    color: #dc3545;
-    border-color: #dc3545;
-  }
-  </style>
+    loginWithProvider(provider) {
+      window.location.href = `http://localhost:8000/auth/${provider}`;
+    },
+  },
+};
+</script>
+
+<style scoped>
+.stats-section {
+  background-image: url('https://cdn.pixabay.com/photo/2017/01/14/10/56/people-1979261_1280.jpg');
+  background-size: cover;
+  background-position: center;
+  clip-path: polygon(15% 0%, 100% 0%, 100% 100%, 0% 100%);
+  min-height: 100vh;
+}
+.btn-outline-primary {
+  color: #0d6efd;
+  border-color: #0d6efd;
+}
+
+</style>
