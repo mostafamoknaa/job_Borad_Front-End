@@ -5,6 +5,8 @@ import router from "./router";
 import "@fortawesome/fontawesome-free/css/all.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "intl-tel-input/build/css/intlTelInput.css";
+import 'bootstrap-icons/font/bootstrap-icons.css';
+
 
 // js imports
 import "bootstrap/dist/js/bootstrap.bundle.min.js";

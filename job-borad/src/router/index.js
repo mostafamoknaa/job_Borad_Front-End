@@ -1,6 +1,14 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomePage from "../pages/HomePage.vue";
 import singlePage from "../components/singlepage.vue";
+import Register from '../views/Register.vue';
+import Login from '../views/Login.vue';
+import ForgotPassword from '../views/ForgotPassword.vue';
+import VerifyAccount from '../views/VerifyAccount.vue';
+import ResetPassword from '../views/ResetPassword.vue';
+
+
+
 import candidateDashborad from "../components/Candidate/candidateDashborad.vue";
 import CandidateDashborad from "../pages/CandidateDashborad.vue"
 import Appliedjob from "../components/Candidate/appliedjob.vue";
@@ -15,6 +23,11 @@ import ContactUs from "../components/ContactUs.vue";
 import SmallNab from "../components/Employeer/SmallNav.vue";
 import PersonalAccount from "../components/Employeer/PersonalAccount.vue";
 import SmallNav from "../components/Employeer/SmallNav.vue";
+import FilterSidevar from "../components/FilterSidevar.vue";
+import FindJob from "../pages/find_job.vue";
+import JobDetails from "../pages/job_details.vue";
+
+
 import PersonalProfile from "../components/Employeer/PersonalProfile.vue";
 import SocialMedia from "../components/Employeer/SocialMedia.vue";
 import EmployeerContact from "../components/Employeer/EmployeerContact.vue";
@@ -29,15 +42,36 @@ const routes = [{
         name: "Home",
         component: HomePage,
     },
+
+    {
+        path: '/employeer/register',
+        name: "Register",
+        component: Register
+    },
+    {
+        path: '/employeer/login',
+        name: "Login",
+        component: Login
+    },
+    {
+        path: '/employeer/reset-password',
+        name: "ResetPassword",
+        component: ResetPassword
+    },
+    {
+        path: '/employeer/forgot-password',
+        name: "ForgetPassword",
+        component: ForgotPassword
+    },
+    {
+        path: '/employeer/verify',
+        name: "VerifyAccount",
+        component: VerifyAccount
+    },
     {
         path: "/single",
         name: "SinglePage",
         component: singlePage,
-    },
-    {
-        path: '/navss',
-        name: 'navss',
-        component: Header
     },
     {
         path: "/candidatedashbord",
@@ -123,6 +157,21 @@ const routes = [{
         path: '/employeer/selectplan',
         name: 'employeer/selectplan',
         component: SelectPlan
+    },
+    {
+        path: '/filtersicevar',
+        name: 'filtersicevar',
+        component: FilterSidevar
+    },
+    {
+        path: '/find-job',
+        name: 'FindJob',
+        component: FindJob
+    },
+    {
+        path: '/job/:id',
+        name: 'JobDetails',
+        component: JobDetails
     },
     {
         path: '/:pathMatch(.*)*',
