@@ -216,7 +216,7 @@
           >
             Sign In
           </button>
-          <button class="btn btn-primary px-3 rounded-1">Post A Jobs</button>
+         
         </div>
       </div>
     </div>

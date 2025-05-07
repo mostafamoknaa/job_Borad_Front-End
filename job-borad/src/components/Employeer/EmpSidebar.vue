@@ -30,7 +30,7 @@
     props: {
       title: {
         type: String,
-        default: 'Candidate Dashboard'
+        default: 'Employeer Dashboard'
       },
       menuItems: {
         type: Array,
