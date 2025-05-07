@@ -37,7 +37,7 @@
             <i class="bi bi-clock-fill me-1"></i> {{ job.type }}
             </div>
             <router-link
-            :to="`/job/${job.id}`"
+            :to="`/single`"
             class="btn btn-outline-primary btn-sm rounded-pill px-3"
             >
             View Details
