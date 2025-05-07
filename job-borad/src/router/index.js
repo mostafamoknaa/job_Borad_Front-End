@@ -21,6 +21,7 @@ import EmployeerContact from "../components/Employeer/EmployeerContact.vue";
 import Congratulation from "../components/Employeer/Congratulation.vue";
 import Dashboard from "../components/Employeer/Dashboard.vue";
 import SelectPlan from "../components/Employeer/SelectPlan.vue";
+import Header from "../components/header.vue";
 
 
 const routes = [{
@@ -32,6 +33,11 @@ const routes = [{
         path: "/single",
         name: "SinglePage",
         component: singlePage,
+    },
+    {
+        path: '/navss',
+        name: 'navss',
+        component: Header
     },
     {
         path: "/candidatedashbord",
