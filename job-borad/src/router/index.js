@@ -26,6 +26,10 @@ import SmallNav from "../components/Employeer/SmallNav.vue";
 import FilterSidevar from "../components/FilterSidevar.vue";
 import FindJob from "../pages/find_job.vue";
 import JobDetails from "../pages/job_details.vue";
+import AppplyForm from "../pages/apply_form.vue";
+// import JobDetails from "../components/JobDetails.vue";
+// import JobList from "../components/JobList.vue";
+// import JobListPage from "../pages/JobListPage.vue";
 
 
 import PersonalProfile from "../components/Employeer/PersonalProfile.vue";
@@ -176,6 +180,23 @@ const routes = [{
         component: JobDetails
     },
     {
+        path: '/apply/:id',
+        name: 'ApplyForm',
+        component: AppplyForm
+    },
+
+
+    // {
+    //     path: '/jobs',
+    //     name: 'JobList',
+    //     component: JobList
+    // },
+    // {
+    //     path: '/joblistpage',
+    //     name: 'joblistpage',
+    //     component: JobListPage
+    // }
+    {
         path: '/employeer/postjob',
         name: 'employeer/postjob',
         component: PostAJob
@@ -184,14 +205,12 @@ const routes = [{
         path: '/employeer/jobs',
         name: 'employeer/jobs',
         component: MyJobs
-
     },
     {
         path: "/employeer/single",
         name: "employeer/single",
         component: singlePage,
-    },
-    {
+    }, {
         path: '/:pathMatch(.*)*',
         name: 'NotFound',
         component: Page404

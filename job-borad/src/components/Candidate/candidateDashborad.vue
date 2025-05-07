@@ -238,7 +238,7 @@ const router = useRouter();
   .profile-alert {
     max-width: 1200px;
     margin: 0 auto 40px;
-    background-color: #c94545;
+    background-color: #dbcbcb;
     border: 1px solid #fecaca;
     color:white;
     border-radius: 16px;

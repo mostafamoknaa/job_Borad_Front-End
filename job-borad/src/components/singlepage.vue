@@ -9,11 +9,11 @@ const job = ref({
   featured: true,
   description: `Veistar is a Shopify Plus agency, and we partner with brands to help them grow, we also do the same with our people!
 
-Here at Veistar, we don't just make websites, we create exceptional digital experiences that contribute to the growth of agencies, businesses, and retailers—we bring brands together to push brands to the next level. From Platform Migration, User Experience & User Interface Design, to Digital Marketing, we have a proven track record in delivering outstanding eCommerce solutions and driving sales for our clients.
+  Here at Veistar, we don't just make websites, we create exceptional digital experiences that contribute to the growth of agencies, businesses, and retailers—we bring brands together to push brands to the next level. From Platform Migration, User Experience & User Interface Design, to Digital Marketing, we have a proven track record in delivering outstanding eCommerce solutions and driving sales for our clients.
 
-The role requires extensive project specifications into clean, test-driven, easily maintainable code. You will work with the Project and Development teams as well as with the Technical Director, Senior, closely to protect plans and delivering work that meets functional & non-functional requirements. You will have the opportunity to create new, innovative, secure and scalable features for our clients on the Shopify platform.
+  The role requires extensive project specifications into clean, test-driven, easily maintainable code. You will work with the Project and Development teams as well as with the Technical Director, Senior, closely to protect plans and delivering work that meets functional & non-functional requirements. You will have the opportunity to create new, innovative, secure and scalable features for our clients on the Shopify platform.
 
-Want to work with us? You're in good company!`,
+  Want to work with us? You're in good company!`,
   requirements: [
     'Great troubleshooting and analytical skills combined with the desire to tackle challenges head-on',
     '3+ years of experience in back-end development working either with multiple smaller projects simultaneously or large-scale applications',
@@ -151,6 +151,44 @@ const supportLinks = ref(['Faqs', 'Privacy Policy', 'Terms & Conditions']);
 const copyLink = () => {
   alert('Link copied to clipboard!');
 };
+
+const showAlert = ref(false)
+
+const form = ref({
+  message: '',
+  cv: null
+})
+
+function handleCVUpload(event) {
+  const file = event.target.files[0]
+  form.value.cv = file
+}
+
+function submitApplication() {
+  // Show Bootstrap success alert
+  showAlert.value = true
+
+  setTimeout(() => {
+    showAlert.value = false
+  }, 3000)
+
+  // Reset form values
+  form.value = {
+    name: '',
+    email: '',
+    message: '',
+    cv: null,
+  }
+
+  // Close the modal after submit
+  const modalEl = document.getElementById('applyModal')
+  const modalInstance = bootstrap.Modal.getInstance(modalEl)
+  if (modalInstance) {
+    modalInstance.hide()
+  }
+}
+
+
 </script>
 
 
@@ -168,6 +206,10 @@ const copyLink = () => {
 
     <main class="main">
       <div class="container">
+        <div v-if="showAlert" class="alert alert-success alert-dismissible fade show mt-4" role="alert">
+              Application submitted successfully!
+              <button type="button" class="btn-close" @click="showAlert = false" aria-label="Close"></button>
+        </div>
         <div class="job-details">
           <div class="job-header">
             <div class="company-logo">
@@ -181,9 +223,76 @@ const copyLink = () => {
                 <span v-if="job.featured" class="featured-tag">Featured</span>
               </div>
             </div>
+            
             <div class="apply-button">
-              <button class="btn btn-primary">Apply Now</button>
+              <router-link
+              :to="`/apply/1`"
+              class="btn btn-primary"
+              >
+              Apply Now
+              </router-link>
             </div>
+            <button
+              class="btn btn-primary"
+              data-bs-toggle="modal"
+              data-bs-target="#applyModal"
+            >
+              Apply Now
+            </button>
+            
+            <div
+              class="modal fade"
+              id="applyModal"
+              tabindex="-1"
+              aria-labelledby="applyModalLabel"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content rounded-4 shadow-lg">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="applyModalLabel">Apply for {{ job.title }}</h5>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <form @submit.prevent="submitApplication">
+                    <div class="modal-body">
+                      <div class="mb-3">
+                        <label for="cv" class="form-label fw-semibold">Choose Resume</label>
+                        <input
+                          type="file"
+                          id="cv"
+                          accept=".pdf,.doc,.docx"
+                          class="form-control rounded-3 py-2"
+                          @change="handleCVUpload"
+                          required
+                        />
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label">Cover Letter</label>
+                        <textarea v-model="form.message" rows="4" class="form-control" required></textarea>
+                      </div>
+                    </div>
+                    <div class="modal-footer" style="justify-content: space-between;">
+                      <button
+                        type="button"
+                        class="btn btn-outline-primary rounded-pill"
+                        data-bs-dismiss="modal"
+                      >
+                        Cancel
+                      </button>
+                      <button type="submit" class="btn btn-primary rounded-pill px-4">Apply</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+
           </div>
 
           <div class="job-content">
