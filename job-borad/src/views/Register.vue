@@ -5,7 +5,7 @@
       <div class="w-100 form-container">
         <h2 class="mb-3 fw-bold">Create account.</h2>
         <p>
-          Already have account? <router-link to="/login" class="text-primary">Log In</router-link>
+          Already have account? <router-link to="/employeer/login" class="text-primary">Log In</router-link>
         </p>
 
         <!-- Toggle buttons -->
@@ -74,7 +74,7 @@
             <div class="invalid-feedback">You must accept the terms.</div>
           </div>
           <button type="submit" class="btn btn-primary w-100 mb-3">
-            <router-link to="/verify" class="text-white text-center no-underline " >Create Account</router-link>
+            <router-link to="/candidatedashbord" class="text-white text-center no-underline " >Create Account</router-link>
           </button>
           
         </form>

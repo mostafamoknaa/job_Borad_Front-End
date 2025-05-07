@@ -8,7 +8,7 @@ import VerifyAccount from '../views/VerifyAccount.vue';
 import ResetPassword from '../views/ResetPassword.vue';
 
 
-  
+
 import candidateDashborad from "../components/Candidate/candidateDashborad.vue";
 import CandidateDashborad from "../pages/CandidateDashborad.vue"
 import Appliedjob from "../components/Candidate/appliedjob.vue";
@@ -37,41 +37,36 @@ const routes = [{
         name: "Home",
         component: HomePage,
     },
-    
-  {
-    path: '/register',
-    name: "Register",
-    component: Register
-  },
-  {
-    path: '/login',
-    name: "Login",
-    component: Login
-  },
-  {
-    path: '/reset-password',
-    name: "ResetPassword",
-    component: ResetPassword
-  },
-  {
-    path: '/forgot-password',
-    name: "ForgetPassword",
-    component: ForgotPassword
-  },
-  {
-    path: '/verify',
-    name: "VerifyAccount",
-    component: VerifyAccount
-  },
+
+    {
+        path: '/employeer/register',
+        name: "Register",
+        component: Register
+    },
+    {
+        path: '/employeer/login',
+        name: "Login",
+        component: Login
+    },
+    {
+        path: '/employeer/reset-password',
+        name: "ResetPassword",
+        component: ResetPassword
+    },
+    {
+        path: '/employeer/forgot-password',
+        name: "ForgetPassword",
+        component: ForgotPassword
+    },
+    {
+        path: '/employeer/verify',
+        name: "VerifyAccount",
+        component: VerifyAccount
+    },
     {
         path: "/single",
         name: "SinglePage",
         component: singlePage,
-    },
-    {
-        path: '/navss',
-        name: 'navss',
-        component: Header
     },
     {
         path: "/candidatedashbord",

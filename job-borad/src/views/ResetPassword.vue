@@ -51,7 +51,7 @@
           <!-- Submit Button -->
           <button type="submit" class="btn btn-primary w-100 py-2 fw-bold">
        
-            <router-link to="/login" class="text-white ">Reset Password</router-link>
+            <router-link to="/employeer/login" class="text-white ">Reset Password</router-link>
           </button>
         </form>
       </div>

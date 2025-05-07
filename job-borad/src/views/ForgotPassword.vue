@@ -8,11 +8,11 @@
             <h2 class="fw-bold mb-2">Forget Password</h2>
             <p class="mb-1">
               Go back to
-              <router-link to="/login" class="text-primary fw-semibold">Sign In</router-link>
+              <router-link to="/employeer/login" class="text-primary fw-semibold">Sign In</router-link>
             </p>
             <p>
               Don't have account?
-              <router-link to="/register" class="text-primary fw-semibold">Create Account</router-link>
+              <router-link to="/employeer/register" class="text-primary fw-semibold">Create Account</router-link>
             </p>
           </div>
 
@@ -30,7 +30,7 @@
             </div>
             <button type="submit" class="btn btn-primary w-100 mb-3 reset">
              
-              <router-link to="/reset-password" class="text-white"> Reset Password →</router-link>
+              <router-link to="/employeer/reset-password" class="text-white"> Reset Password →</router-link>
             </button>
           </form>
 

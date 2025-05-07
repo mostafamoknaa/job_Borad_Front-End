@@ -8,7 +8,7 @@
             <h2 class="fw-bold mb-2">Sign in</h2>
             <p>
               Don't have account?
-              <router-link to="/register" class="text-primary fw-semibold">Create Account</router-link>
+              <router-link to="/employeer/register" class="text-primary fw-semibold">Create Account</router-link>
             </p>
           </div>
 
@@ -38,7 +38,7 @@
             <div class="form-check mb-3">
               <input type="checkbox" class="form-check-input" id="remember" v-model="rememberMe" />
               <label class="form-check-label" for="remember">Remember Me</label>
-              <router-link to="/forgot-password" class="float-end text-primary">Forgot password</router-link>
+              <router-link to="/employeer/forgot-password" class="float-end text-primary">Forgot password</router-link>
             </div>
             <button type="submit" class="btn btn-primary w-100 mb-3">
               <router-link to="/candidatedashbord" class="text-white text-center no-underline " >   Sign In →</router-link>
