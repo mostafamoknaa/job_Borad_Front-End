@@ -151,7 +151,8 @@
       
           <div class="d-flex mt-3 mt-lg-0">
             <i class="fa-thin fa-bell"></i>
-            <button class="btn btn-primary px-3 rounded-1">Post A Jobs</button>
+            <button class="btn btn-primary px-3 rounded-1" @click="gotojob">
+            Post A Jobs</button>
             <i class="fa-thin fa-bell"></i>
           </div>
         </div>
@@ -161,7 +162,11 @@
   
   <script setup>
   import { ref } from "vue";
-  
+  import { useRouter } from "vue-router";
+  const router = useRouter();
+  const gotojob = () => {
+    router.push("/employeer/postjob");
+  };
   const activeLink = ref("home");
   const setActiveLink = (link) => {
     activeLink.value = link;

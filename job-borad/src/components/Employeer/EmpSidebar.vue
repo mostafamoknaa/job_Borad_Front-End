@@ -30,7 +30,7 @@
     props: {
       title: {
         type: String,
-        default: 'Candidate Dashboard'
+        default: 'Employeer Dashboard'
       },
       menuItems: {
         type: Array,
@@ -38,10 +38,8 @@
           { id: 'employeer/dashboard', label: 'OverView', icon: 'fas fa-home' },
           { id: 'appliedjobs', label: 'Employeer Profile', icon: 'fas fa-user' },
           { id: 'employeer/selectplan', label: 'Post a Job', icon: 'fas fa-bookmark' },
-          { id: 'jobalert', label: 'My Jobs', icon: 'fas fa-bell' },
-          { id: 'Settings', label: 'Saved Candidate', icon: 'fas fa-cog' },
-          { id: 'FavoriteJob', label: 'Post a Job', icon: 'fas fa-bookmark' },
-          { id: 'jobalert', label: 'Plans & Billing', icon: 'fas fa-bell' },
+          { id: 'employeer/jobs', label: 'My Jobs', icon: 'fas fa-bell' },
+          { id: 'Settings', label: 'Saved Candidate', icon: 'fas fa-cog' },          { id: 'jobalert', label: 'Plans & Billing', icon: 'fas fa-bell' },
           { id: 'Settings', label: 'All Companies', icon: 'fas fa-cog' },
           { id: 'Settings', label: 'Settings', icon: 'fas fa-cog' },
           { id: 'Logout', label: 'Logout', icon: 'fas fa-sign-out-alt' }
