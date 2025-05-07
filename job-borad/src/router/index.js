@@ -23,6 +23,11 @@ import ContactUs from "../components/ContactUs.vue";
 import SmallNab from "../components/Employeer/SmallNav.vue";
 import PersonalAccount from "../components/Employeer/PersonalAccount.vue";
 import SmallNav from "../components/Employeer/SmallNav.vue";
+import FilterSidevar from "../components/FilterSidevar.vue";
+import FindJob from "../pages/find_job.vue";
+import JobDetails from "../pages/job_details.vue";
+
+
 import PersonalProfile from "../components/Employeer/PersonalProfile.vue";
 import SocialMedia from "../components/Employeer/SocialMedia.vue";
 import EmployeerContact from "../components/Employeer/EmployeerContact.vue";
@@ -152,6 +157,21 @@ const routes = [{
         path: '/employeer/selectplan',
         name: 'employeer/selectplan',
         component: SelectPlan
+    },
+    {
+        path: '/filtersicevar',
+        name: 'filtersicevar',
+        component: FilterSidevar
+    },
+    {
+        path: '/find-job',
+        name: 'FindJob',
+        component: FindJob
+    },
+    {
+        path: '/job/:id',
+        name: 'JobDetails',
+        component: JobDetails
     },
     {
         path: '/:pathMatch(.*)*',

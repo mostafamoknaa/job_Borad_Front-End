@@ -60,7 +60,7 @@
             <p>Complete your profile editing & build your custom Resume</p>
           </div>
         </div>
-        <button class="edit-profile-btn">Edit Profile</button>
+        <button class="edit-profile-btn" @click="goToSeeting">Edit Profile</button>
       </div>
   
      
@@ -127,6 +127,13 @@
   <script setup>
   import { ref } from 'vue';
   import Sidebar from './Sidebar.vue';
+  import { useRouter } from 'vue-router';
+
+const router = useRouter();
+  const goToSeeting = () => {
+  
+    router.push('/Settings');
+  };
   const jobs = [
     {
       id: 1,
@@ -231,8 +238,9 @@
   .profile-alert {
     max-width: 1200px;
     margin: 0 auto 40px;
-    background-color: #fee2e2;
+    background-color: #c94545;
     border: 1px solid #fecaca;
+    color:white;
     border-radius: 16px;
     display: flex;
     align-items: center;
@@ -265,8 +273,8 @@
   }
   
   .edit-profile-btn {
-    background-color: #dc2626;
-    color: #ffffff;
+    background-color:white;
+    color: red;
     padding: 10px 20px;
     border-radius: 12px;
     font-weight: 600;
