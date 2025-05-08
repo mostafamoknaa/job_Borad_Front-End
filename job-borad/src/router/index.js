@@ -27,6 +27,8 @@ import FilterSidevar from "../components/FilterSidevar.vue";
 import FindJob from "../pages/find_job.vue";
 import JobDetails from "../pages/job_details.vue";
 import AppplyForm from "../pages/apply_form.vue";
+import Employers from "../pages/employers.vue";
+import Candidates from "../pages/candidates.vue";
 // import JobDetails from "../components/JobDetails.vue";
 // import JobList from "../components/JobList.vue";
 // import JobListPage from "../pages/JobListPage.vue";
@@ -184,8 +186,17 @@ const routes = [{
         name: 'ApplyForm',
         component: AppplyForm
     },
-
-
+    {
+        path: '/employers',
+        name: 'Employers',
+        component: Employers
+    },
+    {
+        path: '/candidates',
+        name: 'Candidates',
+        component: Candidates
+    },   
+      
     // {
     //     path: '/jobs',
     //     name: 'JobList',
