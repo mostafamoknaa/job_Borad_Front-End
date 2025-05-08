@@ -16,7 +16,7 @@
             <div class="step-icon">
               <i class="fas fa-user-plus"></i>
             </div>
-            <h5 class="fw-bold mt-3">Create account</h5>
+            <a href="/employeer/login" style="text-decoration: none;"><h5 class="fw-bold mt-3">Create account</h5></a>
             <p class="text-muted">Aliquam facilisis egestas sapien, nec tempor leo tristique at.</p>
           </div>
         </div>
@@ -38,7 +38,7 @@
             <div class="step-icon">
               <i class="fas fa-search-plus"></i>
             </div>
-            <h5 class="fw-bold mt-3">Find suitable job</h5>
+            <a href="/find-job" style="text-decoration: none;"><h5 class="fw-bold mt-3">Find suitable job</h5></a>
             <p class="text-muted">Phasellus quis eleifend ex. Morbi nec fringilla nibh.</p>
           </div>
         </div>
@@ -48,7 +48,7 @@
           <div class="step-box">
             <div class="step-icon">
               <i class="fas fa-light fa-circle-check"></i>            </div>
-            <h5 class="fw-bold mt-3">Apply job</h5>
+            <a href="/employers" style="text-decoration: none;"><h5 class="fw-bold mt-3">Apply job</h5></a>
             <p class="text-muted">Curabitur sit amet maximus ligula. Nam a nulla ante, Nam sodales purus.</p>
           </div>
         </div>

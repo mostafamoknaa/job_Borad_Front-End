@@ -13,7 +13,8 @@
             <h5 class="fw-bold">{{ job.title }}</h5>
             <p class="text-muted mb-1">{{ job.company }}</p>
             <p class="text-muted small">{{ job.location }}</p>
-            <button class="btn btn-outline-primary btn-sm mt-3">View Job</button>
+            <button class="btn btn-outline-primary btn-sm mt-3" @click="goTosinglejob()">View Job</button>
+
           </div>
         </div>
       </div>
@@ -23,6 +24,18 @@
 </template>
 
 <script setup> 
+import { useRouter } from 'vue-router';
+import { ref } from 'vue';
+import { useRoute } from 'vue-router';
+
+const router = useRouter();
+
+const goTosinglejob = () => {
+  console.log('Job clicked');
+  router.push({ name: 'SinglePage' });
+};
+
+
 const jobs = [
   { id: 1, title: 'Frontend Developer', company: 'Google', location: 'Remote' },
   { id: 2, title: 'UI/UX Designer', company: 'Meta', location: 'USA' },
