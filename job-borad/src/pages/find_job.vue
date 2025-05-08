@@ -69,7 +69,7 @@ const jobs = ref([])
 
 onMounted(async () => {
   try {
-    const res = await axios.get('http://localhost:3000/jobs')
+    const res = await axios.get('http://localhost:3001/jobs')
     console.log('Fetched jobs:', res.data)
     jobs.value = res.data
   } catch (err) {
