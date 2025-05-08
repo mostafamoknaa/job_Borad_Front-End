@@ -37,6 +37,138 @@
         "email": "jobs@openai.com"
       }
       
-    ]
-  }
+    ],
+    "employers": [
+    {
+      "id": 1,
+      "name": "TechCorp",
+      "location": "New York, USA",
+      "logo": "https://via.placeholder.com/60",
+      "tags": ["Technology", "SaaS"],
+      "open_jobs": 12
+    },
+    {
+      "id": 2,
+      "name": "Creative Studio",
+      "location": "Berlin, Germany",
+      "logo": "https://via.placeholder.com/60",
+      "tags": ["Design", "Marketing"],
+      "open_jobs": 5
+    },
+    {
+      "id": 3,
+      "name": "TechCorp",
+      "location": "New York, USA",
+      "logo": "https://via.placeholder.com/60",
+      "tags": ["Technology", "SaaS"],
+      "open_jobs": 12
+    },
+    {
+      "id": 4,
+      "name": "Creative Studio",
+      "location": "Berlin, Germany",
+      "logo": "https://via.placeholder.com/60",
+      "tags": ["Design", "Marketing"],
+      "open_jobs": 5
+    },
+    {
+      "id": 5,
+      "name": "TechCorp",
+      "location": "New York, USA",
+      "logo": "https://via.placeholder.com/60",
+      "tags": ["Technology", "SaaS"],
+      "open_jobs": 12
+    },
+    {
+      "id": 6,
+      "name": "Creative Studio",
+      "location": "Berlin, Germany",
+      "logo": "https://via.placeholder.com/60",
+      "tags": ["Design", "Marketing"],
+      "open_jobs": 5
+    },
+    {
+      "id": 7,
+      "name": "TechCorp",
+      "location": "New York, USA",
+      "logo": "https://via.placeholder.com/60",
+      "tags": ["Technology", "SaaS"],
+      "open_jobs": 12
+    },
+    {
+      "id": 8,
+      "name": "Creative Studio",
+      "location": "Berlin, Germany",
+      "logo": "https://via.placeholder.com/60",
+      "tags": ["Design", "Marketing"],
+      "open_jobs": 5
+    }
+  ],
+  "candidates": [
+    {
+      "id": 1,
+      "name": "Jane Doe",
+      "job_title": "UI/UX Designer",
+      "location": "San Francisco, USA",
+      "avatar": "https://randomuser.me/api/portraits/women/44.jpg",
+      "skills": ["Figma", "Sketch", "Adobe XD"]
+    },
+    {
+      "id": 2,
+      "name": "Ahmed Youssef",
+      "job_title": "Backend Developer",
+      "location": "Cairo, Egypt",
+      "avatar": "https://randomuser.me/api/portraits/men/34.jpg",
+      "skills": ["Node.js", "MongoDB", "Express"]
+    },
+    {
+      "id": 3,
+      "name": "Jane Doe",
+      "job_title": "UI/UX Designer",
+      "location": "San Francisco, USA",
+      "avatar": "https://randomuser.me/api/portraits/women/44.jpg",
+      "skills": ["Figma", "Sketch", "Adobe XD"]
+    },
+    {
+      "id": 4,
+      "name": "Ahmed Youssef",
+      "job_title": "Backend Developer",
+      "location": "Cairo, Egypt",
+      "avatar": "https://randomuser.me/api/portraits/men/34.jpg",
+      "skills": ["Node.js", "MongoDB", "Express"]
+    },
+    {
+      "id": 5,
+      "name": "Jane Doe",
+      "job_title": "UI/UX Designer",
+      "location": "San Francisco, USA",
+      "avatar": "https://randomuser.me/api/portraits/women/44.jpg",
+      "skills": ["Figma", "Sketch", "Adobe XD"]
+    },
+    {
+      "id": 6,
+      "name": "Ahmed Youssef",
+      "job_title": "Backend Developer",
+      "location": "Cairo, Egypt",
+      "avatar": "https://randomuser.me/api/portraits/men/34.jpg",
+      "skills": ["Node.js", "MongoDB", "Express"]
+    },
+    {
+      "id": 7,
+      "name": "Jane Doe",
+      "job_title": "UI/UX Designer",
+      "location": "San Francisco, USA",
+      "avatar": "https://randomuser.me/api/portraits/women/44.jpg",
+      "skills": ["Figma", "Sketch", "Adobe XD"]
+    },
+    {
+      "id": 8,
+      "name": "Ahmed Youssef",
+      "job_title": "Backend Developer",
+      "location": "Cairo, Egypt",
+      "avatar": "https://randomuser.me/api/portraits/men/34.jpg",
+      "skills": ["Node.js", "MongoDB", "Express"]
+    }
+  ]
+}
   
