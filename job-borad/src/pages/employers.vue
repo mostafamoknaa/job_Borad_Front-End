@@ -54,7 +54,7 @@ const limit = 6 // Employers per page
 const fetchEmployers = async (page = 1) => {
   try {
     const res = await fetch(
-      `http://localhost:3000/employers?_page=${page}&_limit=${limit}`
+      `http://localhost:3001/employers?_page=${page}&_limit=${limit}`
     )
     employers.value = await res.json()
 

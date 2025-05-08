@@ -15,7 +15,11 @@
     </div>
     <div class="card-footer d-flex justify-content-between">
     
-      <button class="btn btn-sm btn-outline-primary mt-3" @click="$emit('view', candidate)">View Profile</button>
+      <!--<button class="btn btn-sm btn-outline-primary mt-3" @click="$emit('view', candidate)">View Profile</button> -->
+        <!--<button class="btn btn-primary btn-sm" @click="viewProfile(candidate)">
+            View Profile
+        </button> -->
+        <button class="btn btn-sm btn-outline-primary mt-3" @click="onView(candidate)">View Profile</button>
 
       <button class="btn btn-primary btn-sm">Contact</button>
     </div>
@@ -23,10 +27,11 @@
 </template>
 
 <script setup>
-defineProps(['candidate']);
-//defineProps({
-//  candidate: Object
-//});
+//defineProps(['candidate']);
+defineProps({
+  candidate: Object,
+  onView: Function
+});
 </script>
 
 <style scoped>

@@ -58,16 +58,41 @@
 
 
       <div class="col-md-9">
-        <div class="row g-4">
+        <!-- <div class="row g-4">
           <div class="col-12 col-md-12 col-lg-12" v-for="candidate in candidates" :key="candidate.id">
             <CandidateCard :candidate="candidate" />
           </div>
+        </div> -->
+
+        <div class="row g-4">
+          <div
+            class="col-12 col-md-12 col-lg-12"
+            v-for="candidate in filteredCandidates"
+            :key="candidate.id"
+          >
+            <!-- <CandidateCard
+              :candidate="candidate"
+              @view="selectedCandidate = candidate"
+            /> -->
+            <CandidateCard
+              v-for="candidate in candidates"
+              :key="candidate.id"
+              :candidate="candidate"
+              :onView="viewProfile"
+            />
+
+          </div>
         </div>
+
       </div>
+      
 
       <!-- Modal for candidate profile -->
-      <CandidateModal :candidate="candidate" @view="selectedCandidate = $event" />
+      <!-- <CandidateModal :candidate="candidate" @view="selectedCandidate = $event" /> -->
       <!-- <CandidateModal :candidate="selectedCandidate" /> -->
+      <!-- <CandidateModal v-if="selectedCandidate" :candidate="selectedCandidate" /> -->
+      <CandidateModal :candidate="selectedCandidate" />
+
       
         <!-- Pagination Controls -->
         <nav aria-label="Candidate pagination" class="mt-5">
@@ -89,7 +114,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, nextTick } from 'vue';
 import CandidateCard from '../components/CandidateCard.vue';
 import CandidateModal from '../components/CandidateModal.vue';
 
@@ -108,11 +133,23 @@ const selectedGender = ref('');
 const maxDistance = ref(100);
 
 
+function viewProfile(candidate) {
+  selectedCandidate.value = candidate;
+
+  nextTick(() => {
+    const modalEl = document.getElementById('candidateModal');
+    if (modalEl) {
+      const modal = new bootstrap.Modal(modalEl);
+      modal.show();
+    }
+  });
+}
+
 
 
 onMounted(async () => {
   try {
-    const response = await fetch('http://localhost:3000/candidates');
+    const response = await fetch('http://localhost:3001/candidates');
     candidates.value = await response.json();
   } catch (error) {
     console.error('Error fetching candidates:', error);
