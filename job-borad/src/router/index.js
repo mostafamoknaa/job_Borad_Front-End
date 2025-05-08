@@ -1,6 +1,14 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomePage from "../pages/HomePage.vue";
 import singlePage from "../components/singlepage.vue";
+import Register from '../views/Register.vue';
+import Login from '../views/Login.vue';
+import ForgotPassword from '../views/ForgotPassword.vue';
+import VerifyAccount from '../views/VerifyAccount.vue';
+import ResetPassword from '../views/ResetPassword.vue';
+
+
+
 import candidateDashborad from "../components/Candidate/candidateDashborad.vue";
 import CandidateDashborad from "../pages/CandidateDashborad.vue"
 import Appliedjob from "../components/Candidate/appliedjob.vue";
@@ -26,10 +34,47 @@ import Candidates from "../pages/candidates.vue";
 // import JobListPage from "../pages/JobListPage.vue";
 
 
+import PersonalProfile from "../components/Employeer/PersonalProfile.vue";
+import SocialMedia from "../components/Employeer/SocialMedia.vue";
+import EmployeerContact from "../components/Employeer/EmployeerContact.vue";
+import Congratulation from "../components/Employeer/Congratulation.vue";
+import Dashboard from "../components/Employeer/Dashboard.vue";
+import SelectPlan from "../components/Employeer/SelectPlan.vue";
+import Header from "../components/header.vue";
+import PostAJob from "../components/Employeer/PostAJob.vue";
+import MyJobs from "../components/Employeer/MyJobs.vue";
+
+
 const routes = [{
         path: "/",
         name: "Home",
         component: HomePage,
+    },
+
+    {
+        path: '/employeer/register',
+        name: "Register",
+        component: Register
+    },
+    {
+        path: '/employeer/login',
+        name: "Login",
+        component: Login
+    },
+    {
+        path: '/employeer/reset-password',
+        name: "ResetPassword",
+        component: ResetPassword
+    },
+    {
+        path: '/employeer/forgot-password',
+        name: "ForgetPassword",
+        component: ForgotPassword
+    },
+    {
+        path: '/employeer/verify',
+        name: "VerifyAccount",
+        component: VerifyAccount
     },
     {
         path: "/single",
@@ -92,9 +137,34 @@ const routes = [{
         component: PersonalAccount
     },
     {
-        path: '/:pathMatch(.*)*',
-        name: 'NotFound',
-        component: Page404
+        path: '/employeer/profile',
+        name: 'employeer/profile',
+        component: PersonalProfile
+    },
+    {
+        path: '/employeer/Social',
+        name: 'employeer/Social',
+        component: SocialMedia
+    },
+    {
+        path: '/employeer/contact',
+        name: 'employeer/contact',
+        component: EmployeerContact
+    },
+    {
+        path: '/employeer/congrats',
+        name: 'employeer/congrats',
+        component: Congratulation
+    },
+    {
+        path: '/employeer/dashboard',
+        name: 'employeer/dashboard',
+        component: Dashboard
+    },
+    {
+        path: '/employeer/selectplan',
+        name: 'employeer/selectplan',
+        component: SelectPlan
     },
     {
         path: '/filtersicevar',
@@ -110,7 +180,7 @@ const routes = [{
         path: '/job/:id',
         name: 'JobDetails',
         component: JobDetails
-    },   
+    },
     {
         path: '/apply/:id',
         name: 'ApplyForm',
@@ -137,6 +207,25 @@ const routes = [{
     //     name: 'joblistpage',
     //     component: JobListPage
     // }
+    {
+        path: '/employeer/postjob',
+        name: 'employeer/postjob',
+        component: PostAJob
+    },
+    {
+        path: '/employeer/jobs',
+        name: 'employeer/jobs',
+        component: MyJobs
+    },
+    {
+        path: "/employeer/single",
+        name: "employeer/single",
+        component: singlePage,
+    }, {
+        path: '/:pathMatch(.*)*',
+        name: 'NotFound',
+        component: Page404
+    }
 ];
 
 const router = createRouter({

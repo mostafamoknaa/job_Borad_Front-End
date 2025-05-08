@@ -2,6 +2,11 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-12">
+          <h1 class="page-title text-info">Forsa</h1>
+        </div>
+      </div>  
+      <div class="row">
+        <div class="col-md-12">
           <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
               <div class="collapse navbar-collapse" id="navbarNav">
@@ -17,7 +22,7 @@
                   </li>
                   <li class="nav-item">
                     <router-link 
-                      to="/employeer/job-post" 
+                      to="/employeer/profile" 
                       class="nav-link" 
                       active-class="active-link"
                     >
@@ -26,7 +31,7 @@
                   </li>
                   <li class="nav-item">
                     <router-link 
-                      to="/employeer/candidates" 
+                      to="/employeer/Social" 
                       class="nav-link" 
                       active-class="active-link"
                     >
@@ -35,7 +40,7 @@
                   </li>
                   <li class="nav-item">
                     <router-link 
-                      to="/employeer/setting" 
+                      to="/employeer/contact" 
                       class="nav-link" 
                       active-class="active-link"
                     >

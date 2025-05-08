@@ -230,11 +230,13 @@
         <!-- Right Section -->
         <div class="d-flex mt-3 mt-lg-0">
           <button
-            class="btn btn-outline-primary border border-info px-3 me-2 rounded-1"
-          >
-            Sign In
-          </button>
-          <button class="btn btn-primary px-3 rounded-1">Post A Jobs</button>
+          class="btn btn-outline-primary border border-info px-3 me-2 rounded-1"
+          @click="goToSignIn"
+        >
+          Sign In
+        </button>
+        
+         
         </div>
       </div>
     </div>
@@ -243,7 +245,9 @@
 
 <script setup>
 import { ref } from "vue";
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
 const activeLink = ref("home");
 const setActiveLink = (link) => {
   activeLink.value = link;
@@ -259,6 +263,10 @@ const countries = ref([
   { name: "Saudi Arabia", code: "SA", phone: "+966 011 2727 2667" },
   { name: "Egypt", code: "EG", phone: "+20 011 2727 2667" },
 ]);
+
+const goToSignIn = () => {
+  router.push('/employeer/login');
+};
 
 const getFlag = (countryName) => {
   const country = countries.value.find((c) => c.name === countryName);
