@@ -54,10 +54,19 @@
             <li class="nav-item">
               <a
                 class="nav-link"
-                :class="{ active: activeLink === 'employers' }"
-                href="#"
-                @click="setActiveLink('employers')"
+                :class="{ active: activeLink === 'Employers' }"
+                href="/employers"
+                @click="setActiveLink('Employers')"
                 >Employers</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                :class="{ active: activeLink === 'Candidates' }"
+                href="/candidates"
+                @click="setActiveLink('Candidates')"
+                >Candidates</a
               >
             </li>
             <li class="nav-item">
