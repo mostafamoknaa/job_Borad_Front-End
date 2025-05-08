@@ -7,7 +7,7 @@
                 <div class="card-body p-4 w-75 text-dark py-5">
                 <h2 class="card-title">Become a Candidate</h2>
                 <p class="card-text">Cras in massa pellentesque, mollis ligula non, luctus dui. Morbi sed efficitur dolor. Pellentesque augue risus, aliquet.</p>
-                <a href="#" class="btn btn-light btn-lg text-primary rounded-1">Register Now <i class="bi bi-arrow-right"></i></a>
+                <a href="/employeer/login" class="btn btn-light btn-lg text-primary rounded-1">Register Now <i class="bi bi-arrow-right"></i></a>
 
             </div>
           </div>
@@ -17,7 +17,7 @@
             <div class="card-body p-4 w-75 text-white py-5">
               <h2 class="card-title">Become an Employers</h2>
               <p class="card-text">Cras in massa pellentesque, mollis ligula non, luctus dui. Morbi sed efficitur dolor. Pellentesque augue risus, aliquet.</p>
-              <a href="#" class="btn btn-light btn-lg text-primary rounded-1">Register Now <i class="bi bi-arrow-right"></i></a>
+              <a href="/employeer/login" class="btn btn-light btn-lg text-primary rounded-1">Register Now <i class="bi bi-arrow-right"></i></a>
             </div>
           </div>
         </div>

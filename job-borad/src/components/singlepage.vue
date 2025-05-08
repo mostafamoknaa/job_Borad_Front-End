@@ -224,14 +224,14 @@ function submitApplication() {
               </div>
             </div>
             
-            <div class="apply-button">
+            <!-- <div class="apply-button">
               <router-link
               :to="`/apply/1`"
               class="btn btn-primary"
               >
               Apply Now
               </router-link>
-            </div>
+            </div> -->
             <button
               class="btn btn-primary"
               data-bs-toggle="modal"
