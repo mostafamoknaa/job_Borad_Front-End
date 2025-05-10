@@ -36,7 +36,7 @@
         type: Array,
         default: () => [
           { id: 'employeer/dashboard', label: 'OverView', icon: 'fas fa-home' },
-          { id: 'appliedjobs', label: 'Employeer Profile', icon: 'fas fa-user' },
+          { id: 'employeer/profile', label: 'My Profile', icon: 'fas fa-user' },
           { id: 'employeer/selectplan', label: 'Post a Job', icon: 'fas fa-bookmark' },
           { id: 'employeer/jobs', label: 'My Jobs', icon: 'fas fa-bell' },
           { id: 'Settings', label: 'Saved Candidate', icon: 'fas fa-cog' },          { id: 'jobalert', label: 'Plans & Billing', icon: 'fas fa-bell' },
