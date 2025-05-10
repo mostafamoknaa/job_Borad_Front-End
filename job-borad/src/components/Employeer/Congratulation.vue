@@ -10,8 +10,7 @@
           Nunc mauris arcu, mattis sed sem vitae.
         </p>
         <div class="button-group">
-          <button class="btn btn-light">View Dashboard</button>
-          <button class="btn btn-primary">Post Job →</button>
+          <a href="/employeer/dashboard" class="btn btn-info">View Dashboard</a>
         </div>
       </div>
       <footer class="footer">

@@ -7,28 +7,18 @@
   
             <div class="row justify-content-center mt-5">
               <div class="d-flex align-items-center justify-content-between mb-4">
-                <span class="fw-bold">Logo and Banner image</span>
+                <span class="fw-bold">More Information</span>
                 <div class="progress custom-progress">
                   <div class="progress-bar" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
               </div>
-  
-              <!-- Bootstrap Alert -->
+              
               <div v-if="errorMessage" class="alert alert-danger" role="alert">
                 {{ errorMessage }}
               </div>
+
   
-              <div class="col-md-4 mb-3">
-                <label class="form-label">Nationality</label>
-                <select v-model="form.nationality" class="form-select">
-                  <option disabled value="">Select...</option>
-                  <option>Egypt</option>
-                  <option>USA</option>
-                  <option>Germany</option>
-                </select>
-              </div> 
-  
-              <div class="col-md-4 mb-3">
+              <div class="col-md-6 mb-3">
                 <label class="form-label">Industry Type</label>
                 <select v-model="form.type" class="form-select">
                   <option disabled value="">Select...</option>
@@ -38,7 +28,7 @@
                 </select>
               </div> 
   
-              <div class="col-md-4 mb-3">
+              <div class="col-md-6 mb-3">
                 <label class="form-label">Team Size</label>
                 <select v-model="form.team" class="form-select">
                   <option disabled value="">Select...</option>
@@ -49,7 +39,7 @@
               </div> 
   
               <div class="col-md-6 mb-3">
-                <label class="form-label">Date of Birth</label>
+                <label class="form-label">Creation Date</label>
                 <input v-model="form.dob" type="date" class="form-control">
               </div>
   
@@ -77,7 +67,8 @@
   
   <script>
   import SmallNav from './SmallNav.vue'
-  
+  import axios from 'axios';
+
   export default {
     name: 'PersonalAccount2',
     components: {
@@ -86,41 +77,57 @@
     data() {
       return {
         form: {
-          nationality: '',
           dob: '',
-          gender: '',
-          maritalStatus: '',
-          education: '',
           website: '',
           biography: '',
           type: '',
           team: '',
         },
-        errorMessage: '', // Bootstrap error message
+        errorMessage: '',
       }
     },
     methods: {
-      submitForm() {
-        // Form Validation
-        if (!this.form.nationality || !this.form.type || !this.form.team || !this.form.dob || !this.form.website.trim() || !this.form.biography.trim()) {
-          this.errorMessage = 'Please fill in all fields before proceeding.';
-          return;
-        }
-  
-        if (!this.isValidURL(this.form.website)) {
-          this.errorMessage = 'Please enter a valid website URL.';
-          return;
-        }
-  
-        if (this.form.biography.length < 10) {
-          this.errorMessage = 'Company Vision must be at least 10 characters.';
-          return;
-        }
-  
-        // If all good
-        this.errorMessage = '';
-        this.$router.push('/employeer/Social');
-      },
+      async submitForm() {
+
+  this.errorMessage = '';
+
+  if (!this.form.type || !this.form.team || !this.form.dob || !this.form.website.trim() || !this.form.biography.trim()) {
+    this.errorMessage = 'Please fill in all fields before proceeding.';
+    return;
+  }
+
+  if (!this.isValidURL(this.form.website)) {
+    this.errorMessage = 'Please enter a valid website URL.';
+    return;
+  }
+
+  if (this.form.biography.length < 10) {
+    this.errorMessage = 'Company Vision must be at least 10 characters.';
+    return;
+  }
+
+  try {
+    const formData = new FormData();
+    formData.append('industry', this.form.type); 
+    formData.append('company_size', this.form.team); 
+    formData.append('created_at', this.form.dob); 
+    formData.append('website', this.form.website); 
+    formData.append('company_description', this.form.biography);
+
+    const com_id = localStorage.getItem('employer_id');
+    const response = await axios.post(`http://localhost:8000/api/employers/${com_id}`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        'X-HTTP-Method-Override': 'PUT'
+       }
+      });  
+    this.$router.push('/employeer/contact');
+  } catch (error) {
+    console.error(error);
+    this.errorMessage = 'Failed to save employer. Please try again.';
+  }
+},
+
       isValidURL(str) {
         const pattern = new RegExp('^(https?:\\/\\/)?'+ 
           '((([a-z\\d]([a-z\\d-]*[a-z\\d])*))\\.)+([a-z]{2,})'+ 

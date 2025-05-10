@@ -47,12 +47,7 @@
                     </div>
                   </div>
   
-                  <div class="form-group mb-3">
-                    <label>Email</label>
-                    <input type="email" v-model="user.email" placeholder="Email address" class="form-control" />
-                  </div>
-  
-                  <button class="btn btn-primary w-100" type="button" @click="saveChanges">
+                  <button class="btn btn-primary w-25 mt-4" type="button" @click="saveChanges">
                     Save Changes
                   </button>
   
@@ -68,7 +63,7 @@
   
   <script>
   import SmallNav from './SmallNav.vue'
-  
+  import axios from 'axios';
   export default {
     name: 'ContactInfo',
     components: {
@@ -87,33 +82,35 @@
       };
     },
     methods: {
+
       saveChanges() {
+  if (!this.user.mapLocation.trim()) {
+    this.errorMessage = 'Please enter the map location.';
+    return;
+  }
+  if (!this.phoneNumber.trim() || !/^\d+$/.test(this.phoneNumber)) {
+    this.errorMessage = 'Please enter a valid phone number (numbers only).';
+    return;
+  }
+  this.user.phoneNumber = `${this.selectedPrefix}${this.phoneNumber}`;
+  this.errorMessage = '';
 
-        if (!this.user.mapLocation.trim()) {
-          this.errorMessage = 'Please enter the map location.';
-          return;
-        }
-        if (!this.phoneNumber.trim() || !/^\d+$/.test(this.phoneNumber)) {
-          this.errorMessage = 'Please enter a valid phone number (numbers only).';
-          return;
-        }
-        if (!this.user.email.trim() || !this.isValidEmail(this.user.email)) {
-          this.errorMessage = 'Please enter a valid email address.';
-          return;
-        }
-  
-        this.user.phoneNumber = `${this.selectedPrefix}${this.phoneNumber}`;
-  
-        this.errorMessage = '';
+  const employerId = localStorage.getItem('employer_id');
 
-        console.log('Saving...', this.user);
+  axios.put(`http://localhost:8000/api/users/${employerId}`, {
+    address: this.user.mapLocation,
+    phone_number: this.user.phoneNumber,
+  })
+  .then(response => {
+    console.log('User updated successfully', response.data);
+    this.$router.push('/employeer/congrats');
+  })
+  .catch(error => {
+    console.error(error);
+    this.errorMessage = 'Failed to update user. Please try again.';
+  });
+},
 
-        this.$router.push('/employeer/congrats');
-      },
-      isValidEmail(email) {
-        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return re.test(email);
-      }
     }
   }
   </script>
