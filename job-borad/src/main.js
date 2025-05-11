@@ -17,9 +17,11 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
-import * as bootstrap from 'bootstrap'; // ✅ Import all Bootstrap JS as an object
+import * as bootstrap from 'bootstrap';
 
-window.bootstrap = bootstrap; // ✅ Make it globally available in the browser console
+window.bootstrap = bootstrap;
+
+
 
 
 

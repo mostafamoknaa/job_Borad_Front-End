@@ -82,34 +82,42 @@
       };
     },
     methods: {
-
       saveChanges() {
+  // Validate form fields
   if (!this.user.mapLocation.trim()) {
     this.errorMessage = 'Please enter the map location.';
     return;
   }
+
   if (!this.phoneNumber.trim() || !/^\d+$/.test(this.phoneNumber)) {
     this.errorMessage = 'Please enter a valid phone number (numbers only).';
     return;
   }
+
+  // Format phone number with prefix
   this.user.phoneNumber = `${this.selectedPrefix}${this.phoneNumber}`;
-  this.errorMessage = '';
+  this.errorMessage = ''; // Clear any previous error message
 
-  const employerId = localStorage.getItem('employer_id');
+  const formData = new FormData();
+  formData.append('address', this.user.mapLocation);
+  formData.append('phone_number', this.user.phoneNumber);  // Ensure it's formatted correctly
 
-  axios.put(`http://localhost:8000/api/users/${employerId}`, {
-    address: this.user.mapLocation,
-    phone_number: this.user.phoneNumber,
+  const com_id = localStorage.getItem('employer_id');
+  
+  axios.put(`http://localhost:8000/api/employers/update/${com_id}`, formData, {
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('employeer_token')}`,
+      'Content-Type': 'multipart/form-data',
+      'X-HTTP-Method-Override': 'PUT'
+    }
   })
   .then(response => {
-    console.log('User updated successfully', response.data);
-    this.$router.push('/employeer/congrats');
+      this.$router.push('/employeer/myprofile');
   })
   .catch(error => {
-    console.error(error);
-    this.errorMessage = 'Failed to update user. Please try again.';
+    this.errorMessage = error.response?.data?.message || 'Failed to save changes. Please try again.';
   });
-},
+}
 
     }
   }

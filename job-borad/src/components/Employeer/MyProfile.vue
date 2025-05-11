@@ -176,9 +176,14 @@ export default {
     async getData() {
       try {
         const emp_id = localStorage.getItem('employer_id');
-        const response = await axios.get(`http://localhost:8000/api/employers/${emp_id}`);
+        const response = await axios.get(`http://localhost:8000/api/employers/${emp_id}` ,{
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('employeer_token')}`,
+            'Content-Type': 'multipart/form-data',
+          },
+        });
         this.emp = response.data;
-        console.log(this.emp.company_logo);
+        console.log(this.emp);
       } catch (error) {
         console.error('Error fetching data:', error);
       }

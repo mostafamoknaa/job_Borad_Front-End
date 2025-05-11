@@ -224,8 +224,8 @@ const routes = [{
         component: SingleJob,
     },
     {
-        path: '/employeer/profile',
-        name: "employeer/profile",
+        path: '/employeer/myprofile',
+        name: "employeer/myprofile",
         component: MyProfile
     },
     {
