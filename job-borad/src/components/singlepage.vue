@@ -1,89 +1,43 @@
 <template>
-  <div class="container my-5">
-    <h2 class="mb-4">Find Jobs</h2>
+       <div class="container my-5">
+         <h2>{{ job.title }}</h2>
+         <div class="card shadow-sm rounded-4 border-0">
+           <div class="card-body">
+             <h5 class="card-title fw-semibold">{{ job.company }}</h5>
+             <p><strong>Location:</strong> {{ job.location }}</p>
+             <p><strong>Type:</strong> {{ job.type }}</p>
+             <p><strong>Category:</strong> {{ job.category }}</p>
+             <p><strong>Description:</strong> {{ job.description }}</p>
+             <router-link to="/find-job" class="btn btn-primary">Back to Jobs</router-link>
+           </div>
+         </div>
+       </div>
+     </template>
 
-    <!-- Filters Section -->
-    <div class="row mb-4">
-      <div class="col-md-4 mb-2">
-        <input type="text" class="form-control" v-model="searchQuery" placeholder="Search by title or company" />
-      </div>
-      <div class="col-md-3 mb-2">
-        <select class="form-select" v-model="category">
-          <option value="">All Categories</option>
-          <option value="development">Development</option>
-          <option value="design">Design</option>
-          <option value="marketing">Marketing</option>
-        </select>
-      </div>
-      <div class="col-md-2 mb-2">
-        <button class="btn btn-primary w-100" @click="fetchJobs">Search</button>
-      </div>
-    </div>
+     <script setup>
+     import { ref, onMounted } from 'vue';
+     import { useRoute } from 'vue-router';
+     import api from '../api';
 
-    <!-- Job Cards -->
-    <div class="row">
-      <div
-        v-for="job in filteredJobs"
-        :key="job.id"
-        class="col-md-6 col-lg-4 mb-4"
-      >
-        <div class="card h-100 shadow-sm rounded-4 border-0">
-          <div class="card-body">
-            <h5 class="card-title fw-semibold mb-1">{{ job.title }}</h5>
-            <p class="text-muted mb-1">{{ job.company }}</p>
-            <div class="d-flex align-items-center small text-secondary mb-3">
-              <i class="bi bi-geo-alt-fill me-1"></i> {{ job.location }}
-              <span class="mx-2">·</span>
-              <i class="bi bi-clock-fill me-1"></i> {{ job.type }}
-            </div>
-            <router-link
-              :to="{ name: 'SingleJob', params: { id: job.id } }"
-              class="btn btn-outline-primary btn-sm rounded-pill px-3"
-            >
-              View Details
-            </router-link>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</template>
+     const route = useRoute();
+     const job = ref({});
 
-<script setup>
-import { ref, computed, onMounted } from 'vue';
-import api from '../api';
+     const fetchJob = async () => {
+       try {
+         const response = await api.getJob(route.params.id);
+         job.value = response.data.data;
+       } catch (err) {
+         console.error('Failed to load job:', err);
+       }
+     };
 
-const searchQuery = ref('');
-const category = ref('');
-const jobs = ref([]);
+     onMounted(() => {
+       fetchJob();
+     });
+     </script>
 
-const fetchJobs = async () => {
-  try {
-    const response = await api.getJobs({
-      search: searchQuery.value,
-      category: category.value,
-    });
-    jobs.value = response.data.data;
-  } catch (err) {
-    console.error('Failed to load jobs:', err);
-  }
-};
-
-const filteredJobs = computed(() => {
-  return jobs.value; // Filtering is now handled by backend
-});
-
-onMounted(() => {
-  fetchJobs();
-});
-</script>
-
-<style scoped>
-.card {
-  border-radius: 1rem;
-  transition: transform 0.2s ease-in-out;
-}
-.card:hover {
-  transform: translateY(-3px);
-}
-</style>
+     <style scoped>
+     .card {
+       border-radius: 1rem;
+     }
+     </style>

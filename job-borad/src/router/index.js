@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomePage from "../pages/HomePage.vue";
-import singlePage from "../components/singlepage.vue";
+import SingleJob from "../components/singlepage.vue";
 import Register from '../views/Register.vue';
 import Login from '../views/Login.vue';
 import ForgotPassword from '../views/ForgotPassword.vue';
@@ -78,9 +78,9 @@ const routes = [{
         component: VerifyAccount
     },
     {
-        path: "/single",
-        name: "SinglePage",
-        component: singlePage,
+        path: "/job/:id",
+        name: "SingleJob",
+        component: SingleJob,
     },
     {
         path: "/candidatedashbord",
@@ -221,7 +221,7 @@ const routes = [{
     {
         path: "/employeer/single",
         name: "employeer/single",
-        component: singlePage,
+        component: SingleJob,
     },
     {
         path: '/employeer/profile',
