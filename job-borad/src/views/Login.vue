@@ -11,7 +11,9 @@
               <router-link to="/employeer/register" class="text-primary fw-semibold">Create Account</router-link>
             </p>
           </div>
-
+          <div v-if="errorMessage" class="alert alert-danger" role="alert">
+            {{ errorMessage }}
+          </div>
           <form @submit.prevent="handleLogin" novalidate :class="{ 'was-validated': wasValidated }">
             <div class="mb-3">
               <input
@@ -41,8 +43,8 @@
               <router-link to="/employeer/forgot-password" class="float-end text-primary">Forgot password</router-link>
             </div>
             <button type="submit" class="btn btn-primary w-100 mb-3">
-              <router-link to="/candidatedashbord" class="text-white text-center no-underline " >   Sign In →</router-link>
-           </button>
+              Sign In →
+            </button>
               
           </form>
 
@@ -59,7 +61,7 @@
         </div>
       </div>
 
-      <!-- Right side (image and stats) -->
+    
       <div class="col-md-6 d-none d-md-flex flex-column justify-content-center align-items-center text-white p-4 stats-section">
      
    
@@ -69,6 +71,8 @@
 </template>
 
 <script>
+import { ref } from 'vue';
+import axios from 'axios';
 export default {
   name: 'LoginPage',
   data() {
@@ -77,26 +81,52 @@ export default {
       password: '',
       rememberMe: false,
       wasValidated: false,
+      errorMessage: '',
     };
   },
   methods: {
-    handleLogin() {
+    async handleLogin() {
       this.wasValidated = true;
+      this.errorMessage = '';
       if (!this.email || !this.password) {
         return;
       }
-      console.log('Logging in with:', {
-        email: this.email,
-        password: this.password,
-        rememberMe: this.rememberMe,
-      });
+
+      try {
+        const response = await axios.post('http://localhost:8000/api/login', {
+          email: this.email,
+          password: this.password,
+          headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+        });
+
+       
+        const { user, token } = response.data;
+
+        
+        if (user.role === 'candidate') {
+          localStorage.setItem('candidate_token', token);
+          this.$router.push({ name: 'Candidatedashbord' });
+        } else {
+          localStorage.setItem('employer_token', token);
+          this.$router.push({ name: 'company' });
+        }
+        
+      } catch (error) {
+        console.error('Login failed:', error);
+        this.errorMessage = 'Invalid email or password. Please try again.';
+
+      }
     },
+
     loginWithProvider(provider) {
       window.location.href = `http://localhost:8000/auth/${provider}`;
     },
   },
 };
 </script>
+
 
 <style scoped>
 .stats-section {

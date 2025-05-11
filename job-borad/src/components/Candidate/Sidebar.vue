@@ -61,9 +61,14 @@
         this.$emit('toggle', this.isCollapsed);
       },
       selectItem(id) {
+        if(id === 'Logout') {
+          localStorage.removeItem('candidate_token');
+          localStorage.removeItem('employer_id');
+          this.$router.push({ name: 'Login' });
+          this.$emit('logout');
+          return;
+        }
         this.activeItem = id;
-        console.log(id);
-        console.log(this.activeItem);
         this.$emit('item-selected', id);
         this.$router.push({ name: this.activeItem });
       }

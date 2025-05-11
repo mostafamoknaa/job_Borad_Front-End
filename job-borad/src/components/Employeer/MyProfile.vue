@@ -64,7 +64,7 @@
                 </div>
               </div>
   
-              <!-- Company Vision -->
+             
               <div class="card mb-4">
                 <div class="card-body">
                   <h5 class="card-title mb-3">Company Vision</h5>
@@ -76,7 +76,7 @@
   
             <div class="col-lg-5">
   
-              <!-- About Company -->
+             
               <div class="card mb-4">
                 <div class="card-body">
                   <div class="d-flex align-items-center mb-3">
@@ -101,7 +101,7 @@
                 </div>
               </div>
   
-              <!-- Contact Information -->
+              
               <div class="card mb-4">
                 <div class="card-body">
                   <h5 class="card-title mb-4">Contact Information</h5>
@@ -129,7 +129,7 @@
                 </div>
               </div>
   
-              <!-- Share Profile -->
+              
               <div class="card mb-4">
                 <div class="card-body">
                   <h5 class="card-title mb-3">Share profile</h5>
@@ -166,7 +166,7 @@ export default {
   },
   data() {
     return {
-      emp: {}, // Initialize emp as an empty object
+      emp: {},
     }
   },
   mounted() {
