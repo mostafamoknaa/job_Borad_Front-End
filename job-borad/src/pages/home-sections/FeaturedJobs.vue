@@ -2,7 +2,7 @@
     <section class="container my-5">
       <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="fw-bold">Featured job</h2>
-        <a href="#" class="btn btn-outline-primary">
+        <a href="/find-job" class="btn btn-outline-primary">
           View All <i class="bi bi-arrow-right ms-1"></i>
         </a>
       </div>

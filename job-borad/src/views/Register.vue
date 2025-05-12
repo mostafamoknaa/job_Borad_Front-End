@@ -8,7 +8,9 @@
           Already have account? <router-link to="/employeer/login" class="text-primary">Log In</router-link>
         </p>
 
-        <!-- Toggle buttons -->
+        <div v-if="errorMessage" class="alert alert-danger" role="alert">
+          {{ errorMessage }}
+        </div>
         <div class="text-center mb-3 bg-light text-secondary p-2 rounded">
           <p class="mb-2 fw-semibold text-uppercase small">Create account as a</p>
           <div class="d-flex justify-content-center">
@@ -33,16 +35,12 @@
           </div>
         </div>
 
-        <!-- Registration form -->
+        
         <form @submit.prevent="handleRegister" novalidate :class="{ 'was-validated': wasValidated }">
           <div class="mb-3 row">
-            <div class="col-12 col-sm-6 mb-2 mb-sm-0">
+            <div class="mb-3">
               <input v-model="fullName" type="text" class="form-control" placeholder="Full Name" required :class="{ 'is-invalid': wasValidated && !fullName }" />
               <div class="invalid-feedback">Full name is required.</div>
-            </div>
-            <div class="col-12 col-sm-6">
-              <input v-model="username" type="text" class="form-control" placeholder="Username" required :class="{ 'is-invalid': wasValidated && !username }" />
-              <div class="invalid-feedback">Username is required.</div>
             </div>
           </div>
           <div class="mb-3">
@@ -74,12 +72,12 @@
             <div class="invalid-feedback">You must accept the terms.</div>
           </div>
           <button type="submit" class="btn btn-primary w-100 mb-3">
-            <router-link to="/candidatedashbord" class="text-white text-center no-underline " >Create Account</router-link>
+            Create Account →
           </button>
           
         </form>
 
-        <!-- Social sign-up -->
+      
         <div class="text-center">OR</div>
         <div class="d-flex justify-content-center gap-2">
           <button class="btn btn-outline-primary flex-fill social-btn" @click="loginWithProvider('facebook')">
@@ -92,13 +90,14 @@
       </div>
     </div>
 
-    <!-- Right section (hidden on small screens) -->
+
     <div id="img" class="col-md-6 d-none d-md-flex flex-column justify-content-center align-items-center text-white p-4">
     </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   data() {
     return {
@@ -110,16 +109,18 @@ export default {
       confirmPassword: '',
       termsAccepted: false,
       wasValidated: false,
+      errorMessage: '',
     };
   },
   methods: {
     loginWithProvider(provider) {
       window.location.href = `http://localhost:8000/auth/${provider}`;
     },
-    handleRegister() {
+    async handleRegister() {
+      this.errorMessage = '';
       this.wasValidated = true;
 
-      if (!this.fullName || !this.username || !this.email || !this.password || !this.confirmPassword || !this.termsAccepted) {
+      if (!this.fullName || !this.email || !this.password || !this.confirmPassword || !this.termsAccepted) {
         return;
       }
 
@@ -127,15 +128,35 @@ export default {
         return;
       }
 
-      console.log('Account created:', {
-        accountType: this.accountType,
-        fullName: this.fullName,
-        username: this.username,
-        email: this.email,
-      });
+      const formData = new FormData();
+      formData.append('name', this.fullName);
+      formData.append('email', this.email);
+      formData.append('password', this.password);
+      formData.append('role', this.accountType);
+
+
+
+
+      try {
+        const response = await axios.post('http://localhost:8000/api/register', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+          if (this.accountType === 'candidate') {
+            localStorage.setItem('candidate_token', response.data.token);
+            this.$router.push({ name: 'Candidatedashbord' });
+          } else {
+            localStorage.setItem('employeer_token', response.data.token);
+            this.$router.push({ name: 'company' });
+          }
+      } catch (error) {
+        this.errorMessage = 'This Email already in use. Please try again later.';
+      }
     },
-  },
-};
+
+  } 
+}
 </script>
 
 <style scoped>

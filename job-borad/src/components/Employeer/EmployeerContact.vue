@@ -47,12 +47,7 @@
                     </div>
                   </div>
   
-                  <div class="form-group mb-3">
-                    <label>Email</label>
-                    <input type="email" v-model="user.email" placeholder="Email address" class="form-control" />
-                  </div>
-  
-                  <button class="btn btn-primary w-100" type="button" @click="saveChanges">
+                  <button class="btn btn-primary w-25 mt-4" type="button" @click="saveChanges">
                     Save Changes
                   </button>
   
@@ -68,7 +63,7 @@
   
   <script>
   import SmallNav from './SmallNav.vue'
-  
+  import axios from 'axios';
   export default {
     name: 'ContactInfo',
     components: {
@@ -88,32 +83,42 @@
     },
     methods: {
       saveChanges() {
+  // Validate form fields
+  if (!this.user.mapLocation.trim()) {
+    this.errorMessage = 'Please enter the map location.';
+    return;
+  }
 
-        if (!this.user.mapLocation.trim()) {
-          this.errorMessage = 'Please enter the map location.';
-          return;
-        }
-        if (!this.phoneNumber.trim() || !/^\d+$/.test(this.phoneNumber)) {
-          this.errorMessage = 'Please enter a valid phone number (numbers only).';
-          return;
-        }
-        if (!this.user.email.trim() || !this.isValidEmail(this.user.email)) {
-          this.errorMessage = 'Please enter a valid email address.';
-          return;
-        }
+  if (!this.phoneNumber.trim() || !/^\d+$/.test(this.phoneNumber)) {
+    this.errorMessage = 'Please enter a valid phone number (numbers only).';
+    return;
+  }
+
+  // Format phone number with prefix
+  this.user.phoneNumber = `${this.selectedPrefix}${this.phoneNumber}`;
+  this.errorMessage = ''; // Clear any previous error message
+
+  const formData = new FormData();
+  formData.append('address', this.user.mapLocation);
+  formData.append('phone_number', this.user.phoneNumber);  // Ensure it's formatted correctly
+
+  const com_id = localStorage.getItem('employer_id');
   
-        this.user.phoneNumber = `${this.selectedPrefix}${this.phoneNumber}`;
-  
-        this.errorMessage = '';
+  axios.put(`http://localhost:8000/api/employers/update/${com_id}`, formData, {
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('employeer_token')}`,
+      'Content-Type': 'multipart/form-data',
+      'X-HTTP-Method-Override': 'PUT'
+    }
+  })
+  .then(response => {
+      this.$router.push('/employeer/myprofile');
+  })
+  .catch(error => {
+    this.errorMessage = error.response?.data?.message || 'Failed to save changes. Please try again.';
+  });
+}
 
-        console.log('Saving...', this.user);
-
-        this.$router.push('/employeer/congrats');
-      },
-      isValidEmail(email) {
-        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return re.test(email);
-      }
     }
   }
   </script>

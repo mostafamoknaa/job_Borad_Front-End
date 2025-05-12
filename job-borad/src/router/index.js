@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomePage from "../pages/HomePage.vue";
-import singlePage from "../components/singlepage.vue";
+import SingleJob from "../components/singlepage.vue";
 import Register from '../views/Register.vue';
 import Login from '../views/Login.vue';
 import ForgotPassword from '../views/ForgotPassword.vue';
@@ -43,6 +43,7 @@ import SelectPlan from "../components/Employeer/SelectPlan.vue";
 import Header from "../components/header.vue";
 import PostAJob from "../components/Employeer/PostAJob.vue";
 import MyJobs from "../components/Employeer/MyJobs.vue";
+import MyProfile from "../components/Employeer/MyProfile.vue";
 
 
 const routes = [{
@@ -77,9 +78,9 @@ const routes = [{
         component: VerifyAccount
     },
     {
-        path: "/single",
-        name: "SinglePage",
-        component: singlePage,
+        path: "/job/:id",
+        name: "SingleJob",
+        component: SingleJob,
     },
     {
         path: "/candidatedashbord",
@@ -195,8 +196,8 @@ const routes = [{
         path: '/candidates',
         name: 'Candidates',
         component: Candidates
-    },   
-      
+    },
+
     // {
     //     path: '/jobs',
     //     name: 'JobList',
@@ -220,8 +221,14 @@ const routes = [{
     {
         path: "/employeer/single",
         name: "employeer/single",
-        component: singlePage,
-    }, {
+        component: SingleJob,
+    },
+    {
+        path: '/employeer/myprofile',
+        name: "employeer/myprofile",
+        component: MyProfile
+    },
+    {
         path: '/:pathMatch(.*)*',
         name: 'NotFound',
         component: Page404

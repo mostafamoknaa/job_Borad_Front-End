@@ -13,14 +13,19 @@
               </div>
             </div>
 
-            <div class="col-md-5 mb-4">
+            <div class="col-md-8 mb-4">
               <div class="card shadow-sm">
                 <div class="card-body text-center">
                   <h4 class="card-title mb-3">Upload Logo</h4>
                   <div class="upload-box">
                     <div class="upload-preview">
-                      <i class="fas fa-user"></i>
-                    </div>
+                      <template v-if="logoPreview">
+                        <img :src="logoPreview" alt="Logo Preview" class="preview-image" />
+                      </template>
+                      <template v-else>
+                        <i class="fas fa-user"></i>
+                      </template>
+                    </div>                    
                     <input type="file" ref="logoInput" class="hidden" @change="handleFileUpload('logo')">
                     <button type="button" class="upload-button" @click="$refs.logoInput.click()">
                       Browse photo or drop here
@@ -31,23 +36,6 @@
               </div>
             </div>
 
-            <div class="col-md-7 mb-4">
-              <div class="card shadow-sm">
-                <div class="card-body text-center">
-                  <h4 class="card-title mb-3">Upload Banner</h4>
-                  <div class="upload-box">
-                    <div class="upload-preview">
-                      <i class="fas fa-image"></i>
-                    </div>
-                    <input type="file" ref="bannerInput" class="hidden" @change="handleFileUpload('banner')">
-                    <button type="button" class="upload-button" @click="$refs.bannerInput.click()">
-                      Browse photo or drop here
-                    </button>
-                    <p class="upload-note">Recommended size: 1200x300px+. Max size: 5MB.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
 
           
@@ -80,6 +68,7 @@
 
 <script>
 import SmallNav from './SmallNav.vue'
+import axios from 'axios';
 
 export default {
   name: 'PersonalAccount',
@@ -90,34 +79,78 @@ export default {
     return {
       companyName: '',
       aboutUs: '',
-      errorMessage: '', 
+      errorMessage: '',
+      logoFile: null,
+      logoPreview: null,
     }
   },
   methods: {
     handleFileUpload(type) {
-      console.log(`Uploading ${type}`);
+      const fileInput = this.$refs.logoInput;
+      const file = fileInput.files[0];
+
+      if (file && file.type.startsWith('image/')) {
+        if (file.size > 5 * 1024 * 1024) { 
+          this.errorMessage = 'Image size must be less than 5MB.';
+          return;
+        }
+
+        this.logoFile = file;
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          this.logoPreview = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      } else {
+        this.errorMessage = 'Please upload a valid image file.';
+      }
     },
-    submitForm() {
-      
-      if (!this.companyName.trim() || !this.aboutUs.trim()) {
-        this.errorMessage = 'Please fill in all fields.';
-        return;
-      }
+    async submitForm() {
+      if (!this.companyName.trim() || !this.aboutUs.trim() || !this.logoFile) {
+          this.errorMessage = 'Please fill in all fields.';
+          return;
+        }
 
-      if (this.companyName.length < 3) {
-        this.errorMessage = 'Company Name must be at least 3 characters.';
-        return;
-      }
+        if (this.companyName.length < 3) {
+          this.errorMessage = 'Company Name must be at least 3 characters.';
+          return;
+        }
 
-      if (this.aboutUs.length < 10) {
-        this.errorMessage = 'About Us must be at least 10 characters.';
-        return;
-      }
-      this.errorMessage = '';
+        if (this.aboutUs.length < 10) {
+          this.errorMessage = 'About Us must be at least 10 characters.';
+          return;
+        }
 
-      this.$router.push('/employeer/profile'); 
+        this.errorMessage = '';
+
+        try {
+          const formData = new FormData();
+          formData.append('company_name', this.companyName);
+          formData.append('company_description', this.aboutUs);
+          formData.append('company_logo', this.logoFile);
+
+          for (let [key, value] of formData.entries()) {
+            console.log(key, value);
+          }
+
+          const Token = localStorage.getItem('employeer_token');
+          const response = await axios.post('http://localhost:8000/api/employers', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+              Authorization: `Bearer ${Token}`
+            },
+          });
+
+          localStorage.setItem('employer_id', response.data.employer.id);
+
+          this.$router.push('/employeer/profile');
+        } catch (error) {
+          console.error(error);
+          this.errorMessage = 'Failed to save employer. Please try again.';
+        }
+      }
     }
-  }
 }
 </script>
 
@@ -178,7 +211,11 @@ export default {
   font-size: 60px;
   color: #aaa;
 }
-
+.preview-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 .upload-button {
   margin-top: 12px;
   padding: 10px 25px;

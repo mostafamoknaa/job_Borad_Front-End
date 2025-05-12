@@ -169,7 +169,7 @@ export default {
   components: { EmpSidebar, MainNavbar },
   setup() {
     const submitted = ref(false)
-    const showSuccessModal = ref(false) // <-- You forgot this
+    const showSuccessModal = ref(false)
     const form = ref({
       jobTitle: '',
       tags: '',
