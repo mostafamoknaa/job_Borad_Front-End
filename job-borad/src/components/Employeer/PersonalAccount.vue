@@ -135,7 +135,7 @@ export default {
           }
 
           const Token = localStorage.getItem('employeer_token');
-          const response = await axios.post('http://localhost:8000/api/employers', formData, {
+          const response = await axios.post('http://localhost:8000/api/employers/store', formData, {
             headers: {
               'Content-Type': 'multipart/form-data',
               Authorization: `Bearer ${Token}`

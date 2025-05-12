@@ -10,213 +10,419 @@
         </div>
   
         <div class="col-md-8">
-          <form class="needs-validation container my-5" @submit.prevent="handleSubmit" novalidate>
-            <h2>Post a Job</h2>
-  
-            <div class="row mb-3">
-              <div class="col-md-12">
-                <label for="jobTitle" class="form-label">Job Title</label>
-                <input type="text" id="jobTitle" v-model="form.jobTitle" class="form-control" :class="{ 'is-invalid': submitted && !form.jobTitle }" required>
-                <div class="invalid-feedback">Job title is required.</div>
-              </div>
-            </div>
-  
-            <div class="mb-3">
-              <div class="row">
-                <div class="col-md-8">
-                  <label for="tags" class="form-label">Tags</label>
-                  <input type="text" id="tags" v-model="form.tags" class="form-control" :class="{ 'is-invalid': submitted && !form.tags }" required>
-                  <div class="invalid-feedback">Tags are required.</div>
-                </div>
-  
-                <div class="col-md-4">
-                  <label for="jobRole" class="form-label">Job Role</label>
-                  <select id="jobRole" v-model="form.jobRole" class="form-select" :class="{ 'is-invalid': submitted && !form.jobRole }" required>
-                    <option value="" disabled>Select a role</option>
-                    <option>Frontend Developer</option>
-                    <option>Backend Developer</option>
-                    <option>Full Stack Developer</option>
-                  </select>
-                  <div class="invalid-feedback">Job role is required.</div>
-                </div>
-              </div>
-            </div>
-  
-            <div class="row mb-3">
-              <div class="col-md-4">
-                <label for="minSalary" class="form-label">Min Salary</label>
-                <input type="number" id="minSalary" v-model="form.minSalary" class="form-control">
-                <div class="invalid-feedback">Min Salary is required.</div>
-              </div>
-  
-              <div class="col-md-4">
-                <label for="maxSalary" class="form-label">Max Salary</label>
-                <input type="number" id="maxSalary" v-model="form.maxSalary" class="form-control">
-                <div class="invalid-feedback">Max Salary is required.</div>
-              </div>
-  
-              <div class="col-md-4">
-                <label for="salaryType" class="form-label">Salary Type</label>
-                <select id="salaryType" v-model="form.salaryType" class="form-select">
-                  <option value="" disabled>Select type</option>
-                  <option>Hourly</option>
-                  <option>Monthly</option>
-                  <option>Yearly</option>
-                </select>
-                <div class="invalid-feedback">Min Salary is required.</div>
-              </div>
-            </div>
-  
-            <div class="row mb-3">
-              <div class="col-md-4">
-                <label for="education" class="form-label">Education</label>
-                <select id="education" v-model="form.education" class="form-select" :class="{ 'is-invalid': submitted && !form.education }" required>
-                  <option value="" disabled>Select education</option>
-                  <option>Bachelor's</option>
-                  <option>Master's</option>
-                  <option>PhD</option>
-                </select>
-                <div class="invalid-feedback">Education is required.</div>
-              </div>
-  
-              <div class="col-md-4">
-                <label for="experience" class="form-label">Experience</label>
-                <select id="experience" v-model="form.experience" class="form-select">
-                  <option>Entry Level</option>
-                  <option>Mid Level</option>
-                  <option>Senior Level</option>
-                </select>
-                <div class="invalid-feedback">Experience is required.</div>
-              </div>
-  
-              <div class="col-md-4">
-                <label for="jobType" class="form-label">Job Type</label>
-                <select id="jobType" v-model="form.jobType" class="form-select">
-                  <option>Full Time</option>
-                  <option>Part Time</option>
-                  <option>Contract</option>
-                </select>
-                <div class="invalid-feedback">Job Type is required.</div>
-              </div>
-            </div>
-  
-            <div class="mb-3">
-              <h5>Location</h5>
-              <div class="row">
-                <div class="col-md-6">
-                  <label for="country" class="form-label">Country</label>
-                  <select id="country" v-model="form.country" class="form-select">
-                    <option>USA</option>
-                    <option>UK</option>
-                    <option>Germany</option>
-                  </select>
-                  <div class="invalid-feedback">Country Salary is required.</div>
-                </div>
-  
-                <div class="col-md-6">
-                  <label for="city" class="form-label">City</label>
-                  <select id="city" v-model="form.city" class="form-select">
-                    <option>New York</option>
-                    <option>London</option>
-                    <option>Berlin</option>
-                  </select>
-                  <div class="invalid-feedback">City is required.</div>
-                </div>
-              </div>
-  
-              <div class="form-check mt-2">
-                <input type="checkbox" id="remote" v-model="form.remote" class="form-check-input">
-                <label for="remote" class="form-check-label">Fully Remote Position - Worldwide</label>
-              </div>
-            </div>
-  
-            <div class="mb-3">
-              <h5>Job Benefits</h5>
-              <span class="badge bg-primary">401k Salary</span>
-              <span class="badge bg-secondary">Distributed Team</span>
-              <span class="badge bg-info text-dark">Async</span>
-              <span class="badge bg-success">Vision Insurance</span>
-            </div>
-  
-            <div class="mb-3">
-              <label for="description" class="form-label">Job Description</label>
-              <textarea id="description" v-model="form.description" rows="5" class="form-control" :class="{ 'is-invalid': submitted && !form.description }" required></textarea>
-              <div class="invalid-feedback">Description is required.</div>
-            </div>
-  
-            <button type="submit" class="btn btn-primary">Post Job</button>
-          </form>
-          <div class="modal fade show" tabindex="-1" style="display: block; background-color: rgba(0, 0, 0, 0.5);" v-if="showSuccessModal">
-            <div class="modal-dialog modal-dialog-centered">
-              <div class="modal-content rounded-4 p-4 text-center">
-                <h4 class="mb-3">🎉 Congratulations!</h4>
-                <p>Your job was posted successfully.</p>
-                <button class="btn btn-primary mt-2" @click="closeModal">Close</button>
-              </div>
-            </div>
+          <div v-if="showSuccess" class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Success!</strong> Job posted successfully.
+            <button type="button" class="btn-close" @click="showSuccess = false" aria-label="Close"></button>
           </div>
+        
+          <form @submit.prevent="handleSubmit" class="job-form">
+              <div class="form-group">
+                <label for="category_id">Category</label>
+                <select 
+                  id="category_id" 
+                  v-model="form.category_id" 
+                  class="form-control"
+                  :class="{ 'is-invalid': errors.category_id }"
+                  @change="clearError('category_id')"
+                >
+                  <option value="">Select a category</option>
+                  <option v-for="category in categories" :value="category.id" :key="category.id">
+                    {{ category.name }}
+                  </option>
+                </select>
+                <div v-if="errors.category_id" class="invalid-feedback">
+                  {{ errors.category_id[0] }}
+                </div>
+              </div>    
+        
+            <div class="form-group">
+              <label>Job Type</label>
+              <div class="form-check" v-for="type in jobTypes" :key="type">
+                <input 
+                  class="form-check-input" 
+                  type="radio" 
+                  :id="`type-${type}`" 
+                  v-model="form.type" 
+                  :value="type"
+                  :class="{ 'is-invalid': errors.type }"
+                >
+                <label class="form-check-label" :for="`type-${type}`">
+                  {{ type }}
+                </label>
+              </div>
+              <div v-if="errors.type" class="invalid-feedback">
+                {{ errors.type[0] }}
+              </div>
+            </div>
+        
+            <div class="form-group">
+              <label for="title">Job Title</label>
+              <input 
+                type="text" 
+                id="title" 
+                v-model="form.title" 
+                class="form-control"
+                :class="{ 'is-invalid': errors.title }"
+              >
+              <div v-if="errors.title" class="invalid-feedback">
+                {{ errors.title[0] }}
+              </div>
+            </div>
+        
+            <div class="form-group">
+              <label for="description">Job Description</label>
+              <textarea 
+                id="description" 
+                v-model="form.description" 
+                rows="5" 
+                class="form-control"
+                :class="{ 'is-invalid': errors.description }"
+              ></textarea>
+              <div v-if="errors.description" class="invalid-feedback">
+                {{ errors.description[0] }}
+              </div>
+            </div>
+        
+            <div class="form-group">
+              <label for="responsibilities">Responsibilities</label>
+              <textarea 
+                id="responsibilities" 
+                v-model="form.responsibilities" 
+                rows="5" 
+                class="form-control"
+                :class="{ 'is-invalid': errors.responsibilities }"
+              ></textarea>
+              <div v-if="errors.responsibilities" class="invalid-feedback">
+                {{ errors.responsibilities[0] }}
+              </div>
+            </div>
+        
+            <div class="form-group">
+              <label for="qualifications">Qualifications</label>
+              <textarea 
+                id="qualifications" 
+                v-model="form.qualifications" 
+                rows="5" 
+                class="form-control"
+                :class="{ 'is-invalid': errors.qualifications }"
+              ></textarea>
+              <div v-if="errors.qualifications" class="invalid-feedback">
+                {{ errors.qualifications[0] }}
+              </div>
+            </div>
+        
+            <div class="form-group">
+              <label for="salary_range">Salary Range (optional)</label>
+              <input 
+                type="text" 
+                id="salary_range" 
+                v-model="form.salary_range" 
+                class="form-control"
+                :class="{ 'is-invalid': errors.salary_range }"
+                placeholder="e.g. $50,000 - $70,000 per year"
+              >
+              <div v-if="errors.salary_range" class="invalid-feedback">
+                {{ errors.salary_range[0] }}
+              </div>
+            </div>
+        
+            <div class="form-group">
+              <label for="benefits">Benefits (optional)</label>
+              <textarea 
+                id="benefits" 
+                v-model="form.benefits" 
+                rows="3" 
+                class="form-control"
+                :class="{ 'is-invalid': errors.benefits }"
+                placeholder="List any benefits offered with this position"
+              ></textarea>
+              <div v-if="errors.benefits" class="invalid-feedback">
+                {{ errors.benefits[0] }}
+              </div>
+            </div>
+        
+            <div class="form-group">
+              <label for="location">Location</label>
+              <input 
+                type="text" 
+                id="location" 
+                v-model="form.location" 
+                class="form-control"
+                :class="{ 'is-invalid': errors.location }"
+                placeholder="e.g. New York, NY or Remote"
+              >
+              <div v-if="errors.location" class="invalid-feedback">
+                {{ errors.location[0] }}
+              </div>
+            </div>
+        
+            <div class="form-group">
+              <label for="application_deadline">Application Deadline</label>
+              <input 
+                type="date" 
+                id="application_deadline" 
+                v-model="form.application_deadline" 
+                class="form-control"
+                :class="{ 'is-invalid': errors.application_deadline }"
+              >
+              <div v-if="errors.application_deadline" class="invalid-feedback">
+                {{ errors.application_deadline[0] }}
+              </div>
+            </div>
+        
+            <div v-if="isAdmin" class="form-group">
+              <label for="status">Status</label>
+              <select 
+                id="status" 
+                v-model="form.status" 
+                class="form-control"
+                :class="{ 'is-invalid': errors.status }"
+              >
+                <option value="pending">Pending</option>
+                <option value="approved">Approved</option>
+                <option value="rejected">Rejected</option>
+                <option value="archived">Archived</option>
+              </select>
+              <div v-if="errors.status" class="invalid-feedback">
+                {{ errors.status[0] }}
+              </div>
+            </div>
+        
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary" :disabled="loading">
+                <span v-if="loading">Submitting...</span>
+                <span v-else>Submit Job</span>
+              </button>
+              <button type="button" class="btn btn-secondary" @click="resetForm">
+                Reset
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
-  </template>
+</template>
   
-  <script>
-import { ref } from 'vue'
+<script>
+import { ref, onMounted } from 'vue'
 import EmpSidebar from './EmpSidebar.vue'
 import MainNavbar from './MainNavbar.vue'
+import axios from 'axios'
 
 export default {
-  components: { EmpSidebar, MainNavbar },
+  components: {
+    MainNavbar,
+    EmpSidebar
+  },
   setup() {
-    const submitted = ref(false)
-    const showSuccessModal = ref(false)
+    const showSuccess = ref(false);
     const form = ref({
-      jobTitle: '',
-      tags: '',
-      jobRole: '',
-      minSalary: '',
-      maxSalary: '',
-      salaryType: '',
-      education: '',
-      experience: '',
-      jobType: '',
-      country: '',
-      city: '',
-      remote: false,
-      description: ''
-    })
+      employer_id:localStorage.getItem('employer_id'),
+      category_id: '',
+      type: 'full-time',
+      title: '',
+      description: '',
+      responsibilities: '',
+      qualifications: '',
+      salary_range: '',
+      benefits: '',
+      location: '',
+      application_deadline: '',
+      status: 'pending',
+      
+    });
 
-    const handleSubmit = () => {
-      submitted.value = true
-      const requiredFields = [
-        form.value.jobTitle,
-        form.value.tags,
-        form.value.jobRole,
-        form.value.education,
-        form.value.experience,
-        form.value.jobType,
-        form.value.country,
-        form.value.city,
-        form.value.salaryType,
-        form.value.minSalary,
-        form.value.maxSalary,
-        form.value.description
-      ]
+    const categories = ref([]);
+    const jobTypes = ref(['full-time', 'part-time', 'contract', 'internship', 'temporary', 'freelance']);
+    const errors = ref({});
+    const loading = ref(false);
 
-      const allFieldsFilled = requiredFields.every(field => field !== '' && field !== null)
-
-      if (allFieldsFilled) {
-        showSuccessModal.value = true
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get('http://localhost:8000/api/categories', {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('employeer_token')}`,
+          },
+        });
+        categories.value = response.data;
+      } catch (error) {
+        console.error('Error fetching categories:', error);
       }
-    }
+    };
 
-    const closeModal = () => {
-      showSuccessModal.value = false
-    }
 
-    return { form, submitted, handleSubmit, showSuccessModal, closeModal }
+    const clearError = (field) => {
+      if (errors.value[field]) {
+        delete errors.value[field];
+      }
+    };
+
+    const handleSubmit = async () => {
+      loading.value = true;
+      errors.value = {};
+      showSuccess.value = false;
+      
+      try {
+        
+        const formData = new FormData();
+        
+        
+        Object.entries(form.value).forEach(([key, value]) => {
+          formData.append(key, value);
+        });
+        
+      
+        formData.append('employer_id', localStorage.getItem('employer_id'));
+
+        const response = await axios.post('http://localhost:8000/api/jobs', formData, {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('employeer_token')}`,
+            'Content-Type': 'multipart/form-data',
+          }
+        });
+        
+        console.log('Job created successfully:', response.data);
+        showSuccess.value = true;
+        resetForm();
+
+        
+      } catch (error) {
+        if (error.response && error.response.status === 422) {
+          errors.value = error.response.data.errors || {};
+        } else {
+          console.error('Error submitting form:', error);
+        }
+      } finally {
+        loading.value = false;
+      }
+    };
+
+    showSuccess.value = true;
+    setTimeout(() => {
+      showSuccess.value = false;
+    }, 5000);
+    const resetForm = () => {
+      form.value = {
+        category_id: '',
+        type: 'full-time',
+        title: '',
+        description: '',
+        responsibilities: '',
+        qualifications: '',
+        salary_range: '',
+        benefits: '',
+        location: '',
+        application_deadline: '',
+        status: 'pending',
+      };
+      errors.value = {};
+    };
+
+    onMounted(fetchCategories);
+
+    return {
+      form,
+      categories,
+      jobTypes,
+      errors,
+      loading,
+      handleSubmit,
+      resetForm,
+      clearError
+    };
   }
-}
+};
 </script>
+<style scoped>
+.job-form {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
 
-  
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.form-control.is-invalid {
+  border-color: #dc3545;
+}
+
+.invalid-feedback {
+  color: #dc3545;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.form-check {
+  margin-bottom: 8px;
+}
+
+.form-check-input {
+  margin-right: 8px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 30px;
+}
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #0069d9;
+}
+
+.btn-primary:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.alert {
+  margin-bottom: 20px;
+  animation: fadeIn 0.5s;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+</style>
