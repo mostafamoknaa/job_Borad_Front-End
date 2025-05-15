@@ -45,6 +45,7 @@
   <script>
   import Pagination from './Pagination.vue'
   import axios from 'axios'
+  import interceptor from '../../Interceptor/getaxiox'
   
   export default {
     components: { Pagination },
@@ -59,25 +60,17 @@
     methods: {
         async getJobs(page = 1) {
     try {
-      const response = await axios.get(`http://localhost:8000/api/jobs?page=${page}`, {
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}` // Add if using auth
-        }
-      });
+      const response = await interceptor.get(`/jobs?page=${page}`);
       
-      console.log('API Response:', response.data); // Debug log
-      
-      // Check if response is an array (direct jobs list)
+
       if (Array.isArray(response.data)) {
-        this.jobs = { data: response.data }; // Format for your table
+        this.jobs = { data: response.data }; 
       } 
-      // Check if response is paginated (Laravel default)
+      
       else if (response.data.data) {
         this.jobs = response.data;
       }
-      // Handle other response formats
+      
       else {
         this.jobs = { data: [] };
         console.warn('Unexpected API response format');
@@ -111,16 +104,20 @@
         return classes[status] || 'secondary'
       },
       approveJob(id) {
-        axios.put(`/api/admin/jobs/${id}/approve`)
-          .then(() => {
-            this.getJobs()
-          })
+        const response = interceptor.put(`/aprove/job/${id}`).then(() => {
+          this.getJobs()
+        })
+      .catch(error => {
+          console.error('Error approving job:', error)
+        })
       },
       rejectJob(id) {
-        axios.put(`/api/admin/jobs/${id}/reject`)
-          .then(() => {
-            this.getJobs()
-          })
+        const response = interceptor.put(`/reject/job/${id}`).then(() => {
+          this.getJobs()
+        })
+      .catch(error => {
+          console.error('Error approving job:', error)
+        })
       }
     }
   }

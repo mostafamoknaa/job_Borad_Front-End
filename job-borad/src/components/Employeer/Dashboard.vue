@@ -66,7 +66,7 @@
                             {{ job.status }}
                           </span>
                         </td>
-                        <td class="text-muted"><i class="fas fa-users"></i> {{ job.applications }} Applications</td>
+                        <td class="text-muted"><i class="fas fa-users"></i> {{ job.applications_count }} Applications</td>
                         <td>
                           <div class="d-flex align-items-center gap-2">
                             <button class="btn btn-primary btn-sm">View Applications</button>
@@ -118,6 +118,10 @@
     try {
       const response = await interceptor.get(`/employer/job/${emp_id}`)
       jobs.value = response.data
+      for (const job of jobs.value) {
+      const countResponse = await interceptor.get(`/count/jobs/${job.id}`)
+      job.applications_count = countResponse.data.applicantsCount
+    }
     } catch (error) {
       console.error('Error fetching jobs:', error)
     }

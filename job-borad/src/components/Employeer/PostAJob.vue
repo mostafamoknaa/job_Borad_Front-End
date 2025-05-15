@@ -276,7 +276,7 @@ export default {
 
         const response = await axios.post('http://localhost:8000/api/jobs', formData, {
           headers: {
-            'Authorization': `Bearer ${localStorage.getItem('employeer_token')}`,
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
             'Content-Type': 'multipart/form-data',
           }
         });

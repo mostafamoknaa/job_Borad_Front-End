@@ -23,10 +23,10 @@
             </router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/employeer/login'">
-              <i class="fas fa-sign-out-alt me-2"></i> logout
-            </router-link>
-          </li>          
+            <a class="nav-link" href="#" @click.prevent="logout">
+              <i class="fas fa-sign-out-alt me-2"></i> Logout
+            </a>
+          </li>         
         </ul>
       </div>
     </div>
@@ -34,7 +34,17 @@
   
   <script>
   export default {
-    name: 'AdminSidebar'
+    name: 'AdminSidebar',
+    methods: {
+      logout() {
+        localStorage.removeItem('token');
+          localStorage.removeItem('employer_id');
+          localStorage.removeItem('user');
+          this.$router.push({ name: 'Login' });
+          this.$emit('logout');
+          return;
+      }
+    }
   }
   </script>
   
