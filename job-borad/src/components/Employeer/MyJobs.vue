@@ -16,8 +16,9 @@
                   <h5 class="card-title mb-0">All Jobs</h5>
                   <select v-model="selectedStatus" class="form-select form-select-sm w-auto">
                     <option value="">All Jobs</option>
-                    <option value="Active">Active</option>
-                    <option value="Expire">Expire</option>
+                    <option value="pending">Pending</option>
+                    <option value="aproved">Aproved</option>
+                     <option value="rejected">Rejected</option>
                   </select>
                 </div>
   
@@ -36,7 +37,7 @@
                         <td>
                           <div class="d-flex flex-column">
                             <span class="fw-semibold">{{ job.title }}</span>
-                            <small class="text-muted">{{ job.type }} • {{ job.remaining }}</small>
+                            <small class="text-muted">{{ job.type }} • {{job.location}}</small>
                           </div>
                         </td>
                         <td>
@@ -91,43 +92,41 @@
   </template>
   
   <script setup lang="ts">
-  import { ref, computed } from 'vue'
+  import { ref, computed, onMounted } from 'vue'
   import EmpSidebar from './EmpSidebar.vue'
   import MainNavbar from './MainNavbar.vue'
-  import { onMounted } from 'vue'
-  import { useRouter } from "vue-router";
-  const router = useRouter();
-  const gotosinglejob = () => {
-    router.push("/employeer/single");
-  };
-
-    onMounted(() => {
-    const dropdowns = document.querySelectorAll('.dropdown-toggle')
-    dropdowns.forEach(dropdown => {
-        new (window as any).bootstrap.Dropdown(dropdown)
-    })
-    })
-
-
-  const jobs = ref([
-    { title: 'UI/UX Designer', type: 'Full Time', remaining: '27 days remaining', status: 'Active', applications: 798 },
-    { title: 'Senior UX Designer', type: 'Internship', remaining: '8 days remaining', status: 'Active', applications: 185 },
-    { title: 'Technical Support Specialist', type: 'Part Time', remaining: '4 days remaining', status: 'Active', applications: 558 },
-    { title: 'Junior Graphic Designer', type: 'Full Time', remaining: '24 days remaining', status: 'Active', applications: 583 },
-    { title: 'Front End Developer', type: 'Full Time', remaining: 'Dec 7, 2019', status: 'Expire', applications: 740 },
-    { title: 'Backend Developer', type: 'Remote', remaining: '14 days remaining', status: 'Active', applications: 362 },
-    { title: 'Content Writer', type: 'Part Time', remaining: '3 days remaining', status: 'Expire', applications: 215 },
-  ])
+  import { useRouter } from 'vue-router'
+  import interceptor from '../../Interceptor/getaxiox'
   
+  const router = useRouter()
   const selectedStatus = ref('')
   const currentPage = ref(1)
   const jobsPerPage = 4
   
-  const filteredJobs = computed(() => {
-    if (!selectedStatus.value) return jobs.value
-    return jobs.value.filter(job => job.status === selectedStatus.value)
+
+  const jobs = ref<Array<any>>([])
+  
+
+  onMounted(async () => {
+    const emp_id = localStorage.getItem('employer_id')
+    try {
+      const response = await interceptor.get(`/employer/job/${emp_id}`)
+      jobs.value = response.data
+    } catch (error) {
+      console.error('Error fetching jobs:', error)
+    }
   })
   
+  const gotosinglejob = () => {
+    router.push('/employeer/single')
+  }
+  
+  const filteredJobs = computed(() => {
+    if (!selectedStatus.value) return jobs.value
+    return jobs.value.filter((job) => job.status === selectedStatus.value)
+  })
+  
+ 
   const totalPages = computed(() => {
     return Math.ceil(filteredJobs.value.length / jobsPerPage)
   })
@@ -137,6 +136,7 @@
     return filteredJobs.value.slice(start, start + jobsPerPage)
   })
   </script>
+  
   
   <style scoped>
   .status-active {

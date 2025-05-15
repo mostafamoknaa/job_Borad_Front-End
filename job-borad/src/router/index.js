@@ -264,6 +264,11 @@ const routes = [{
             }
         ]
     },
+    {
+        path: '/contactus',
+        name: 'employeer/contactus',
+        component: ContactUs
+    },
 
     {
         path: '/:pathMatch(.*)*',
