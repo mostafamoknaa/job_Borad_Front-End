@@ -1,5 +1,5 @@
 <template>
-     <section class="popular-vacancies-section py-5">
+  <section class="popular-vacancies-section py-5">
     <div class="container">
       <!-- Title -->
       <div class="text-start mb-5">
@@ -13,35 +13,43 @@
             <h5 class="fw-bold">{{ job.title }}</h5>
             <p class="text-muted mb-1">{{ job.company }}</p>
             <p class="text-muted small">{{ job.location }}</p>
-            <button class="btn btn-outline-primary btn-sm mt-3" @click="goTosinglejob()">View Job</button>
-
+            <button
+              class="btn btn-outline-primary btn-sm mt-3"
+              @click="goTosinglejob()"
+            >
+              View Job
+            </button>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
-<script setup> 
-import { useRouter } from 'vue-router';
-import { ref } from 'vue';
-import { useRoute } from 'vue-router';
+<script setup>
+import { useRouter } from "vue-router";
+import { ref } from "vue";
+import { useRoute } from "vue-router";
 
 const router = useRouter();
 
 const goTosinglejob = () => {
-  console.log('Job clicked');
-  router.push({ name: 'SinglePage' });
+  console.log("Job clicked");
+  router.push({ name: "SinglePage" });
 };
 
-
 const jobs = [
-  { id: 1, title: 'Frontend Developer', company: 'Google', location: 'Remote' },
-  { id: 2, title: 'UI/UX Designer', company: 'Meta', location: 'USA' },
-  { id: 3, title: 'Backend Engineer', company: 'Amazon', location: 'Germany' },
-  { id: 4, title: 'Project Manager', company: 'Apple', location: 'Remote' },
-  { id: 5, title: 'Marketing Specialist', company: 'Netflix', location: 'France' },
-  { id: 6, title: 'QA Tester', company: 'Spotify', location: 'UK' }
+  { id: 1, title: "Frontend Developer", company: "Google", location: "Remote" },
+  { id: 2, title: "UI/UX Designer", company: "Meta", location: "USA" },
+  { id: 3, title: "Backend Engineer", company: "Amazon", location: "Germany" },
+  { id: 4, title: "Project Manager", company: "Apple", location: "Remote" },
+  {
+    id: 5,
+    title: "Marketing Specialist",
+    company: "Netflix",
+    location: "France",
+  },
+  { id: 6, title: "QA Tester", company: "Spotify", location: "UK" },
 ];
 </script>
 
