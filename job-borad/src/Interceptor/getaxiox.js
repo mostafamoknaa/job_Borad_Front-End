@@ -8,4 +8,14 @@ const apiClient = axios.create({
     },
 });
 
+export const fetchEmployers = (page = 1, perPage = 12) => {
+    return apiClient.get('/employers', {
+      params: {
+        page,
+        per_page: perPage,
+      },
+    });
+  };
+
 export default apiClient;
+
