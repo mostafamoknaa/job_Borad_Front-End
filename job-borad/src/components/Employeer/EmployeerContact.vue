@@ -83,7 +83,7 @@
     },
     methods: {
       saveChanges() {
-  // Validate form fields
+ 
   if (!this.user.mapLocation.trim()) {
     this.errorMessage = 'Please enter the map location.';
     return;
@@ -94,19 +94,18 @@
     return;
   }
 
-  // Format phone number with prefix
+  
   this.user.phoneNumber = `${this.selectedPrefix}${this.phoneNumber}`;
-  this.errorMessage = ''; // Clear any previous error message
-
+  this.errorMessage = ''; 
   const formData = new FormData();
   formData.append('address', this.user.mapLocation);
-  formData.append('phone_number', this.user.phoneNumber);  // Ensure it's formatted correctly
+  formData.append('phone_number', this.user.phoneNumber);  
 
   const com_id = localStorage.getItem('employer_id');
   
-  axios.put(`http://localhost:8000/api/employers/update/${com_id}`, formData, {
+  axios.put(`http://localhost:8000/api/users/${com_id}`, formData, {
     headers: {
-      'Authorization': `Bearer ${localStorage.getItem('employeer_token')}`,
+      'Authorization': `Bearer ${localStorage.getItem('token')}`,
       'Content-Type': 'multipart/form-data',
       'X-HTTP-Method-Override': 'PUT'
     }

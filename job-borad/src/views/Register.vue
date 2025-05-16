@@ -144,10 +144,10 @@ export default {
           },
         });
           if (this.accountType === 'candidate') {
-            localStorage.setItem('candidate_token', response.data.token);
+            localStorage.setItem('token', response.data.token);
             this.$router.push({ name: 'Candidatedashbord' });
           } else {
-            localStorage.setItem('employeer_token', response.data.token);
+            localStorage.setItem('token', response.data.token);
             this.$router.push({ name: 'company' });
           }
       } catch (error) {

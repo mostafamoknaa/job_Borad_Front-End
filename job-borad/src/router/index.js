@@ -45,6 +45,15 @@ import PostAJob from "../components/Employeer/PostAJob.vue";
 import MyJobs from "../components/Employeer/MyJobs.vue";
 import MyProfile from "../components/Employeer/MyProfile.vue";
 
+import AdminLayout from "../components/Admin/AdminLayout.vue";
+import JobsApproval from "../components/Admin/JobsApproval.vue";
+import AllJobs from "../components/Admin/AllJobs.vue";
+import AdminEmployers from "../components/Admin/AdminEmployers.vue";
+import AdminCandidates from "../components/Admin/AdminCandidates.vue";
+//import Employers from "../components/Admin/Employers.vue";
+//import Candidates from "../components/Admin/Candidates.vue";
+
+
 
 const routes = [{
         path: "/",
@@ -228,6 +237,41 @@ const routes = [{
         name: "employeer/myprofile",
         component: MyProfile
     },
+    {
+        path: '/admin',
+        component: AdminLayout,
+        children: [{
+                path: 'jobs-approval',
+                name: 'JobsApproval',
+                component: JobsApproval
+            },
+            {
+                path: 'all-jobs',
+                name: 'AllJobs',
+                component: AllJobs
+            },
+            {
+                path: 'employers',
+                name: 'Employers',
+                component: AdminEmployers
+            },
+            {
+                path: 'candidates',
+                name: 'Candidates',
+                component: AdminCandidates
+            },
+            {
+                path: '',
+                redirect: { name: 'JobsApproval' }
+            }
+        ]
+    },
+    {
+        path: '/employeer/contactus',
+        name: 'employeer/contactus',
+        component: ContactUs
+    },
+
     {
         path: '/:pathMatch(.*)*',
         name: 'NotFound',

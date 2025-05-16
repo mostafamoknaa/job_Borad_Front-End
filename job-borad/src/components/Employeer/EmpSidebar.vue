@@ -37,10 +37,8 @@
         default: () => [
           { id: 'employeer/dashboard', label: 'OverView', icon: 'fas fa-home' },
           { id: 'employeer/myprofile', label: 'My Profile', icon: 'fas fa-user' },
-          { id: 'employeer/selectplan', label: 'Post a Job', icon: 'fas fa-bookmark' },
+          { id: 'employeer/postjob', label: 'Post a Job', icon: 'fas fa-bookmark' },
           { id: 'employeer/jobs', label: 'My Jobs', icon: 'fas fa-bell' },
-          { id: 'Settings', label: 'Saved Candidate', icon: 'fas fa-cog' },          { id: 'jobalert', label: 'Plans & Billing', icon: 'fas fa-bell' },
-          { id: 'Settings', label: 'All Companies', icon: 'fas fa-cog' },
           { id: 'Settings', label: 'Settings', icon: 'fas fa-cog' },
           { id: 'Logout', label: 'Logout', icon: 'fas fa-sign-out-alt' }
         ]
@@ -64,8 +62,9 @@
       },
       selectItem(id) {
         if(id === 'Logout') {
-          localStorage.removeItem('employer_token');
+          localStorage.removeItem('token');
           localStorage.removeItem('employer_id');
+          localStorage.removeItem('user');
           this.$router.push({ name: 'Login' });
           this.$emit('logout');
           return;

@@ -54,9 +54,9 @@
               <li class="nav-item">
                 <a
                   class="nav-link"
-                  :class="{ active: activeLink === 'candidates' }"
-                  href="/candidatedashbord"
-                  @click="setActiveLink('candidates')"
+                  :class="{ active: activeLink === 'employeer/jobs' }"
+                  href="/employeer/jobs"
+                  @click="setActiveLink('employeer/jobs')"
                   >My Jobs</a
                 >
               </li>
@@ -72,9 +72,9 @@
               <li class="nav-item">
                 <a
                   class="nav-link"
-                  :class="{ active: activeLink === 'customer' }"
-                  href="/CustomerService"
-                  @click="setActiveLink('customer')"
+                  :class="{ active: activeLink === 'employeer/contactus' }"
+                  href="/employeer/contactus"
+                  @click="setActiveLink('employeer/contactus')"
                   >Customer Supports</a
                 >
               </li>

@@ -64,7 +64,7 @@ const fetchJobs = async () => {
             category: category.value,
         });
         console.log('API Response:', response.data);
-        jobs.value = Array.isArray(response.data) ? response.data : []; // Handle array directly
+        jobs.value = Array.isArray(response.data.data) ? response.data.data : [];
         console.log('Jobs assigned:', jobs.value);
     } catch (err) {
         console.error('Failed to load jobs:', err);
