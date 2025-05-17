@@ -45,34 +45,23 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import EmployerCard from '../components/EmployerCard.vue'
-import { fetchEmployers } from '../Interceptor/getaxiox.js'
+import apiClient from '../Interceptor/getaxiox';
+
 
 const employers = ref([])
-const currentPage = ref(1)
-const totalPages = ref(1)
-const limit = 12
 
-const loadEmployers = async (page = 1) => {
+onMounted ( async () => {
   try {
-    const res = await fetchEmployers(page, limit)
-
-    
-    employers.value = res.data.data
-    currentPage.value = res.data.current_page
-    totalPages.value = res.data.last_page
+    const res = await apiClient.get('/employers')  
+    employers.value = res.data.data  
+    console.log(res);
+    console.log(res.data);  
   } catch (error) {
     console.error('Failed to load employers:', error)
   }
-}
+});
 
-const changePage = (page) => {
-  if (page >= 1 && page <= totalPages.value) {
-    loadEmployers(page)
-  }
-}
-
-onMounted(() => {
-  loadEmployers(currentPage.value)
-})
 </script>
 
+
+ 

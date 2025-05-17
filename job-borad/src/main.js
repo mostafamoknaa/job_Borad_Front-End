@@ -18,11 +18,16 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 import * as bootstrap from 'bootstrap';
+import apiClient from "./Interceptor/getaxiox";
 
 window.bootstrap = bootstrap;
 
 
 
 
+const app = createApp(App);
 
-createApp(App).use(router).mount("#app");
+app.use(router);
+app.provide('axios', apiClient);
+app.config.globalProperties.$axios = apiClient;
+app.mount('#app');
