@@ -48,6 +48,8 @@ import MyProfile from "../components/Employeer/MyProfile.vue";
 import AdminLayout from "../components/Admin/AdminLayout.vue";
 import JobsApproval from "../components/Admin/JobsApproval.vue";
 import AllJobs from "../components/Admin/AllJobs.vue";
+import AdminEmployers from "../components/Admin/AdminEmployers.vue";
+import AdminCandidates from "../components/Admin/AdminCandidates.vue";
 //import Employers from "../components/Admin/Employers.vue";
 //import Candidates from "../components/Admin/Candidates.vue";
 
@@ -249,14 +251,14 @@ const routes = [{
                 component: AllJobs
             },
             {
-                path: 'employers',
-                name: 'Employers',
-                component: Employers
+                path: 'adminemployers',
+                name: 'Employers/employers',
+                component: AdminEmployers
             },
             {
-                path: 'candidates',
-                name: 'Candidates',
-                component: Candidates
+                path: 'admincandidates',
+                name: 'Candidates/candidates',
+                component: AdminCandidates
             },
             {
                 path: '',
@@ -265,7 +267,7 @@ const routes = [{
         ]
     },
     {
-        path: '/contactus',
+        path: '/employeer/contactus',
         name: 'employeer/contactus',
         component: ContactUs
     },

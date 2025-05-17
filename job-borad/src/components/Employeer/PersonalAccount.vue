@@ -134,7 +134,7 @@ export default {
             console.log(key, value);
           }
 
-          const Token = localStorage.getItem('employeer_token');
+          const Token = localStorage.getItem('token');
           const response = await axios.post('http://localhost:8000/api/employers/store', formData, {
             headers: {
               'Content-Type': 'multipart/form-data',
@@ -142,7 +142,7 @@ export default {
             },
           });
 
-          localStorage.setItem('employer_id', response.data.employer.id);
+          localStorage.setItem('employer_id', response.data.employer.user_id);
 
           this.$router.push('/employeer/profile');
         } catch (error) {

@@ -117,7 +117,7 @@
     const com_id = localStorage.getItem('employer_id');
     const response = await axios.post(`http://localhost:8000/api/employers/reupdate/${com_id}`, formData, {
       headers: {
-        'Authorization': `Bearer ${localStorage.getItem('employeer_token')}`,
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
         'Content-Type': 'multipart/form-data',
         'X-HTTP-Method-Override': 'PUT'
        }

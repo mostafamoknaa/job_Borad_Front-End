@@ -106,11 +106,18 @@ export default {
 
         
         if (user.role === 'candidate') {
-          localStorage.setItem('candidate_token', token);
+          localStorage.setItem('token', token);
+          localStorage.setItem('user', JSON.stringify(user));
           this.$router.push({ name: 'Candidatedashbord' });
+        } else if (user.role === 'employer') {
+          localStorage.setItem('token', token);
+          localStorage.setItem('user', JSON.stringify(user));
+          localStorage.setItem('employer_id', user.employer.id);
+          this.$router.push({ name: 'employeer/dashboard' });
         } else {
-          localStorage.setItem('employer_token', token);
-          this.$router.push({ name: 'company' });
+          localStorage.setItem('token', token);
+          localStorage.setItem('user', JSON.stringify(user));
+          this.$router.push({ name: 'JobsApproval' });
         }
         
       } catch (error) {
