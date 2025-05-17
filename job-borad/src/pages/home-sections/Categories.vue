@@ -1,10 +1,13 @@
 <template>
-      <section class="popular-category py-5">
+  <section class="popular-category py-5">
     <div class="container">
       <!-- Header -->
       <div class="d-flex justify-content-between align-items-center mb-5">
         <h2 class="fw-bold">Popular category</h2>
-        <a href="#" class="btn btn-outline-primary d-flex align-items-center gap-2">
+        <a
+          href="#"
+          class="btn btn-outline-primary d-flex align-items-center gap-2"
+        >
           View All <i class="fas fa-arrow-right"></i>
         </a>
       </div>
@@ -22,35 +25,34 @@
           >
             <div class="icon-box mb-3">
               <i :class="category.icon"></i>
+              <!--we can use category.icon later by adding it to the database in table categories -->
             </div>
             <h6 class="fw-semibold mb-1">{{ category.name }}</h6>
-            <p class="text-muted small mb-0">{{ category.positions }} Open position</p>
+            <!-- we can use category.positions later by adding it to the database in table categories -->
+            <p class="text-muted small mb-0">
+              {{ category.positions }} Open position
+            </p>
           </div>
         </div>
       </div>
     </div>
   </section>
-
 </template>
 
 <script setup>
+import { ref, onMounted } from "vue";
+// import axios from "axios";
+import apiClient from "../../Interceptor/getaxiox";
+const categories = ref([]);
 
-const categories = [
-  { name: "Graphics & Design", positions: 357, icon: "fas fa-pen-nib" },
-  { name: "Code & Programing", positions: 312, icon: "fas fa-code" },
-  { name: "Digital Marketing", positions: 297, icon: "fas fa-bullhorn" },
-  { name: "Video & Animation", positions: 247, icon: "fas fa-video" },
-  { name: "Music & Audio", positions: 204, icon: "fas fa-music" },
-  { name: "Account & Finance", positions: 167, icon: "fas fa-chart-line" },
-  { name: "Health & Care", positions: 125, icon: "fas fa-briefcase-medical" },
-  {
-    name: "Data & Science",
-    positions: 57,
-    icon: "fas fa-database",
-    active: true,
-  },
-];
-
+onMounted(async () => {
+  try {
+    const res = await apiClient.get("/categories"); // instead of axios.get(http://localhost:8000/api/categories) it's a long path
+    categories.value = res.data;
+  } catch (error) {
+    console.error("Failed to fetch categories:", error);
+  }
+});
 </script>
 
 <style>
@@ -73,6 +75,7 @@ const categories = [
   transform: translateY(-5px);
   background-color: #fff;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
 }
 
 .icon-box {
@@ -86,5 +89,4 @@ const categories = [
   justify-content: center;
   border-radius: 0.5rem;
 }
-
 </style>
