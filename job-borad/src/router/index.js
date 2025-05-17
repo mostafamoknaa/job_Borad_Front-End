@@ -251,13 +251,13 @@ const routes = [{
                 component: AllJobs
             },
             {
-                path: 'employers',
-                name: 'Employers',
+                path: 'adminemployers',
+                name: 'Employers/employers',
                 component: AdminEmployers
             },
             {
-                path: 'candidates',
-                name: 'Candidates',
+                path: 'admincandidates',
+                name: 'Candidates/candidates',
                 component: AdminCandidates
             },
             {

@@ -13,12 +13,12 @@
             </router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/admin/employers">
+            <router-link class="nav-link" to="adminemployers">
               <i class="fas fa-building me-2"></i> Employers
             </router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/admin/candidates">
+            <router-link class="nav-link" to="admincandidates">
               <i class="fas fa-users me-2"></i> Candidates
             </router-link>
           </li>

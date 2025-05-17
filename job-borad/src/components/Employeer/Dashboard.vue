@@ -62,7 +62,7 @@
                           </div>
                         </td>
                         <td>
-                          <span :class="job.status === 'Active' ? 'status-active' : 'status-expired'">
+                          <span :class="job.status === 'approved' ? 'status-active' : 'status-expired'">
                             {{ job.status }}
                           </span>
                         </td>
