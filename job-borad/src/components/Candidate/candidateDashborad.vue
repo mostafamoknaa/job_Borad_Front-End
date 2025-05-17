@@ -11,7 +11,7 @@
              
     <div class="dashboard">
       <div class="top-greeting">
-        <h1>Hello, Mostafa Moknaa </h1>
+        <h1>Hello, {{userName}} </h1>
         <p>Here is your daily activities and job alerts</p>
       </div>
   
@@ -129,6 +129,13 @@
   import Sidebar from './Sidebar.vue';
   import { useRouter } from 'vue-router';
 
+  const userName = ref('')
+  const userJson = localStorage.getItem('user')
+  if (userJson) {
+    const user = JSON.parse(userJson)
+    userName.value = user.name 
+    console.log('User name:', userName.value)
+  }
 const router = useRouter();
   const goToSeeting = () => {
   

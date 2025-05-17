@@ -1,28 +1,23 @@
 import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
-// css imports
+
+// CSS imports (organized)
 import "@fortawesome/fontawesome-free/css/all.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap-icons/font/bootstrap-icons.css";
 import "intl-tel-input/build/css/intlTelInput.css";
-import 'bootstrap-icons/font/bootstrap-icons.css';
 
-
-// js imports
-import "bootstrap/dist/js/bootstrap.bundle.min.js";
+// JS imports (optimized)
+import "bootstrap"; // Already includes Popper.js
 import "intl-tel-input/build/js/intlTelInput.min.js";
 import "intl-tel-input/build/js/utils.js";
 
-import 'bootstrap-icons/font/bootstrap-icons.css';
-
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-
+// Initialize Bootstrap
 import * as bootstrap from 'bootstrap';
+window.bootstrap = bootstrap; // Make available globally if needed
 
-window.bootstrap = bootstrap;
-
-
-
-
-
-createApp(App).use(router).mount("#app");
+// Create and mount the app
+const app = createApp(App);
+app.use(router);
+app.mount("#app");
