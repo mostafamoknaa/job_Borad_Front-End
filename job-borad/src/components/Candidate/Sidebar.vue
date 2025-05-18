@@ -62,7 +62,7 @@
       },
       selectItem(id) {
         if(id === 'Logout') {
-          localStorage.removeItem('candidate_token');
+          localStorage.removeItem('token');
           localStorage.removeItem('employer_id');
           this.$router.push({ name: 'Login' });
           this.$emit('logout');
