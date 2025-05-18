@@ -39,7 +39,6 @@
           { id: 'employeer/myprofile', label: 'My Profile', icon: 'fas fa-user' },
           { id: 'employeer/postjob', label: 'Post a Job', icon: 'fas fa-bookmark' },
           { id: 'employeer/jobs', label: 'My Jobs', icon: 'fas fa-bell' },
-          { id: 'Settings', label: 'Settings', icon: 'fas fa-cog' },
           { id: 'Logout', label: 'Logout', icon: 'fas fa-sign-out-alt' }
         ]
       },

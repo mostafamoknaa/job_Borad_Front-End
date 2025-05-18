@@ -190,6 +190,7 @@ import { ref, onMounted } from 'vue'
 import EmpSidebar from './EmpSidebar.vue'
 import MainNavbar from './MainNavbar.vue'
 import axios from 'axios'
+import interceptor from '../../Interceptor/getaxiox'
 
 export default {
   components: {
@@ -221,9 +222,9 @@ export default {
 
     const fetchCategories = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/api/categories', {
+        const response = await interceptor.get('/categories', {
           headers: {
-            'Authorization': `Bearer ${localStorage.getItem('employeer_token')}`,
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
           },
         });
         categories.value = response.data;
@@ -251,7 +252,7 @@ export default {
 
         formData.append('employer_id', localStorage.getItem('employer_id'));
 
-        const response = await axios.post('http://localhost:8000/api/jobs', formData, {
+        const response = await interceptor.post('/jobs', formData, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
             'Content-Type': 'multipart/form-data',

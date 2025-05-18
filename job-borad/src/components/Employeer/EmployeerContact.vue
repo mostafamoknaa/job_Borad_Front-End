@@ -64,6 +64,7 @@
   <script>
   import SmallNav from './SmallNav.vue'
   import axios from 'axios';
+  import interceptor from '../../Interceptor/getaxiox'
   export default {
     name: 'ContactInfo',
     components: {
@@ -74,7 +75,6 @@
         user: {
           mapLocation: '',
           phoneNumber: '',
-          email: '',
         },
         selectedPrefix: '+1',
         phoneNumber: '',
@@ -103,13 +103,7 @@
 
   const com_id = localStorage.getItem('employer_id');
   
-  axios.put(`http://localhost:8000/api/users/${com_id}`, formData, {
-    headers: {
-      'Authorization': `Bearer ${localStorage.getItem('token')}`,
-      'Content-Type': 'multipart/form-data',
-      'X-HTTP-Method-Override': 'PUT'
-    }
-  })
+  interceptor.put(`/users/${com_id}`, formData)
   .then(response => {
       this.$router.push('/employeer/myprofile');
   })
