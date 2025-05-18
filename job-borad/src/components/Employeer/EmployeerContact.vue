@@ -105,7 +105,7 @@
   
   axios.put(`http://localhost:8000/api/users/${com_id}`, formData, {
     headers: {
-      'Authorization': `Bearer ${localStorage.getItem('employeer_token')}`,
+      'Authorization': `Bearer ${localStorage.getItem('token')}`,
       'Content-Type': 'multipart/form-data',
       'X-HTTP-Method-Override': 'PUT'
     }

@@ -23,27 +23,12 @@
               <i class="fa-solid fa-id-card me-1"></i> Profile
             </router-link>
           
-            <router-link 
-              to="/SocialLink" 
-              class="tab" 
-              :class="{ active: $route.path === '/SocialLink' }"
-            >
-              <i class="fa-solid fa-globe me-1"></i> Social Links
-            </router-link>
-          
-            <router-link 
-              to="/AccountSetting" 
-              class="tab" 
-              :class="{ active: $route.path === '/AccountSetting' }"
-            >
-              <i class="fa-solid fa-gear me-1"></i> Account Setting
-            </router-link>
           </div>
           <form @submit.prevent="saveChanges">
             <div class="row mb-3">
               <div class="col-md-6 mb-3">
                 <label class="form-label">Nationality</label>
-                <select v-model="form.nationality" class="form-select">
+                <select v-model="form.Nationality" class="form-select">
                   <option disabled value="">Select...</option>
                   <option>Egypt</option>
                   <option>USA</option>
@@ -69,7 +54,7 @@
     
               <div class="col-md-6 mb-3">
                 <label class="form-label">Marital Status</label>
-                <select v-model="form.maritalStatus" class="form-select">
+                <select v-model="form.marital_status" class="form-select">
                   <option disabled value="">Select...</option>
                   <option>Single</option>
                   <option>Married</option>
@@ -77,32 +62,10 @@
               </div>
             </div>
     
-            <div class="row mb-3">
-              <div class="col-md-6 mb-3">
-                <label class="form-label">Education</label>
-                <select v-model="form.education" class="form-select">
-                  <option disabled value="">Select...</option>
-                  <option>High School</option>
-                  <option>Bachelor's</option>
-                  <option>Master's</option>
-                  <option>PhD</option>
-                </select>
-              </div>
-    
-              <div class="col-md-6 mb-3">
-                <label class="form-label">Experience</label>
-                <select v-model="form.experience" class="form-select">
-                  <option disabled value="">Select...</option>
-                  <option>0-1 years</option>
-                  <option>2-5 years</option>
-                  <option>5+ years</option>
-                </select>
-              </div>
-            </div>
     
             <div class="mb-4">
               <label class="form-label">Biography</label>
-              <textarea v-model="form.biography" rows="6" class="form-control" placeholder="Write down your biography here. Let the employers know who you are..."></textarea>
+              <textarea v-model="form.bio" rows="6" class="form-control" placeholder="Write down your biography here. Let the employers know who you are..."></textarea>
             </div>
     
             <div class="text-start">
@@ -118,6 +81,7 @@
   
   <script>
   import Sidebar from './Sidebar.vue'
+  import interceptor from '../../Interceptor/getaxiox';
   
   export default {
     components: {
@@ -130,20 +94,24 @@
         activeDropdown: null,
         showModal: false,
         form: {
-            nationality: '',
-            dob: '',
+          Nationality: '',
             gender: '',
-            maritalStatus: '',
-            education: '',
-            experience: '',
-            biography: ''
+            marital_status: '',
+            bio: ''
         },
       };
     },
     methods: {
-      saveChanges() {
-        console.log('Saving...', this.form);
-      },
+    async saveChanges() {
+      try {
+        const response = await interceptor.put('/candidates', this.form);
+        console.log(response.data);
+        this.$router.push({ name: 'Candidatedashbord' });
+      } catch (error) {
+        console.error(error);
+        
+      }
+    },
     }
   };
   </script>

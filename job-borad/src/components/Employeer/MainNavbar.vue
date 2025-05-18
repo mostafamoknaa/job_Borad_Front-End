@@ -73,7 +73,7 @@
                 <a
                   class="nav-link"
                   :class="{ active: activeLink === 'employeer/contactus' }"
-                  href="employeer/contactus"
+                  href="/employeer/contactus"
                   @click="setActiveLink('employeer/contactus')"
                   >Customer Supports</a
                 >

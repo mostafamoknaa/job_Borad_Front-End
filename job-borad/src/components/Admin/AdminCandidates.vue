@@ -29,6 +29,7 @@
   
   <script>
   import Pagination from './Pagination.vue'
+  import interceptor from '../../Interceptor/getaxiox'
   
   export default {
     components: { Pagination },
@@ -42,9 +43,10 @@
     },
     methods: {
       getCandidates(page = 1) {
-        axios.get(`/api/admin/candidates?page=${page}`)
+        interceptor.get(`/allCandidates?page=${page}`)
           .then(response => {
-            this.candidates = response.data
+            this.candidates = response.data 
+            console.log(response.data)
           })
       },
       formatDate(date) {
@@ -53,3 +55,4 @@
     }
   }
   </script>
+  

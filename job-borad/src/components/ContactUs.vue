@@ -1,5 +1,6 @@
 <template>
     <div class="container contact-container">
+      <MainNavbar v-if="showNavbar" />
       <div class="row">
         <div class="col-md-6">
           <div class="contact-info">
@@ -74,7 +75,9 @@
   </template>
   
   <script setup>
-  import { reactive } from 'vue';
+  import { reactive, computed } from 'vue';
+  import { useRoute } from 'vue-router';
+  import MainNavbar from './Employeer/MainNavbar.vue';
   
   const form = reactive({
     name: '',
@@ -82,10 +85,15 @@
     message: ''
   });
   
+  const route = useRoute();
+  
+  const showNavbar = computed(() => route.path.includes('employeer'));
+  
   const submitForm = () => {
     console.log('Form submitted', form);
   };
   </script>
+  
   
   <style scoped>
   .contact-container {
