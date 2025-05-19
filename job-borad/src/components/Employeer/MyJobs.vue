@@ -61,9 +61,10 @@
                                 <i class="bi bi-three-dots-vertical"></i>
                               </button>
                               <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item" href="#">Promote Job</a></li>
-                                <li><a class="dropdown-item" href="#">View Detail</a></li>
-                                <li><a class="dropdown-item" href="#">Mark as expired</a></li>
+                                <li>
+                                  <a class="dropdown-item" :href="`/employeer/single/${job.id}`">View Detail</a>
+                                </li>
+                                
                               </ul>
                             </div>
                           </div>

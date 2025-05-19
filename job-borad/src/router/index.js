@@ -52,6 +52,7 @@ import AdminEmployers from "../components/Admin/AdminEmployers.vue";
 import AdminCandidates from "../components/Admin/AdminCandidates.vue";
 import ShowApplication from "../components/Employeer/ShowApplication.vue";
 import Payment from "../components/payment.vue";
+import CandidateProfile from "../components/Candidate/CandidateProfile.vue";
 //import Employers from "../components/Admin/Employers.vue";
 //import Candidates from "../components/Admin/Candidates.vue";
 
@@ -230,7 +231,7 @@ const routes = [{
         component: MyJobs
     },
     {
-        path: "/employeer/single",
+        path: "/employeer/single/:id",
         name: "employeer/single",
         component: SingleJob,
     },
@@ -292,6 +293,12 @@ const routes = [{
         path: '/employeer/all-jobs',
         name: 'employeer/all-jobs',
         component: FindJob
+    },
+    {
+        path: '/candidates/biography',
+        name: 'profile',
+        component: CandidateProfile
+
     },
     {
         path: '/:pathMatch(.*)*',
