@@ -52,6 +52,7 @@ import AdminEmployers from "../components/Admin/AdminEmployers.vue";
 import AdminCandidates from "../components/Admin/AdminCandidates.vue";
 import ShowApplication from "../components/Employeer/ShowApplication.vue";
 import Payment from "../components/payment.vue";
+import SingleEmployer from "../components/Employeer/SingleEmployer.vue";
 //import Employers from "../components/Admin/Employers.vue";
 //import Candidates from "../components/Admin/Candidates.vue";
 
@@ -203,6 +204,11 @@ const routes = [{
         name: 'Employers',
         component: Employers
     },
+    {
+        path: '/employer/:id',
+        name: 'SingleEmployer',
+        component: SingleEmployer
+      },
     {
         path: '/candidates',
         name: 'Candidates',
