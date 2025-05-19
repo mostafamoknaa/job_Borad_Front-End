@@ -28,28 +28,28 @@
       <!-- Job Cards -->
       <div class="row">
         <div
-      v-for="job in filteredJobs"
-      :key="job.id"
-      class="col-md-6 col-lg-4 mb-4"
-  >
-      <div class="card h-100 shadow-sm rounded-4 border-0">
-          <div class="card-body">
-              <h5 class="card-title fw-semibold mb-1">{{ job.title }}</h5>
-              <p class="text-muted mb-1">{{ job.company }}</p>
-              <div class="d-flex align-items-center small text-secondary mb-3">
-                  <i class="bi bi-geo-alt-fill me-1"></i> {{ job.location }}
-                  <span class="mx-2">·</span>
-                  <i class="bi bi-clock-fill me-1"></i> {{ job.type }}
-              </div>
-              <router-link
-                  :to="{ name: 'SingleJob', params: { id: job.id } }"
-                  class="btn btn-outline-primary btn-sm rounded-pill px-3"
-              >
-                  View Details
-              </router-link>
-          </div>
-      </div>
-  </div>
+            v-for="job in filteredJobs"
+            :key="job.id"
+            class="col-md-6 col-lg-4 mb-4"
+        >
+            <div class="card h-100 shadow-sm rounded-4 border-0">
+                <div class="card-body">
+                    <h5 class="card-title fw-semibold mb-1">{{ job.title }}</h5>
+                    <p class="text-muted mb-1">{{ job.company }}</p>
+                    <div class="d-flex align-items-center small text-secondary mb-3">
+                        <i class="bi bi-geo-alt-fill me-1"></i> {{ job.location }}
+                        <span class="mx-2">·</span>
+                        <i class="bi bi-clock-fill me-1"></i> {{ job.type }}
+                    </div>
+                    <router-link
+                        :to="{ name: 'SingleJob', params: { id: job.id } }"
+                        class="btn btn-outline-primary btn-sm rounded-pill px-3"
+                    >
+                        View Details
+                    </router-link>
+                </div>
+            </div>
+        </div>
       </div>
     </div>
   </template>
@@ -57,7 +57,8 @@
   <script setup>
   import { ref, computed, onMounted } from 'vue';
   import api from '../api';
-    import interceptor from '../Interceptor/getaxiox'
+  import interceptor from '../Interceptor/getaxiox';
+  
   const searchQuery = ref('');
   const category = ref('');
   const jobs = ref([]);
