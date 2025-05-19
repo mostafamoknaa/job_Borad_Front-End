@@ -10,10 +10,15 @@
         <div class="col-md-3 mb-2">
           <select class="form-select" v-model="category">
             <option value="">All Categories</option>
-            <option value="development">Development</option>
-            <option value="design">Design</option>
-            <option value="marketing">Marketing</option>
+            <option
+              v-for="cat in categories"
+              :key="cat.id"
+              :value="cat.id"
+            >
+              {{ cat.name }}
+            </option>
           </select>
+          
         </div>
         <div class="col-md-2 mb-2">
           <button class="btn btn-primary w-100" @click="fetchJobs">Search</button>
@@ -52,34 +57,51 @@
   <script setup>
   import { ref, computed, onMounted } from 'vue';
   import api from '../api';
-
+    import interceptor from '../Interceptor/getaxiox'
   const searchQuery = ref('');
   const category = ref('');
   const jobs = ref([]);
-
+  const categories = ref([]);
+  
   const fetchJobs = async () => {
-      try {
-          const response = await api.getJobs({
-              search: searchQuery.value,
-              category: category.value,
-          });
-          console.log('API Response:', response.data);
-          jobs.value = Array.isArray(response.data.data) ? response.data.data : [];
-          console.log('Jobs assigned:', jobs.value);
-      } catch (err) {
-          console.error('Failed to load jobs:', err);
-          jobs.value = [];
-      }
+    try {
+      const response = await interceptor.get('/jobs');
+      jobs.value = Array.isArray(response.data.data) ? response.data.data : [];
+    } catch (err) {
+      console.error('Failed to load jobs:', err);
+      jobs.value = [];
+    }
+  };
+  
+  const fetchCategories = async () => {
+    try {
+      const response = await interceptor.get('/categories');
+      categories.value = response.data;
+    } catch (err) {
+      console.error('Failed to load categories:', err);
+      categories.value = [];
+    }
   };
 
   const filteredJobs = computed(() => {
-    return jobs.value;
+    return jobs.value.filter(job => {
+      const matchesSearch =
+        job.title.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+        (job.company && job.company.toLowerCase().includes(searchQuery.value.toLowerCase()));
+  
+      const matchesCategory =
+        !category.value || job.category_id == category.value;
+  
+      return matchesSearch && matchesCategory;
+    });
   });
-
+  
   onMounted(() => {
     fetchJobs();
+    fetchCategories();
   });
   </script>
+  
 
   <style scoped>
   .card {

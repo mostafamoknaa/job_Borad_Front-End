@@ -10,7 +10,8 @@
     <div class="card shadow-lg rounded-4 border-0 overflow-hidden">
       <div class="card-header bg-primary bg-opacity-10 py-3 border-0">
         <div class="d-flex justify-content-between align-items-center">
-          <h3 class="card-title fw-bold mb-0">{{ job.company || 'Unknown Company' }}</h3>
+          Company:
+          {{ job.employer?.company_name || 'Unknown Company' }}
           <div>
             <span class="badge bg-info bg-opacity-10 text-info me-2">{{ job.type }}</span>
             <span class="badge bg-secondary bg-opacity-10 text-secondary">{{ job.category || 'N/A' }}</span>
@@ -88,12 +89,13 @@
         </div>
 
         <div class="d-flex justify-content-between mt-5">
-          <router-link to="/find-job" class="btn btn-outline-primary px-4 py-2 rounded-pill">
-            <i class="bi bi-arrow-left me-2"></i>Back to Jobs
+          <router-link :to="backLink" class="btn btn-outline-primary px-4 py-2 rounded-pill">
+            <i class="bi bi-arrow-left me-2"></i>Back
           </router-link>
-          <button class="btn btn-primary px-4 py-2 rounded-pill">
+          <button @click="goToapply" class="btn btn-primary px-4 py-2 rounded-pill">
             <i class="bi bi-send-fill me-2"></i>Apply Now
           </button>
+          
         </div>
       </div>
     </div>
@@ -101,13 +103,29 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted,computed } from 'vue';
 import { useRoute } from 'vue-router';
 import interceptor from '../Interceptor/getaxiox';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 const route = useRoute();
 const job = ref({});
 
+const goToapply = () => {
+  const user = localStorage.getItem('user')
+  if (!user) {
+    window.location.href = '/employeer/login';
+  }
+  if (job.value.id) {
+    router.push(`/apply/${job.value.id}`);
+  }
+};
+
+const backLink = computed(() => {
+  return route.fullPath.includes('employeer') ? '/employeer/dashboard' : '/find-job';
+});
 const fetchJob = async () => {
   try {
     const response = await interceptor.get(`/jobs/${route.params.id}`);
@@ -132,7 +150,6 @@ onMounted(fetchJob);
 </script>
 
 <style scoped>
-@import url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css');
 
 .text-gradient {
   background: linear-gradient(90deg, #4e54c8 0%, #8f94fb 100%);

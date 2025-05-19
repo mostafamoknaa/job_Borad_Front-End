@@ -98,6 +98,7 @@
 
 <script>
 import axios from 'axios';
+  import interceptor from '../Interceptor/getaxiox'
 export default {
   data() {
     return {
@@ -138,13 +139,14 @@ export default {
 
 
       try {
-        const response = await axios.post('http://localhost:8000/api/register', formData, {
+        const response = await interceptor.post('/register', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
         });
           if (this.accountType === 'candidate') {
             localStorage.setItem('token', response.data.token);
+            localStorage.setItem('user', JSON.stringify(response.data.user));
             this.$router.push({ name: 'Candidatedashbord' });
           } else {
             localStorage.setItem('token', response.data.token);

@@ -33,6 +33,7 @@
   
       const stripe = await loadStripe('pk_test_51Oa1apC2Y3Ne3oUhz8quAdzU0O1aAgoTSP0wwiEMbUqZDd0knNgOnMSyU3Us4s05QjCdwvqmxA2EDGAT3Mj9a3kj00BKiR5q83')
       await stripe.redirectToCheckout({ sessionId })
+      
     } catch (err) {
       error.value = 'Payment failed to initialize. Please try again later.'
       console.error(err)

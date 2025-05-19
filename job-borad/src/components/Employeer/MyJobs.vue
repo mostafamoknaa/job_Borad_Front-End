@@ -64,7 +64,9 @@
                                 <li>
                                   <a class="dropdown-item" :href="`/employeer/single/${job.id}`">View Detail</a>
                                 </li>
-                                
+                                <li>
+                                  <a class="dropdown-item" :href="`/employer/edit-job/${job.id}`">Edit Detail</a>
+                                </li>
                               </ul>
                             </div>
                           </div>
