@@ -29,11 +29,10 @@
                       <div class="d-flex align-items-center">
                         <div class="avatar me-3">
                           <img 
-                            :src="application.candidate.image ? `/storage/${application.candidate.image}` : '/images/default-avatar.jpg'" 
-                            class="rounded-circle" 
-                            width="50" 
-                            height="50" 
-                            alt="Applicant Photo"
+                            :src="`http://localhost:8000/storage/${application.candidate.image}`" 
+                            alt="Candidate Image"
+                          class="img-thumbnail rounded-circle"
+                          style="width: 150px; height: 150px; object-fit: cover;"
                           >
                         </div>
                         <div>
@@ -91,7 +90,7 @@
                         </button>
                         <ul class="dropdown-menu">
                           <li><a class="dropdown-item" href="#" @click.prevent="updateStatus(application, 'shortlisted')">Save</a></li>
-                          <li><a class="dropdown-item" href="#" @click.prevent="updateStatus(application, 'hired')">Hire</a></li>
+                          <li><a class="dropdown-item" href="#" @click.prevent="updateStatus(application)">Hire</a></li>
                         </ul>
                       </div>
                     </td>
@@ -103,22 +102,91 @@
         </div>
         
         <div class="modal fade" id="bioModal" tabindex="-1" aria-hidden="true">
-          <div class="modal-dialog">
+          <div class="modal-dialog modal-lg modal-dialog-scrollable">
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title">Applicant Biography</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
+        
               <div class="modal-body" v-if="selectedCandidate">
-                <h6>Candidate #{{ selectedCandidate.id }}</h6>
-                <p class="text-muted">{{ selectedCandidate.title }}</p>
-                <div class="mt-3">
-                  {{ selectedCandidate.bio || 'No biography provided' }}
+                <div class="row">
+                  <div class="col-md-4 text-center mb-3">
+                    <img
+                    v-if="selectedCandidate.image"
+                    :src="'http://localhost:8000/storage/' + selectedCandidate.image"
+                    alt="Candidate Image"
+                    class="img-thumbnail rounded-circle"
+                    style="width: 150px; height: 150px; object-fit: cover;"
+                  />
+                  
+                    <div class="mt-2">
+                      <strong>{{ selectedCandidate.title }}</strong>
+                      <p class="text-muted">ID: {{ selectedCandidate.id }}</p>
+                    </div>
+                  </div>
+        
+                  <div class="col-md-8">
+                    <table class="table table-sm">
+                      <tbody>
+                        <tr>
+                          <th scope="row">Experience Level</th>
+                          <td>{{ selectedCandidate.experience_level || 'N/A' }}</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">Education</th>
+                          <td>{{ selectedCandidate.education || 'N/A' }}</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">Nationality</th>
+                          <td>{{ selectedCandidate.Nationality || 'N/A' }}</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">Gender</th>
+                          <td>{{ selectedCandidate.gender || 'N/A' }}</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">Marital Status</th>
+                          <td>{{ selectedCandidate.marital_status || 'N/A' }}</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">Date of Birth</th>
+                          <td>{{ selectedCandidate.date_of_birth || 'N/A' }}</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">Resume</th>
+                          <td>
+                            <a
+                              v-if="selectedCandidate.resume"
+                              :href="selectedCandidate.resume"
+                              target="_blank"
+                              class="text-decoration-underline text-primary"
+                            >
+                              View Resume
+                            </a>
+                            <span v-else>N/A</span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <th scope="row">Joined At</th>
+                          <td>{{ new Date(selectedCandidate.created_at).toLocaleDateString() }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+        
+                <div class="mt-4">
+                  <h6>Biography</h6>
+                  <p class="text-muted">
+                    {{ selectedCandidate.bio || 'No biography provided' }}
+                  </p>
                 </div>
               </div>
             </div>
           </div>
         </div>
+        
       </div>
     </div>
   </div>
@@ -131,6 +199,8 @@ import MainNavbar from './MainNavbar.vue'
 import EmpSidebar from './EmpSidebar.vue'
 import axios from 'axios'
 import interceptor from '../../Interceptor/getaxiox'
+import { useRouter } from 'vue-router'
+const router = useRouter()
 
 const applications = ref([])
 const selectedCandidate = ref(null)
@@ -148,14 +218,19 @@ const fetchApplications = async () => {
   }
 }
 
-const updateStatus = async (application, status) => {
+const updateStatus = async (application, status = 'accepted') => {
   try {
-    await axios.put(`/api/applications/${application.id}`, { status })
-    application.status = status
+    const response = await interceptor.put(`/updateapplications/${application.id}`, {
+      status: status
+    })
+    console.log(response)
+    application.status = 'accepted'
+    router.push(`/payment/${application.id}`)
   } catch (error) {
     console.error('Error updating status:', error)
   }
 }
+
 
 const showBio = (candidate) => {
   selectedCandidate.value = candidate
@@ -174,10 +249,8 @@ const getExperienceBadgeClass = (experience) => {
 const getStatusBadgeClass = (status) => {
   switch(status) {
     case 'pending': return 'bg-secondary text-white'
-    case 'shortlisted': return 'bg-info text-white'
-    case 'interviewed': return 'bg-warning text-dark'
-    case 'hired': return 'bg-success text-white'
     case 'rejected': return 'bg-danger text-white'
+    case 'accepted': return 'bg-success text-white'
     default: return 'bg-light text-dark'
   }
 }

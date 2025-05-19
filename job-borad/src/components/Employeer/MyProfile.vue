@@ -29,7 +29,7 @@
                     <h4 class="mb-1">{{ emp.company_name }}</h4>
                     <p class="text-muted mb-0">{{ emp.industry }}</p>
                   </div>
-                  <router-link to="/jobs" class="btn btn-primary d-flex align-items-center">
+                  <router-link to="/employeer/jobs" class="btn btn-primary d-flex align-items-center">
                     View Open Position
                     <i class="bi bi-arrow-right ms-2"></i>
                   </router-link>
@@ -157,7 +157,7 @@
 import EmpSidebar from './EmpSidebar.vue'
 import MainNavbar from './MainNavbar.vue'
 import axios from 'axios';
-
+import interceptor from '../../Interceptor/getaxiox'
 export default {
   name: 'EmployerProfile',
   components: {
@@ -176,9 +176,9 @@ export default {
     async getData() {
       try {
         const emp_id = localStorage.getItem('employer_id');
-        const response = await axios.get(`http://localhost:8000/api/employers/${emp_id}` ,{
+        const response = await interceptor.get(`/employers/${emp_id}` ,{
           headers: {
-            'Authorization': `Bearer ${localStorage.getItem('employeer_token')}`,
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
             'Content-Type': 'multipart/form-data',
           },
         });

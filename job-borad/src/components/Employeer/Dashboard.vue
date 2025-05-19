@@ -11,7 +11,7 @@
         <div class="container py-5 bg-light min-vh-100">
           <h2 class="mb-4">Hello, {{userName}}</h2>
           <div class="row g-4 mb-5">
-            <div class="col-md-6">
+            <div class="col-md-12">
               <div class="card text-center shadow-sm" style="border-radius: 10px; background: #b7eaf7;">
                 <div class="card-body">
                   <div class="d-flex align-items-center justify-content-center">
@@ -22,7 +22,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-6">
+            <!-- <div class="col-md-6">
               <div class="card text-center shadow-sm" style="border-radius: 10px; background: #f7d6b7;">
                 <div class="card-body">
                   <div class="d-flex align-items-center justify-content-center">
@@ -32,7 +32,7 @@
               </div>
                 </div>
               </div>
-            </div>
+            </div> -->
           </div>
 
           <div class="card shadow-sm border-0 rounded-0">
@@ -69,10 +69,14 @@
                       <td class="text-muted"><i class="fas fa-users"></i> {{ job.applications_count }} Applications</td>
                       <td>
                         <div class="d-flex align-items-center gap-2">
-                          <button class="btn btn-primary btn-sm" :disabled="job.status == 'rejected'" @click="gotosinglejob(job.id)">
-                            View Applications
-                          </button>
-                          
+                          <button
+                          class="btn btn-sm"
+                          :class="job.status === 'accepted' ? 'btn-success' : 'btn-primary'"
+                          :disabled="job.status === 'rejected' || job.status === 'pending'" 
+                          @click="gotosinglejob(job.id)"
+                        >
+                          {{ job.status === 'accepted' ? 'Done' : 'View Applications' }}
+                        </button>
                           <div class="dropdown">
                             <button class="btn btn-light btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                               <i class="bi bi-three-dots-vertical"></i>
