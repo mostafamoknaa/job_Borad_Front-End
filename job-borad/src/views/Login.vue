@@ -112,7 +112,7 @@ export default {
         } else if (user.role === 'employer') {
           localStorage.setItem('token', token);
           localStorage.setItem('user', JSON.stringify(user));
-          localStorage.setItem('employer_id', user.employer.id);
+          localStorage.setItem('employer_id', user.id);
           this.$router.push({ name: 'employeer/dashboard' });
         } else {
           localStorage.setItem('token', token);

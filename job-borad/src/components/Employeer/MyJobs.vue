@@ -48,7 +48,14 @@
                         <td class="text-muted"><i class="fas fa-users"></i> {{  job.applications_count }} Applications</td>
                         <td>
                           <div class="d-flex align-items-center gap-2">
-                            <button class="btn btn-primary btn-sm" @click="gotosinglejob">View Applications</button>
+                            <button
+                            class="btn btn-sm"
+                            :class="job.status === 'accepted' ? 'btn-success' : 'btn-primary'"
+                            :disabled="job.status === 'rejected' || job.status === 'pending'" 
+                            @click="gotosinglejob(job.id)"
+                          >
+                            {{ job.status === 'accepted' ? 'Done' : 'View Applications' }}
+                          </button>
                             <div class="dropdown">
                               <button class="btn btn-light btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="bi bi-three-dots-vertical"></i>
@@ -121,8 +128,8 @@
     }
   })
   
-  const gotosinglejob = () => {
-    router.push('/employeer/single')
+  const gotosinglejob = ($id) => {
+      router.push('/employeer/application/' + $id)
   }
   
   const filteredJobs = computed(() => {

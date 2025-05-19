@@ -115,6 +115,7 @@
     formData.append('company_description', this.form.biography);
 
     const com_id = localStorage.getItem('employer_id');
+    console.log(com_id);
     const response = await axios.post(`http://localhost:8000/api/employers/reupdate/${com_id}`, formData, {
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
