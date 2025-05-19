@@ -220,11 +220,10 @@ const fetchApplications = async () => {
 
 const updateStatus = async (application, status = 'accepted') => {
   try {
-    const response = await interceptor.put(`/updateapplications/${application.id}`, {
-      status: status
-    })
+    const response = await interceptor.put(`/updateapplications/${application.id}`);
     console.log(response)
     application.status = 'accepted'
+
     router.push(`/payment/${application.id}`)
   } catch (error) {
     console.error('Error updating status:', error)
