@@ -205,7 +205,7 @@ const routes = [{
         component: Employers
     },
     {
-        path: '/employer/:id',
+        path: '/employers/:id',
         name: 'SingleEmployer',
         component: SingleEmployer
       },
