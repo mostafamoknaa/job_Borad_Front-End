@@ -14,10 +14,12 @@
   <!-- Client Testimonials Section -->
   <ClientTestimonials />
   <!-- Call to Action Section -->
-  <CallAction />
+  <CallAction v-if="!loggedIn" />
 </template>
 
 <script setup>
+import { loggedIn } from "../stores/auth";
+
 import HeroSection from "./home-sections/HeroSection.vue";
 import PopularVacancies from "./home-sections/PopularVacancies.vue";
 import SetpsForsa from "./home-sections/SetpsForsa.vue";
