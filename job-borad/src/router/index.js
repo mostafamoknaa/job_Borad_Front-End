@@ -52,6 +52,7 @@ import AdminEmployers from "../components/Admin/AdminEmployers.vue";
 import AdminCandidates from "../components/Admin/AdminCandidates.vue";
 import ShowApplication from "../components/Employeer/ShowApplication.vue";
 import Payment from "../components/payment.vue";
+import SingleEmployer from "../components/Employeer/SingleEmployer.vue";
 import CandidateProfile from "../components/Candidate/CandidateProfile.vue";
 import Notifications from "../components/Candidate/Notifications.vue";
 import EditJob from "../components/Employeer/EditJob.vue";
@@ -207,10 +208,20 @@ const routes = [{
         component: Employers
     },
     {
+        path: '/employers/:id',
+        name: 'SingleEmployer',
+        component: SingleEmployer
+      },
+    {
         path: '/candidates',
         name: 'Candidates',
         component: Candidates
-    },
+    }, 
+    // {
+    //     path: '/candidates/:id',
+    //     name: 'SingleCandidate',
+    //     component: SingleCandidate
+    //   },
 
     // {
     //     path: '/jobs',

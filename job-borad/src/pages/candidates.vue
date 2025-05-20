@@ -1,208 +1,189 @@
 <template>
   <div class="container py-5">
     <h2 class="mb-4 fw-bold">Browse Candidates</h2>
-    <div class="row">
+
+    <!-- Search and Filters -->
+    <div class="row mb-4 g-3">
+      <div class="col-md-6">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Search by name or education..."
+          v-model="searchQuery"
+          @input="handleSearch"
+        />
+      </div>
       <div class="col-md-3">
-        <!-- Sidebar Filters -->
-        <!-- <div class="mb-4">
-          <h6 class="fw-bold mb-3">Category</h6>
-          <div class="form-check mb-2" v-for="cat in categories" :key="cat">
-            <input class="form-check-input" type="checkbox" :id="cat" v-model="selectedCategories" :value="cat" />
-            <label class="form-check-label" :for="cat">{{ cat }}</label>
-          </div>
-        </div>
-
-        <div class="mb-4">
-          <h6 class="fw-bold mb-3">Location</h6>
-          <div class="form-check mb-2" v-for="loc in locations" :key="loc">
-            <input class="form-check-input" type="checkbox" :id="loc" v-model="selectedLocations" :value="loc" />
-            <label class="form-check-label" :for="loc">{{ loc }}</label>
-          </div>
-        </div>
-
-        <div class="mb-4">
-          <h6 class="fw-bold mb-3">Work Type</h6>
-          <div class="form-check mb-2" v-for="type in workTypes" :key="type">
-            <input class="form-check-input" type="checkbox" :id="type" v-model="selectedWorkTypes" :value="type" />
-            <label class="form-check-label" :for="type">{{ type }}</label>
-          </div>
-        </div> -->
-
-        <!-- Gender Filter -->
-        <!-- Gender Filter (Single Select - Radio) -->
-        <div class="mb-4">
-          <h6 class="fw-bold mb-3">Gender</h6>
-          <div class="form-check mb-2">
-            <input class="form-check-input" type="radio" name="gender" id="genderMale" value="Male" v-model="selectedGender">
-            <label class="form-check-label" for="genderMale">Male</label>
-          </div>
-          <div class="form-check mb-2">
-            <input class="form-check-input" type="radio" name="gender" id="genderFemale" value="Female" v-model="selectedGender">
-            <label class="form-check-label" for="genderFemale">Female</label>
-          </div>
-          <div class="form-check mb-2">
-            <input class="form-check-input" type="radio" name="gender" id="genderAll" value="" v-model="selectedGender">
-            <label class="form-check-label" for="genderAll">Any</label>
-          </div>
-        </div>
-
-
-        <!-- Location Range Filter -->
-        <div class="mb-4">
-          <h6 class="fw-bold mb-3">Location Range (km)</h6>
-          <input type="range" class="form-range" min="0" max="100" step="5" v-model="maxDistance">
-          <div>{{ maxDistance }} km</div>
-        </div>
-
+        <select class="form-select" v-model="experienceFilter" @change="fetchCandidates">
+          <option value="">All Experience Levels</option>
+          <option value="Junior">Junior</option>
+          <option value="Mid-Level">Mid-Level</option>
+          <option value="Senior">Senior</option>
+        </select>
       </div>
-
-
-      <div class="col-md-9">
-        <!-- <div class="row g-4">
-          <div class="col-12 col-md-12 col-lg-12" v-for="candidate in candidates" :key="candidate.id">
-            <CandidateCard :candidate="candidate" />
-          </div>
-        </div> -->
-
-        <div class="row g-4">
-          <div
-            class="col-12 col-md-12 col-lg-12"
-            v-for="candidate in filteredCandidates"
-            :key="candidate.id"
-          >
-            <!-- <CandidateCard
-              :candidate="candidate"
-              @view="selectedCandidate = candidate"
-            /> -->
-            <CandidateCard
-              v-for="candidate in candidates"
-              :key="candidate.id"
-              :candidate="candidate"
-              :onView="viewProfile"
-            />
-
-          </div>
-        </div>
-
+      <div class="col-md-3">
+        <select class="form-select" v-model="genderFilter" @change="fetchCandidates">
+          <option value="">All Genders</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+          <option value="Other">Other</option>
+        </select>
       </div>
-      
+    </div>
 
-      <!-- Modal for candidate profile -->
-      <!-- <CandidateModal :candidate="candidate" @view="selectedCandidate = $event" /> -->
-      <!-- <CandidateModal :candidate="selectedCandidate" /> -->
-      <!-- <CandidateModal v-if="selectedCandidate" :candidate="selectedCandidate" /> -->
-      <CandidateModal :candidate="selectedCandidate" />
+    <!-- Loading State -->
+    <div v-if="loading" class="text-center py-5">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <p class="mt-2">Loading candidates...</p>
+    </div>
 
-      
-        <!-- Pagination Controls -->
-        <nav aria-label="Candidate pagination" class="mt-5">
+    <!-- Candidates List -->
+    <div v-else class="row g-4">
+      <CandidateCard
+        v-for="candidate in candidates"
+        :key="candidate.id"
+        :candidate="candidate"
+        @view-details="openModal"
+      />
+    </div>
+
+    <!-- Candidate Modal -->
+    <SingleCandidate
+      v-if="selectedCandidate"
+      :visible="!!selectedCandidate"
+      :candidate="selectedCandidate"
+      @close="selectedCandidate = null"
+    />
+
+    <!-- No Results -->
+    <div v-if="!loading && candidates.length === 0" class="text-center py-5">
+      <p class="text-muted">No candidates found matching your criteria</p>
+      <button @click="resetFilters" class="btn btn-outline-primary mt-2">
+        Reset Filters
+      </button>
+    </div>
+
+    <!-- Pagination -->
+    <div class="row mt-4" v-if="!loading && meta.total > meta.per_page">
+      <div class="col-12">
+        <nav aria-label="Page navigation">
           <ul class="pagination justify-content-center">
-            <li class="page-item disabled">
-              <button class="page-link">Previous</button>
+            <li class="page-item" :class="{ disabled: meta.current_page === 1 }">
+              <button class="page-link" @click="changePage(meta.current_page - 1)">
+                Previous
+              </button>
             </li>
-            <li class="page-item active"><button class="page-link">1</button></li>
-            <li class="page-item"><button class="page-link">2</button></li>
-            <li class="page-item"><button class="page-link">3</button></li>
-            <li class="page-item">
-              <button class="page-link">Next</button>
+            <li
+              v-for="page in meta.last_page"
+              :key="page"
+              class="page-item"
+              :class="{ active: page === meta.current_page }"
+            >
+              <button class="page-link" @click="changePage(page)">
+                {{ page }}
+              </button>
+            </li>
+            <li class="page-item" :class="{ disabled: meta.current_page === meta.last_page }">
+              <button class="page-link" @click="changePage(meta.current_page + 1)">
+                Next
+              </button>
             </li>
           </ul>
         </nav>
-
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, computed, onMounted, nextTick } from 'vue';
-import CandidateCard from '../components/CandidateCard.vue';
-import CandidateModal from '../components/CandidateModal.vue';
+import { ref, onMounted } from 'vue'
+import { debounce } from 'lodash'
+import apiClient from '../Interceptor/getaxiox'
+import SingleCandidate from '../components/SingleCandidate.vue'
+import CandidateCard from '../components/CandidateCard.vue'
 
+// Reactive data
+const candidates = ref([])
+const loading = ref(false)
+const searchQuery = ref('')
+const experienceFilter = ref('')
+const genderFilter = ref('')
+const selectedCandidate = ref(null)
+const meta = ref({
+  current_page: 1,
+  last_page: 1,
+  per_page: 12,
+  total: 0
+})
 
-const candidates = ref([]);
-const selectedCandidate = ref(null);
-//const categories = ['UI/UX Designer', 'Frontend Developer', 'Backend Developer', 'Full Stack Developer'];
-//const locations = ['USA', 'Germany', 'Egypt', 'Remote'];
-//const workTypes = ['Full Time', 'Part Time', 'Remote'];
+// Debounced search handler
+const handleSearch = debounce(() => {
+  meta.value.current_page = 1
+  fetchCandidates()
+}, 500)
 
-//const selectedCategories = ref([]);
-//const selectedLocations = ref([]);
-//const selectedWorkTypes = ref([]);
+// Fetch candidates with filters
+const fetchCandidates = async () => {
+  try {
+    loading.value = true
+    const response = await apiClient.get('/candidates', {
+      params: {
+        page: meta.value.current_page,
+        per_page: meta.value.per_page,
+        search: searchQuery.value,
+        experience_level: experienceFilter.value,
+        gender: genderFilter.value
+      }
+    })
 
-const selectedGender = ref('');
-const maxDistance = ref(100);
-
-
-function viewProfile(candidate) {
-  selectedCandidate.value = candidate;
-
-  nextTick(() => {
-    const modalEl = document.getElementById('candidateModal');
-    if (modalEl) {
-      const modal = new bootstrap.Modal(modalEl);
-      modal.show();
+    candidates.value = response.data.data
+    meta.value = {
+      current_page: response.data.meta.current_page,
+      last_page: response.data.meta.last_page,
+      per_page: response.data.meta.per_page,
+      total: response.data.meta.total
     }
-  });
+  } catch (error) {
+    console.error('Error fetching candidates:', {
+      message: error.message,
+      config: error.config,
+      response: error.response?.data
+    })
+  } finally {
+    loading.value = false
+  }
 }
 
-
-
-onMounted(async () => {
-  try {
-    const response = await fetch('http://localhost:3001/candidates');
-    candidates.value = await response.json();
-  } catch (error) {
-    console.error('Error fetching candidates:', error);
+// Change page
+const changePage = (page) => {
+  if (page >= 1 && page <= meta.value.last_page) {
+    meta.value.current_page = page
+    fetchCandidates()
   }
-});
+}
 
+// Reset all filters
+const resetFilters = () => {
+  searchQuery.value = ''
+  experienceFilter.value = ''
+  genderFilter.value = ''
+  meta.value.current_page = 1
+  fetchCandidates()
+}
 
-const filteredCandidates = computed(() => {
-  return candidates.value.filter((candidate) => {
-    //const matchCategory = selectedCategories.value.length === 0 || selectedCategories.value.includes(candidate.job_title);
-    //const matchLocation = selectedLocations.value.length === 0 || selectedLocations.value.includes(candidate.location);
-    //const matchWork = selectedWorkTypes.value.length === 0 || selectedWorkTypes.value.includes(candidate.work_type || '');
-    const matchGender = !selectedGender.value || candidate.gender === selectedGender.value;
-    const matchDistance = !candidate.location_distance || candidate.location_distance <= maxDistance.value;
+// Open candidate modal
+const openModal = (candidate) => {
+  selectedCandidate.value = candidate
+}
 
-    //return matchCategory && matchLocation && matchWork && matchGender && matchDistance;
-    return matchGender && matchDistance;
-  });
-});
-
-
-
-
-
+// Initial fetch
+onMounted(fetchCandidates)
 </script>
 
 <style scoped>
-.page-link {
-  border-radius: 0.5rem;
-  margin: 0 0.25rem;
-}
-
-.card {
-  border: 1px solid #eee;
-  border-radius: 1rem;
-  transition: box-shadow 0.3s ease;
-}
-.card:hover {
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
-}
-
-.badge {
-  font-size: 0.75rem;
-  padding: 0.4em 0.6em;
-  border-radius: 0.5rem;
-}
-
-.card-footer {
-  background: none;
-  border-top: 0;
-}
-
-.btn-sm {
-  font-weight: 500;
+.pagination .page-item .page-link {
+  cursor: pointer;
 }
 </style>
