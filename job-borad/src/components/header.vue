@@ -3,13 +3,13 @@
    
     <div class="navbar navbar-expand-lg bg-body-tertiary">
       <div class="container justify-content-between">
-        <a
+        <RouterLink
           class="navbar-brand fw-bold d-flex align-items-center me-4 d-lg-none"
-          href="#"
+          to="/"
         >
           <i class="fas fa-thin fa-briefcase fs-4 text-primary me-2"></i>
           Jobpilot
-        </a>
+        </RouterLink>
         <button
           class="navbar-toggler"
           type="button"
@@ -24,67 +24,76 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a
+              <RouterLink
                 class="nav-link"
                 :class="{ active: activeLink === 'home' }"
                 aria-current="page"
-                href="/"
+                to="/"
                 @click="setActiveLink('home')"
-                >Home</a
+                >Home</RouterLink
               >
             </li>
+            <!-- <li class="nav-item">
+              <RouterLink
+                class="nav-link"
+                :class="{ active: activeLink === 'jobs' }"
+                to="/jobs"
+                @click="setActiveLink('jobs')"
+                >Jobs</RouterLink
+              >
+            </li> -->
             <li class="nav-item">
-              <a
+              <RouterLink
                 class="nav-link"
                 :class="{ active: activeLink === 'FindJob' }"
-                href="/find-job"
+                to="/find-job"
                 @click="setActiveLink('FindJob')"
-                >Find Job</a
+                >Find Job</RouterLink
               >
             </li>
             <li class="nav-item">
-              <a
+              <RouterLink
                 class="nav-link"
                 :class="{ active: activeLink === 'Employers' }"
-                href="/employers"
+                to="/employers"
                 @click="setActiveLink('Employers')"
-                >Employers</a
+                >Employers</RouterLink
               >
             </li>
             <li class="nav-item">
-              <a
+              <RouterLink
                 class="nav-link"
                 :class="{ active: activeLink === 'Candidates' }"
-                href="/candidates"
+                to="/candidates"
                 @click="setActiveLink('Candidates')"
-                >Candidates</a
+                >Candidates</RouterLink
               >
             </li>
             <li class="nav-item">
-              <a
+              <RouterLink
                 class="nav-link"
                 :class="{ active: activeLink === 'candidates' }"
-                href="/candidatedashbord"
+                to="/candidatedashbord"
                 @click="setActiveLink('candidates')"
-                >Dashboard</a
+                >Dashboard</RouterLink
               >
             </li>
             <li class="nav-item">
-              <a
+              <RouterLink
                 class="nav-link"
                 :class="{ active: activeLink === 'jobalert' }"
-                href="/jobalert"
+                to="/jobalert"
                 @click="setActiveLink('jobalert')"
-                >Job Alert</a
+                >Job Alert</RouterLink
               >
             </li>
             <li class="nav-item">
-              <a
+              <RouterLink
                 class="nav-link"
                 :class="{ active: activeLink === 'customer' }"
-                href="/CustomerService"
+                to="/CustomerService"
                 @click="setActiveLink('customer')"
-                >Customer Supports</a
+                >Customer Supports</RouterLink
               >
             </li>
           </ul>
@@ -118,9 +127,9 @@
               </button>
               <ul class="dropdown-menu">
                 <li v-for="country in countries" :key="country.name">
-                  <a
+                  <RouterLink
                     class="dropdown-item d-flex align-items-center"
-                    href="#"
+                    :to="country.name"
                     @click.prevent="selectedCountry = country.name"
                   >
                     <img
@@ -133,7 +142,7 @@
                     <div class="d-flex flex-column">
                       <span>{{ country.name }}</span>
                     </div>
-                  </a>
+                  </RouterLink>
                 </li>
               </ul>
             </div>
@@ -182,9 +191,9 @@
                 </button>
                 <ul class="dropdown-menu">
                   <li v-for="country in countries" :key="country.name">
-                    <a
+                    <RouterLink
                       class="dropdown-item d-flex align-items-center"
-                      href="#"
+                      :to="country.name"
                       @click.prevent="selectedCountry = country.name"
                     >
                       <img
@@ -195,7 +204,7 @@
                         class="me-2"
                       />
                       {{ country.name }}
-                    </a>
+                    </RouterLink>
                   </li>
                 </ul>
               </div>
