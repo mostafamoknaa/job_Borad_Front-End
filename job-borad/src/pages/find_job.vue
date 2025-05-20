@@ -55,48 +55,63 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, watch } from "vue";
-import { useRoute } from "vue-router";
-
-import api from "../api";
-import interceptor from "../Interceptor/getaxiox";
+import { ref, computed, onMounted, watch } from 'vue';
+import { useRoute } from 'vue-router';
+import apiClient from '../Interceptor/getaxiox';
 
 const route = useRoute();
 
-const category = ref("");
+// --- Both branches' variables ---
+const searchQuery = ref(route.query.search || ''); // From "home"
+const category = ref('');
 const jobs = ref([]);
 const categories = ref([]);
-const searchQuery = ref(route.query.search || "");
 
+// --- Set searchQuery from URL (home branch logic) ---
 watch(
   () => route.query.search,
   (newVal) => {
-    searchQuery.value = newVal || "";
+    searchQuery.value = newVal || '';
   }
 );
 
+// --- Set category from URL (main branch logic) ---
+const setCategoryFromQuery = () => {
+  const categoryName = route.query.category;
+  if (categoryName) {
+    const matchedCategory = categories.value.find(
+      (cat) => cat.name.toLowerCase() === categoryName.toLowerCase()
+    );
+    category.value = matchedCategory ? matchedCategory.id : '';
+  } else {
+    category.value = '';
+  }
+};
+
+// --- Fetch Jobs ---
 const fetchJobs = async () => {
   try {
-    const response = await interceptor.get("/jobs");
+    const response = await apiClient.get('/jobs');
     jobs.value = Array.isArray(response.data.data) ? response.data.data : [];
   } catch (err) {
-    console.error("Failed to load jobs:", err);
+    console.error('Failed to load jobs:', err);
     jobs.value = [];
   }
 };
 
-
+// --- Fetch Categories ---
 const fetchCategories = async () => {
   try {
-    const response = await interceptor.get("/categories");
-    categories.value = response.data;
+    const response = await apiClient.get('/categories');
+    categories.value = Array.isArray(response.data) ? response.data : [];
+    setCategoryFromQuery(); // run after categories are fetched
   } catch (err) {
-    console.error("Failed to load categories:", err);
+    console.error('Failed to load categories:', err);
     categories.value = [];
   }
 };
 
-
+// --- Filtered Jobs ---
 const filteredJobs = computed(() => {
   return jobs.value.filter((job) => {
     const matchesSearch =
@@ -104,17 +119,25 @@ const filteredJobs = computed(() => {
       (job.company &&
         job.company.toLowerCase().includes(searchQuery.value.toLowerCase()));
 
-    const matchesCategory =
-      !category.value || job.category_id == category.value;
+    const matchesCategory = !category.value || job.category_id == category.value;
 
     return matchesSearch && matchesCategory;
   });
 });
 
+// --- Lifecycle ---
 onMounted(() => {
   fetchJobs();
   fetchCategories();
 });
+
+// --- Watch category from query (main branch logic) ---
+watch(
+  () => route.query.category,
+  () => {
+    setCategoryFromQuery();
+  }
+);
 </script>
 
 <style scoped>
@@ -176,4 +199,5 @@ select.form-select:focus {
   font-weight: 600;
   color: #222;
 }
+
 </style>
