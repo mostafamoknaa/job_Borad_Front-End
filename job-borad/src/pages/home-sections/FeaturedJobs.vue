@@ -12,7 +12,13 @@
         <div class="card h-100 shadow-sm border-0 job-card">
           <div class="card-body">
             <div class="d-flex justify-content-between align-items-start mb-2">
-              <h5 class="card-title">{{job.title}}</h5>
+              <RouterLink
+                class="card-title fs-5 link"
+                :to="`/job/${encodeURIComponent(job.id)}`"
+              >
+                {{ job.title }}
+              </RouterLink>
+
               <span class="badge" :class="badgeClass(job.type)">
                 {{ job.type }}
               </span>
@@ -117,5 +123,14 @@ function badgeClass(type) {
   background-color: #fff;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
   cursor: pointer;
+}
+.link{
+  font-size: 1.08rem;
+  text-decoration: none;
+  color: black;
+}
+.link:hover{
+  font-size: 1.11rem;
+  color: #0a88ca;
 }
 </style>
