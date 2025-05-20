@@ -53,6 +53,9 @@ import AdminCandidates from "../components/Admin/AdminCandidates.vue";
 import ShowApplication from "../components/Employeer/ShowApplication.vue";
 import Payment from "../components/payment.vue";
 import SingleEmployer from "../components/Employeer/SingleEmployer.vue";
+import CandidateProfile from "../components/Candidate/CandidateProfile.vue";
+import Notifications from "../components/Candidate/Notifications.vue";
+import EditJob from "../components/Employeer/EditJob.vue";
 //import Employers from "../components/Admin/Employers.vue";
 //import Candidates from "../components/Admin/Candidates.vue";
 
@@ -112,7 +115,7 @@ const routes = [{
     {
         path: '/jobalert',
         name: 'jobalert',
-        component: JobAlert
+        component: Notifications
     },
     {
         path: '/Settings',
@@ -120,7 +123,7 @@ const routes = [{
         component: Candidatesetting
     },
     {
-        path: '/SettingProfile',
+        path: '/SettingProffile',
         name: 'SettingProfile',
         component: Settingprofile
     },
@@ -241,7 +244,7 @@ const routes = [{
         component: MyJobs
     },
     {
-        path: "/employeer/single",
+        path: "/employeer/single/:id",
         name: "employeer/single",
         component: SingleJob,
     },
@@ -303,6 +306,17 @@ const routes = [{
         path: '/employeer/all-jobs',
         name: 'employeer/all-jobs',
         component: FindJob
+    },
+    {
+        path: '/candidates/biography',
+        name: 'profile',
+        component: CandidateProfile
+
+    },
+    {
+        path: '/employer/edit-job/:id',
+        name: 'EditJob',
+        component: EditJob
     },
     {
         path: '/:pathMatch(.*)*',

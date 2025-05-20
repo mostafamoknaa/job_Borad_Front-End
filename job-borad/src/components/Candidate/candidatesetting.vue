@@ -89,76 +89,6 @@
               </button>
             </div>
           </form>
-
-          <div class="cv-section">
-            <h2 class="section-title">Your CV/Resume</h2>
-            <div class="cv-grid">
-              <div v-for="(cv, index) in cvs" :key="index" class="cv-card">
-                <div class="cv-info">
-                  <span class="cv-icon-wrapper">
-                    <i class="fas fa-file-alt cv-icon"></i>
-                  </span>
-                  <div class="cv-text">
-                    <div class="cv-text-header">
-                      <p class="cv-name">{{ cv.name }}</p>
-                      <i class="fas fa-ellipsis-h action-icon" @click="toggleDropdown(index)"></i>
-                    </div>
-                    <p class="cv-size">{{ cv.size }}</p>
-                  </div>
-                </div>
-                <div v-if="activeDropdown == index" class="dropdown-menu">
-                  <button @click="editCV(index)">Edit</button>
-                  <button @click="deleteCV(index)">Delete</button>
-                </div>
-              </div>
-              
-              <div class="cv-card add-cv" @click="addCV">
-                <i class="fas fa-plus"></i>
-                <p>Add CV/Resume</p>
-              </div>
-            </div>
-          </div>
-
-          <div v-if="showModal" class="modal-overlay" @click.self="closeModal">
-            <div class="modal-content">
-              <h2>Add New CV/Resume</h2>
-          
-              <input 
-                v-model="newCVName" 
-                type="text" 
-                placeholder="Enter CV Name" 
-                class="input-field mt-3"
-                :class="{ 'is-invalid': cvErrors?.name }"
-              >
-              <div v-if="cvErrors?.name" class="invalid-feedback">{{ cvErrors.name[0] }}</div>
-              
-              <div class="upload-box mt-3">
-                <div class="upload-preview">
-                  <i v-if="!newCVPreview" class="fas fa-file-alt"></i>
-                  <img v-else :src="newCVPreview" class="preview-image">
-                </div>
-                <input 
-                  type="file" 
-                  ref="cvFileInput" 
-                  class="hidden" 
-                  @change="handleCVUpload"
-                  accept=".pdf,.doc,.docx"
-                >
-                <button type="button" class="upload-button" @click="$refs.cvFileInput.click()">
-                  Browse File or drop here
-                </button>
-                <p class="upload-note">Accept pdf, doc, docx files only.</p>
-                <div v-if="cvErrors?.file" class="invalid-feedback">{{ cvErrors.file[0] }}</div>
-              </div>
-          
-              <div class="modal-buttons mt-4">
-                <button @click="submitNewCV" class="save-btn" :disabled="isAddingCV">
-                  {{ isAddingCV ? 'Adding...' : 'Add' }}
-                </button>
-                <button @click="closeModal" class="save-btn cancel-btn">Cancel</button>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -220,108 +150,6 @@ export default {
         this.errors.image = null;
       }
     },
-    handleCVUpload(event) {
-      const file = event.target.files[0];
-      if (file) {
-        const validTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
-        if (!validTypes.includes(file.type)) {
-          this.cvErrors.file = ['Only PDF and Word documents are allowed'];
-          return;
-        }
-        
-        if (file.size > 5 * 1024 * 1024) {
-          this.cvErrors.file = ['File size must be less than 5MB'];
-          return;
-        }
-        
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          this.newCVPreview = e.target.result;
-        };
-        reader.readAsDataURL(file);
-        
-        this.newCVFile = file;
-        this.cvErrors.file = null;
-      }
-    },
-    async submitNewCV() {
-      this.cvErrors = {};
-      
-      if (!this.newCVName) {
-        this.cvErrors.name = ['CV name is required'];
-        return;
-      }
-      
-      if (!this.newCVFile) {
-        this.cvErrors.file = ['Please select a file'];
-        return;
-      }
-      
-      this.isAddingCV = true;
-      
-      try {
-        const formData = new FormData();
-        formData.append('cv', this.newCVFile);
-        formData.append('name', this.newCVName);
-        
-        
-        const response = await interceptor.post('/candidates/cv', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        });
-        
-        this.cvs.push({
-          name: this.newCVName,
-          size: (this.newCVFile.size / (1024 * 1024)).toFixed(2) + " MB",
-          id: response.data.id
-        });
-        
-        this.closeModal();
-      } catch (error) {
-        if (error.response?.status === 422) {
-          this.cvErrors = error.response.data.errors;
-        } else {
-          console.error('Error adding CV:', error);
-          
-        }
-      } finally {
-        this.isAddingCV = false;
-      }
-    },
-    closeModal() {
-      this.showModal = false;
-      this.newCVName = '';
-      this.newCVFile = null;
-      this.newCVPreview = null;
-      this.cvErrors = {};
-      if (this.$refs.cvFileInput) {
-        this.$refs.cvFileInput.value = null;
-      }
-    },
-    toggleDropdown(index) {
-      this.activeDropdown = this.activeDropdown === index ? null : index;
-    },
-    editCV(index) {
-      
-      const cv = this.cvs[index];
-      this.newCVName = cv.name;
-      this.showModal = true;
-      this.activeDropdown = null;
-    },
-    async deleteCV(index) {
-      if (confirm('Are you sure you want to delete this CV?')) {
-        try {
-          
-          await interceptor.delete(`/candidates/cv/${this.cvs[index].id}`);
-          this.cvs.splice(index, 1);
-        } catch (error) {
-          console.error('Error deleting CV:', error);
-          alert('Failed to delete CV. Please try again.');
-        }
-      }
-      this.activeDropdown = null;
-    },
     async saveChanges() {
       this.errors = {};
       this.isLoading = true;
@@ -343,9 +171,11 @@ export default {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
+        }).then(response => {
+          console.log('Profile updated successfully:', response.data);
+          this.$router.push('SettingProffile');
+
         });
-        
-        console.log('Profile updated successfully:', response.data);
         
       } catch (error) {
         if (error.response?.status === 422) {
@@ -357,9 +187,6 @@ export default {
       } finally {
         this.isLoading = false;
       }
-    },
-    addCV() {
-      this.showModal = true;
     }
   }
 };
