@@ -60,7 +60,7 @@
     methods: {
         async getJobs(page = 1) {
     try {
-      const response = await interceptor.get(`/jobs?page=${page}`);
+      const response = await interceptor.get(`/adminjob?page=${page}`);
       
 
       if (Array.isArray(response.data)) {

@@ -74,6 +74,8 @@
 import { ref } from 'vue';
 import { loggedIn } from '../stores/auth';
 import { setLoggedInUser} from '../stores/userStore';
+import { useRouter } from 'vue-router';
+import router from '../router';
 import axios from 'axios';
 export default {
   name: 'LoginPage',
@@ -107,27 +109,27 @@ export default {
         const { user, token } = response.data;
 
         
-        if (user.role === 'candidate') {
-          localStorage.setItem('token', token);
-          localStorage.setItem('user', JSON.stringify(user));
-          localStorage.setItem('user', JSON.stringify(user));
-          setLoggedInUser(user); // 👈 update global state
-          this.$router.push({ name: 'Home' });
-          loggedIn.value = true;
-        } else if (user.role === 'employer') {
-          localStorage.setItem('token', token);
-          localStorage.setItem('user', JSON.stringify(user));
-          localStorage.setItem('employer_id', user.id);
-          setLoggedInUser(user); // 👈 update global state
-          this.$router.push({ name: 'Home' });
-          loggedIn.value = true;
-        } else {
-          localStorage.setItem('token', token);
-          localStorage.setItem('user', JSON.stringify(user));
-          setLoggedInUser(user); // 👈 update global state
-          this.$router.push({ name: 'JobsApproval' });
-          loggedIn.value = true;
-        }
+  if (user.role === 'candidate') {
+  localStorage.setItem('token', token);
+  localStorage.setItem('user', JSON.stringify(user));
+  setLoggedInUser(user);
+  this.$router.push({ name: 'FindJob' }); // Redirect candidates to job listing
+  loggedIn.value = true;
+} else if (user.role === 'employer') {
+  localStorage.setItem('token', token);
+  localStorage.setItem('user', JSON.stringify(user));
+  localStorage.setItem('employer_id', user.id);
+  setLoggedInUser(user); 
+  this.$router.push({ name: 'employeer/dashboard' });
+  loggedIn.value = true;
+} else {
+  localStorage.setItem('token', token);
+  localStorage.setItem('user', JSON.stringify(user));
+  setLoggedInUser(user);
+  this.$router.push({ name: 'JobsApproval' }); // Maybe for admin or moderators
+  loggedIn.value = true;
+}
+
         
       } catch (error) {
         console.error('Login failed:', error);

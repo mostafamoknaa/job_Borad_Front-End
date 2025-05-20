@@ -62,61 +62,47 @@
         </div>
         <button class="edit-profile-btn" @click="goToSeeting">Edit Profile</button>
       </div>
-  
-     
-      <div class="recently-applied">
-        <div class="recently-applied-header">
-          <h2>Recently Applied</h2>
-          <button class="view-all-btn">
-            View all →
-          </button>
-        </div>
-  
-        <div class="job-list">
-          <div 
-            v-for="job in jobs" 
-            :key="job.id" 
-            class="job-card"
-          >
-            <div class="job-info">
-              <img :src="job.logo" alt="Logo" />
-              <div>
-                <h3>{{ job.title }}</h3>
-                <div class="job-meta">
-                  <span>{{ job.location }}</span>
-                  <span>•</span>
-                  <span>{{ job.salary }}</span>
-                </div>
+      <div class="job-list">
+        <div 
+          v-for="job in paginatedJobs" 
+          :key="job.id" 
+          class="job-card"
+        >
+          <div class="job-info">
+           
+            <div>
+              <h3>{{ job.title }}</h3>
+              <div class="job-meta">
+                <span>{{ job.job.location }}</span>
+                <span>•</span>
+                <span>{{ job.job.title }}</span>
               </div>
             </div>
-  
-            <div class="job-tags">
-              <span 
-                v-for="tag in job.tags" 
-                :key="tag" 
-                class="tag"
-              >
-                {{ tag }}
-              </span>
-            </div>
-  
-            <div class="job-date">
-              {{ job.dateApplied }}
-            </div>
-  
-            <div class="job-status">
-              ✔ Active
-            </div>
-  
-            <button class="details-btn">
-              View Details
-            </button>
           </div>
+
+          <div class="job-date">
+            {{ job.job.application_deadline }}
+          </div>
+
+          <div 
+          class="job-status" 
+          :class="{
+            'text-success': job.status === 'accepted',
+            'text-warning': job.status === 'pending',
+            'text-danger': job.status === 'rejected',
+          }"
+        >
+          ✔ {{ job.status }}
+        </div>                    
+
+          <button class="details-btn" @click="viewJobDetails(job.id)">
+            View Details
+          </button>
         </div>
+      </div>
       </div>
     </div>
   </div>
-</div>
 </div>
 </div>
 </div>
@@ -125,9 +111,11 @@
   </template>
   
   <script setup>
-  import { ref } from 'vue';
   import Sidebar from './Sidebar.vue';
   import { useRouter } from 'vue-router';
+  import { ref, computed, onMounted } from 'vue';
+import interceptor from '../../Interceptor/getaxiox';
+
 
   const userName = ref('')
   const userJson = localStorage.getItem('user')
@@ -141,44 +129,41 @@ const router = useRouter();
   
     router.push('/Settings');
   };
-  const jobs = [
-    {
-      id: 1,
-      logo: "https://cdn-icons-png.flaticon.com/512/732/732200.png",
-      title: "Networking Engineer",
-      location: "Washington",
-      salary: "$50k–80k/month",
-      dateApplied: "Feb 2, 2019 19:28",
-      tags: ["Remote"],
-    },
-    {
-      id: 2,
-      logo: "https://cdn-icons-png.flaticon.com/512/732/732228.png",
-      title: "Product Designer",
-      location: "Dhaka",
-      salary: "$50k–80k/month",
-      dateApplied: "Dec 7, 2019 23:26",
-      tags: ["Full Time"],
-    },
-    {
-      id: 3,
-      logo: "https://cdn-icons-png.flaticon.com/512/732/732245.png",
-      title: "Junior Graphic Designer",
-      location: "Brazil",
-      salary: "$50k–80k/month",
-      dateApplied: "Feb 2, 2019 19:28",
-      tags: ["Temporary"],
-    },
-    {
-      id: 4,
-      logo: "https://cdn-icons-png.flaticon.com/512/732/732221.png",
-      title: "Visual Designer",
-      location: "Wisconsin",
-      salary: "$50k–80k/month",
-      dateApplied: "Dec 7, 2019 23:26",
-      tags: ["Contract Base"],
-    },
-  ];
+
+const jobs = ref([]);
+const currentPage = ref(1);
+const rowsPerPage = 5;
+
+const viewJobDetails = (jobId) => {
+  router.push(`/employeer/single/${jobId}`);
+}
+
+const fetchApplications = async () => {
+  try {
+    const res = await interceptor.get('/userApplication');
+    jobs.value = res.data;
+    console.log(jobs.value);
+  } catch (err) {
+    console.error('Error fetching applications:', err);
+  }
+};
+
+onMounted(fetchApplications);
+
+const paginatedJobs = computed(() => {
+  const start = (currentPage.value - 1) * rowsPerPage;
+  return jobs.value.slice(start, start + rowsPerPage);
+});
+
+const totalPages = computed(() => Math.ceil(jobs.value.length / rowsPerPage));
+
+function nextPage() {
+  if (currentPage.value < totalPages.value) currentPage.value++;
+}
+
+function prevPage() {
+  if (currentPage.value > 1) currentPage.value--;
+}
   </script>
   
   <style scoped>

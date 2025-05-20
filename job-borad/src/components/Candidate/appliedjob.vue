@@ -20,36 +20,33 @@
                       class="job-card"
                     >
                       <div class="job-info">
-                        <img :src="job.logo" alt="Company Logo" />
+                       
                         <div>
                           <h3>{{ job.title }}</h3>
                           <div class="job-meta">
-                            <span>{{ job.location }}</span>
+                            <span>{{ job.job.location }}</span>
                             <span>•</span>
-                            <span>{{ job.salary }}</span>
+                            <span>{{ job.job.title }}</span>
                           </div>
                         </div>
                       </div>
   
-                      <div class="job-tags">
-                        <span 
-                          v-for="tag in job.tags" 
-                          :key="tag" 
-                          class="tag"
-                        >
-                          {{ tag }}
-                        </span>
-                      </div>
-  
                       <div class="job-date">
-                        {{ job.dateApplied }}
+                        {{ job.job.application_deadline }}
                       </div>
   
-                      <div class="job-status">
-                        ✔ Active
-                      </div>
+                      <div 
+                      class="job-status" 
+                      :class="{
+                        'text-success': job.status === 'accepted',
+                        'text-warning': job.status === 'pending',
+                        'text-danger': job.status === 'rejected',
+                      }"
+                    >
+                      ✔ {{ job.status }}
+                    </div>                    
   
-                      <button class="details-btn">
+                      <button class="details-btn" @click="viewJobDetails(job.id)">
                         View Details
                       </button>
                     </div>
@@ -84,54 +81,52 @@
   </template>
   
   <script setup>
-  import { ref, computed } from 'vue';
-  import Sidebar from './Sidebar.vue';
-  
+import { ref, computed, onMounted } from 'vue';
+import Sidebar from './Sidebar.vue';
+import axios from 'axios';
+import interceptor from '../../Interceptor/getaxiox';
+import { useRouter } from 'vue-router';
 
-  const jobs = [
-    { id: 1, logo: "https://cdn-icons-png.flaticon.com/512/732/732200.png", title: "Networking Engineer", location: "Washington", salary: "$50k–80k/month", dateApplied: "Feb 2, 2019 19:28", tags: ["Remote"] },
-    { id: 2, logo: "https://cdn-icons-png.flaticon.com/512/732/732228.png", title: "Product Designer", location: "Dhaka", salary: "$50k–80k/month", dateApplied: "Dec 7, 2019 23:26", tags: ["Full Time"] },
-    { id: 3, logo: "https://cdn-icons-png.flaticon.com/512/732/732245.png", title: "Junior Graphic Designer", location: "Brazil", salary: "$50k–80k/month", dateApplied: "Feb 2, 2019 19:28", tags: ["Temporary"] },
-    { id: 4, logo: "https://cdn-icons-png.flaticon.com/512/732/732221.png", title: "Visual Designer", location: "Wisconsin", salary: "$50k–80k/month", dateApplied: "Dec 7, 2019 23:26", tags: ["Contract Base"] },
-    { id: 5, logo: "https://cdn-icons-png.flaticon.com/512/732/732200.png", title: "Networking Engineer", location: "Washington", salary: "$50k–80k/month", dateApplied: "Feb 2, 2019 19:28", tags: ["Remote"] },
-    { id: 6, logo: "https://cdn-icons-png.flaticon.com/512/732/732228.png", title: "Product Designer", location: "Dhaka", salary: "$50k–80k/month", dateApplied: "Dec 7, 2019 23:26", tags: ["Full Time"] },
-    { id: 7, logo: "https://cdn-icons-png.flaticon.com/512/732/732245.png", title: "Junior Graphic Designer", location: "Brazil", salary: "$50k–80k/month", dateApplied: "Feb 2, 2019 19:28", tags: ["Temporary"] },
-    { id: 8, logo: "https://cdn-icons-png.flaticon.com/512/732/732221.png", title: "Visual Designer", location: "Wisconsin", salary: "$50k–80k/month", dateApplied: "Dec 7, 2019 23:26", tags: ["Contract Base"] },
-    { id: 1, logo: "https://cdn-icons-png.flaticon.com/512/732/732200.png", title: "Networking Engineer", location: "Washington", salary: "$50k–80k/month", dateApplied: "Feb 2, 2019 19:28", tags: ["Remote"] },
-    { id: 2, logo: "https://cdn-icons-png.flaticon.com/512/732/732228.png", title: "Product Designer", location: "Dhaka", salary: "$50k–80k/month", dateApplied: "Dec 7, 2019 23:26", tags: ["Full Time"] },
-    { id: 3, logo: "https://cdn-icons-png.flaticon.com/512/732/732245.png", title: "Junior Graphic Designer", location: "Brazil", salary: "$50k–80k/month", dateApplied: "Feb 2, 2019 19:28", tags: ["Temporary"] },
-    { id: 4, logo: "https://cdn-icons-png.flaticon.com/512/732/732221.png", title: "Visual Designer", location: "Wisconsin", salary: "$50k–80k/month", dateApplied: "Dec 7, 2019 23:26", tags: ["Contract Base"] },
-    { id: 5, logo: "https://cdn-icons-png.flaticon.com/512/732/732200.png", title: "Networking Engineer", location: "Washington", salary: "$50k–80k/month", dateApplied: "Feb 2, 2019 19:28", tags: ["Remote"] },
-    { id: 6, logo: "https://cdn-icons-png.flaticon.com/512/732/732228.png", title: "Product Designer", location: "Dhaka", salary: "$50k–80k/month", dateApplied: "Dec 7, 2019 23:26", tags: ["Full Time"] },
-    { id: 7, logo: "https://cdn-icons-png.flaticon.com/512/732/732245.png", title: "Junior Graphic Designer", location: "Brazil", salary: "$50k–80k/month", dateApplied: "Feb 2, 2019 19:28", tags: ["Temporary"] },
-    { id: 8, logo: "https://cdn-icons-png.flaticon.com/512/732/732221.png", title: "Visual Designer", location: "Wisconsin", salary: "$50k–80k/month", dateApplied: "Dec 7, 2019 23:26", tags: ["Contract Base"] }
+const router = useRouter();
 
-  ];
-  
 
-  const currentPage = ref(1);
-  const rowsPerPage = 5;
-  
-  const paginatedJobs = computed(() => {
-    const start = (currentPage.value - 1) * rowsPerPage;
-    return jobs.slice(start, start + rowsPerPage);
-  });
-  
-  const totalPages = computed(() => Math.ceil(jobs.length / rowsPerPage));
-  
-  function nextPage() {
-    if (currentPage.value < totalPages.value) {
-      currentPage.value++;
-    }
+
+const jobs = ref([]);
+const currentPage = ref(1);
+const rowsPerPage = 5;
+
+const viewJobDetails = (jobId) => {
+  router.push(`/employeer/single/${jobId}`);
+}
+
+const fetchApplications = async () => {
+  try {
+    const res = await interceptor.get('/userApplication');
+    jobs.value = res.data;
+    console.log(jobs.value);
+  } catch (err) {
+    console.error('Error fetching applications:', err);
   }
-  
-  function prevPage() {
-    if (currentPage.value > 1) {
-      currentPage.value--;
-    }
-  }
-  </script>
-  
+};
+
+onMounted(fetchApplications);
+
+const paginatedJobs = computed(() => {
+  const start = (currentPage.value - 1) * rowsPerPage;
+  return jobs.value.slice(start, start + rowsPerPage);
+});
+
+const totalPages = computed(() => Math.ceil(jobs.value.length / rowsPerPage));
+
+function nextPage() {
+  if (currentPage.value < totalPages.value) currentPage.value++;
+}
+
+function prevPage() {
+  if (currentPage.value > 1) currentPage.value--;
+}
+</script>
+
   <style scoped>
   .container-fluid {
     padding: 0;
@@ -296,5 +291,16 @@
     font-weight: 600;
     color: #2563eb;
   }
+
+  .text-success {
+    color: #16a34a;
+  }
+  .text-warning {
+    color: #d97706;
+  }
+  .text-danger {
+    color: #dc2626;
+  }
+  
   </style>
   
