@@ -55,71 +55,82 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, watch } from 'vue';
-import { useRoute } from 'vue-router';
-import apiClient from '../Interceptor/getaxiox';
+import { ref, computed, onMounted, watch } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import apiClient from "../Interceptor/getaxiox";
 
 const route = useRoute();
+const router = useRouter();
 
-// --- Both branches' variables ---
-const searchQuery = ref(route.query.search || ''); // From "home"
-const category = ref('');
+// Reactive refs
+const searchQuery = ref(route.query.search || "");
+const category = ref("");
 const jobs = ref([]);
 const categories = ref([]);
 
-// --- Set searchQuery from URL (home branch logic) ---
+// --- Watch searchQuery and update route query if changed ---
+watch(searchQuery, (newVal) => {
+  if (newVal !== route.query.search) {
+    router.replace({ query: { ...route.query, search: newVal } });
+  }
+});
+
+// --- Watch route query and update local searchQuery if changed ---
 watch(
   () => route.query.search,
   (newVal) => {
-    searchQuery.value = newVal || '';
+    if (newVal !== searchQuery.value) {
+      searchQuery.value = newVal || "";
+    }
   }
 );
 
-// --- Set category from URL (main branch logic) ---
+// --- Set category based on query (like ?category=IT) ---
 const setCategoryFromQuery = () => {
   const categoryName = route.query.category;
   if (categoryName) {
     const matchedCategory = categories.value.find(
       (cat) => cat.name.toLowerCase() === categoryName.toLowerCase()
     );
-    category.value = matchedCategory ? matchedCategory.id : '';
+    category.value = matchedCategory ? matchedCategory.id : "";
   } else {
-    category.value = '';
+    category.value = "";
   }
 };
 
-// --- Fetch Jobs ---
+// --- Fetch jobs from API ---
 const fetchJobs = async () => {
   try {
-    const response = await apiClient.get('/jobs');
+    const response = await apiClient.get("/jobs");
     jobs.value = Array.isArray(response.data.data) ? response.data.data : [];
   } catch (err) {
-    console.error('Failed to load jobs:', err);
+    console.error("Failed to load jobs:", err);
     jobs.value = [];
   }
 };
 
-// --- Fetch Categories ---
+// --- Fetch categories from API ---
 const fetchCategories = async () => {
   try {
-    const response = await apiClient.get('/categories');
+    const response = await apiClient.get("/categories");
     categories.value = Array.isArray(response.data) ? response.data : [];
-    setCategoryFromQuery(); // run after categories are fetched
+    setCategoryFromQuery(); // Only after categories are available
   } catch (err) {
-    console.error('Failed to load categories:', err);
+    console.error("Failed to load categories:", err);
     categories.value = [];
   }
 };
 
-// --- Filtered Jobs ---
+// --- Computed: Filter jobs based on searchQuery and selected category ---
 const filteredJobs = computed(() => {
   return jobs.value.filter((job) => {
+    const search = searchQuery.value.toLowerCase();
     const matchesSearch =
-      job.title.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-      (job.company &&
-        job.company.toLowerCase().includes(searchQuery.value.toLowerCase()));
+      job.title.toLowerCase().includes(search) ||
+      (job.company && job.company.toLowerCase().includes(search));
 
-    const matchesCategory = !category.value || job.category_id == category.value;
+    const matchesCategory =
+      !category.value || job.category_id == category.value;
 
     return matchesSearch && matchesCategory;
   });
@@ -131,7 +142,7 @@ onMounted(() => {
   fetchCategories();
 });
 
-// --- Watch category from query (main branch logic) ---
+// --- Watch for category query changes from URL ---
 watch(
   () => route.query.category,
   () => {
@@ -199,5 +210,4 @@ select.form-select:focus {
   font-weight: 600;
   color: #222;
 }
-
 </style>

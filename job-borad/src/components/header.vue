@@ -1,6 +1,5 @@
 <template>
   <nav>
-   
     <div class="navbar navbar-expand-lg bg-body-tertiary">
       <div class="container justify-content-between">
         <RouterLink
@@ -159,14 +158,14 @@
         <div class="d-flex align-items-center w-md-100">
           <a
             class="navbar-brand fw-bold d-flex align-items-center me-4 d-none d-lg-block"
-            href="#"
+            href="/"
           >
             <i class="fas fa-thin fa-briefcase fs-4 text-primary me-2"></i>
             Forsa
           </a>
 
           <form
-            action=""
+            @submit.prevent="searchFunction"
             class="d-flex align-items-center border px-5 ms-2 rounded-2"
           >
             <!-- Country Selector as Dropdown -->
@@ -214,9 +213,12 @@
 
             <!-- Search Input with Icon Inside -->
             <div class="position-relative w-100 me-lg-3">
-              <i
-                class="fas fa-search position-absolute top-50 start-0 translate-middle-y text-primary ms-3"
-              ></i>
+              <button
+                class="btn position-absolute top-50 end-0 translate-middle-y text-primary"
+                type="submit"
+              >
+                <i class="fas fa-search"></i>
+              </button>
               <input
                 type="text"
                 v-model="searchQuery"
@@ -230,13 +232,11 @@
         <!-- Right Section -->
         <div class="d-flex mt-3 mt-lg-0">
           <button
-          class="btn btn-outline-primary border border-info px-3 me-2 rounded-1"
-          @click="goToSignIn"
-        >
-          Sign In
-        </button>
-        
-         
+            class="btn btn-outline-primary border border-info px-3 me-2 rounded-1"
+            @click="goToSignIn"
+          >
+            Sign In
+          </button>
         </div>
       </div>
     </div>
@@ -245,9 +245,18 @@
 
 <script setup>
 import { ref } from "vue";
-import { useRouter } from 'vue-router';
+import { useRouter } from "vue-router";
 
 const router = useRouter();
+// const searchQuery = ref("");
+
+function searchFunction() {
+  if (searchQuery.value.trim()) {
+    console.log("searching...", searchQuery.value.trim());
+    router.push({ name: "FindJob", query: { search: searchQuery.value } });
+  }
+}
+
 const activeLink = ref("home");
 const setActiveLink = (link) => {
   activeLink.value = link;
@@ -265,7 +274,7 @@ const countries = ref([
 ]);
 
 const goToSignIn = () => {
-  router.push('/employeer/login');
+  router.push("/employeer/login");
 };
 
 const getFlag = (countryName) => {
