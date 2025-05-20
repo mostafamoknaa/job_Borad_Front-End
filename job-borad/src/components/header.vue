@@ -7,7 +7,7 @@
           to="/"
         >
           <i class="fas fa-thin fa-briefcase fs-4 text-primary me-2"></i>
-          Jobpilot
+          Forsa
         </RouterLink>
         <button
           class="navbar-toggler"
@@ -192,8 +192,8 @@
                   <li v-for="country in countries" :key="country.name">
                     <RouterLink
                       class="dropdown-item d-flex align-items-center"
-                      :to="country.name"
                       @click.prevent="selectedCountry = country.name"
+                      :to="country.name"
                     >
                       <img
                         :src="getFlag(country.name)"
@@ -262,6 +262,7 @@ function searchFunction() {
   if (searchQuery.value.trim()) {
     console.log("searching...", searchQuery.value.trim());
     router.push({ name: "FindJob", query: { search: searchQuery.value } });
+    searchQuery.value = "";
   }
 }
 
@@ -281,9 +282,6 @@ const countries = ref([
   { name: "Egypt", code: "EG", phone: "+20 011 2727 2667" },
 ]);
 
-const goToSignIn = () => {
-  router.push("/employeer/login");
-};
 
 const getFlag = (countryName) => {
   const country = countries.value.find((c) => c.name === countryName);
