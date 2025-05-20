@@ -119,7 +119,7 @@ export default {
           localStorage.setItem('user', JSON.stringify(user));
           localStorage.setItem('employer_id', user.id);
           setLoggedInUser(user); // 👈 update global state
-          this.$router.push({ name: 'Home' });
+          this.$router.push({ name: 'employeer/dashboard' });
           loggedIn.value = true;
         } else {
           localStorage.setItem('token', token);
