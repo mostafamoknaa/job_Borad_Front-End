@@ -60,11 +60,35 @@ import { useRoute } from 'vue-router';
 import apiClient from '../Interceptor/getaxiox';
 
 const route = useRoute();
-const searchQuery = ref('');
+
+// --- Both branches' variables ---
+const searchQuery = ref(route.query.search || ''); // From "home"
 const category = ref('');
 const jobs = ref([]);
 const categories = ref([]);
 
+// --- Set searchQuery from URL (home branch logic) ---
+watch(
+  () => route.query.search,
+  (newVal) => {
+    searchQuery.value = newVal || '';
+  }
+);
+
+// --- Set category from URL (main branch logic) ---
+const setCategoryFromQuery = () => {
+  const categoryName = route.query.category;
+  if (categoryName) {
+    const matchedCategory = categories.value.find(
+      (cat) => cat.name.toLowerCase() === categoryName.toLowerCase()
+    );
+    category.value = matchedCategory ? matchedCategory.id : '';
+  } else {
+    category.value = '';
+  }
+};
+
+// --- Fetch Jobs ---
 const fetchJobs = async () => {
   try {
     const response = await apiClient.get('/jobs');
@@ -75,34 +99,19 @@ const fetchJobs = async () => {
   }
 };
 
+// --- Fetch Categories ---
 const fetchCategories = async () => {
   try {
     const response = await apiClient.get('/categories');
     categories.value = Array.isArray(response.data) ? response.data : [];
-    // Set category filter based on URL query
-    setCategoryFromQuery();
+    setCategoryFromQuery(); // run after categories are fetched
   } catch (err) {
     console.error('Failed to load categories:', err);
     categories.value = [];
   }
 };
 
-const setCategoryFromQuery = () => {
-  const categoryName = route.query.category;
-  if (categoryName) {
-    const matchedCategory = categories.value.find(
-      (cat) => cat.name.toLowerCase() === categoryName.toLowerCase()
-    );
-    if (matchedCategory) {
-      category.value = matchedCategory.id;
-    } else {
-      category.value = ''; // Reset if category not found
-    }
-  } else {
-    category.value = ''; // Reset if no category query
-  }
-};
-
+// --- Filtered Jobs ---
 const filteredJobs = computed(() => {
   return jobs.value.filter((job) => {
     const matchesSearch =
@@ -116,12 +125,13 @@ const filteredJobs = computed(() => {
   });
 });
 
+// --- Lifecycle ---
 onMounted(() => {
   fetchJobs();
   fetchCategories();
 });
 
-// Watch for changes in the route query
+// --- Watch category from query (main branch logic) ---
 watch(
   () => route.query.category,
   () => {
@@ -189,4 +199,5 @@ select.form-select:focus {
   font-weight: 600;
   color: #222;
 }
+
 </style>

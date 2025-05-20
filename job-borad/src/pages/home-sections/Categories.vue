@@ -4,12 +4,12 @@
       <!-- Header -->
       <div class="d-flex justify-content-between align-items-center mb-5">
         <h2 class="fw-bold">Popular category</h2>
-        <a
-          href="#"
+        <RouterLink
+          to="find-job"
           class="btn btn-outline-primary d-flex align-items-center gap-2"
         >
           View All <i class="fas fa-arrow-right"></i>
-        </a>
+        </RouterLink>
       </div>
 
       <!-- Category Grid -->
