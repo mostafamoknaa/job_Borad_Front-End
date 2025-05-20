@@ -3,7 +3,7 @@
     <div class="card border rounded-4 h-100 shadow-sm p-3 d-flex flex-column justify-content-between">
       <div class="d-flex align-items-center mb-3">
         <img
-          :src="employer.logo_url || require('@/assets/logo.jpg')"
+          :src="employer.logo_url || logoimage"
           alt="Employer Logo"
           class="rounded-circle me-3"
           style="width: 50px; height: 50px; object-fit: cover;"
@@ -39,6 +39,7 @@
 </template>
 
 <script setup>
+import logoimage from '../assets/logo.jpg'
 defineProps({
   employer: {
     type: Object,

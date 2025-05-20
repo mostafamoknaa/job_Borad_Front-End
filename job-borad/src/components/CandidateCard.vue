@@ -1,41 +1,63 @@
 <template>
-  <div class="card candidate-card">
-    <div class="card-body d-flex align-items-center">
-      <img :src="candidate.avatar" alt="Avatar" class="rounded-circle me-3" width="60" height="60" />
-      <div>
-        <h5 class="card-title mb-1">{{ candidate.name }}</h5>
-        <p class="card-subtitle text-muted mb-2">{{ candidate.job_title }}</p>
-        <p class="text-muted mb-2"><i class="bi bi-geo-alt-fill"></i> {{ candidate.location }}</p>
-        <div>
-          <span v-for="skill in candidate.skills" :key="skill" class="badge bg-light text-dark me-1">
-            {{ skill }}
-          </span>
+  <div class="col-md-6 col-lg-4 mb-4">
+    <div class="card h-100 shadow-sm">
+      <div class="card-body">
+        <div class="d-flex align-items-center mb-3">
+          <img
+            :src="candidate.image || candidateImage"
+            alt="Candidate"
+            class="rounded-circle me-3"
+            width="60"
+            height="60"
+          />
+          <div>
+            <h5 class="mb-0">{{ candidate.user.name }}</h5>
+            <span class="badge bg-info text-dark" v-if="candidate.experience_level">
+              {{ candidate.experience_level }}
+            </span>
+          </div>
         </div>
-      </div>
-    </div>
-    <div class="card-footer d-flex justify-content-between">
-    
-      <!--<button class="btn btn-sm btn-outline-primary mt-3" @click="$emit('view', candidate)">View Profile</button> -->
-        <!--<button class="btn btn-primary btn-sm" @click="viewProfile(candidate)">
-            View Profile
-        </button> -->
-        <button class="btn btn-sm btn-outline-primary mt-3" @click="onView(candidate)">View Profile</button>
 
-      <button class="btn btn-primary btn-sm">Contact</button>
+        <div class="mb-3">
+          <p class="text-muted mb-1" v-if="candidate.education">
+            <i class="bi bi-mortarboard me-1"></i>
+            {{ candidate.education.substring(0, 50) }}...
+          </p>
+          <p class="text-muted mb-1" v-if="candidate.user.email">
+            <i class="bi bi-envelope me-1"></i>
+            {{ candidate.user.email }}
+          </p>
+        </div>
+
+        <router-link
+          :to="`/candidates/${candidate.id}`"
+          class="btn btn-outline-primary"
+        >
+          View Profile
+        </router-link>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
-//defineProps(['candidate']);
+import candidateImage from '../assets/candidate.png';
 defineProps({
-  candidate: Object,
-  onView: Function
+  candidate: {
+    type: Object,
+    required: true,
+    validator: (value) => {
+      return value && value.user;
+    }
+  }
 });
 </script>
 
 <style scoped>
-.candidate-card {
-  margin-bottom: 1rem;
+.card {
+  transition: transform 0.2s;
+}
+.card:hover {
+  transform: translateY(-5px);
 }
 </style>
