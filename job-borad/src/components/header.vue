@@ -231,11 +231,14 @@
 
         <!-- Right Section -->
         <div class="d-flex mt-3 mt-lg-0">
-          <button
+          <router-link
+            v-if="!loggedIn"
+            to="/employeer/login"
             class="btn btn-outline-primary border border-info px-3 me-2 rounded-1"
-            @click="goToSignIn"
+            >Sign In</router-link
           >
-            Sign In
+          <button v-else class="btn btn-danger" @click="handleLogout">
+            <i class="fas fa-sign-out-alt me-1"></i> Logout
           </button>
         </div>
       </div>
@@ -245,10 +248,15 @@
 
 <script setup>
 import { ref } from "vue";
+import { loggedIn, logout } from "../stores/auth";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
-// const searchQuery = ref("");
+
+const handleLogout = () => {
+  logout();
+  router.push("/employeer/login");
+};
 
 function searchFunction() {
   if (searchQuery.value.trim()) {
