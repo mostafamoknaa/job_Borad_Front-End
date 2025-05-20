@@ -1,25 +1,22 @@
 <template>
-  <section class="popular-vacancies-section py-5">
-    <div class="container">
-      <!-- Title -->
-      <div class="text-start mb-5">
-        <h2 class="fw-bold">Most Popular Vacancies</h2>
-      </div>
-
-      <!-- Jobs Grid -->
-      <div class="row g-4">
-        <div class="col-md-6 col-lg-4" v-for="job in jobs" :key="job.id">
-          <div class="p-4 bg-white rounded shadow-sm border h-100">
-            <h5 class="fw-bold">{{ job.title }}</h5>
-            <p class="text-muted mb-1">{{ job.company }}</p>
-            <p class="text-muted small">{{ job.location }}</p>
-            <button
-              class="btn btn-outline-primary btn-sm mt-3"
-              @click="goTosinglejob()"
+  <section class="container my-5 gap-2">
+    <h2 class="fw-bold mt-5 fs-1">Most Popular Vacancies</h2>
+    <div
+      class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3 my-5"
+    >
+      <div v-for="(vacancy, index) in vacancies" :key="index" class="col">
+        <div class="card p-4 h-100">
+          <h6 class="fw-semibold mb-1">
+            <RouterLink
+              :to="`/job/${encodeURIComponent(vacancy.id)}`"
+              class="link"
             >
-              View Job
-            </button>
-          </div>
+              {{ vacancy.title }}
+            </RouterLink>
+          </h6>
+          <p class="text-muted small mb-0">
+            {{ vacancy.positions.toLocaleString() }} Open Positions
+          </p>
         </div>
       </div>
     </div>
@@ -27,55 +24,65 @@
 </template>
 
 <script setup>
-import { useRouter } from "vue-router";
-import { ref } from "vue";
-import { useRoute } from "vue-router";
+import { ref, onMounted } from "vue";
+import apiClient from "../../Interceptor/getaxiox";
 
-const router = useRouter();
+const vacancies = ref([]);
 
-const goTosinglejob = () => {
-  console.log("Job clicked");
-  router.push({ name: "SinglePage" });
-};
+onMounted(async () => {
+  try {
+    const res = await apiClient.get("/popular-vacancies");
+    console.log(res.data);
+    vacancies.value = res.data;
+  } catch (error) {
+    console.log(error);
+    console.error("Error fetching vacancies:", error);
+  }
+});
 
-const jobs = [
-  { id: 1, title: "Frontend Developer", company: "Google", location: "Remote" },
-  { id: 2, title: "UI/UX Designer", company: "Meta", location: "USA" },
-  { id: 3, title: "Backend Engineer", company: "Amazon", location: "Germany" },
-  { id: 4, title: "Project Manager", company: "Apple", location: "Remote" },
-  {
-    id: 5,
-    title: "Marketing Specialist",
-    company: "Netflix",
-    location: "France",
-  },
-  { id: 6, title: "QA Tester", company: "Spotify", location: "UK" },
-];
+// const vacancies = [
+//   { title: "Anesthesiologists", positions: 45904 },
+//   { title: "Surgeons", positions: 50364 },
+//   { title: "Obstetricians-Gynecologists", positions: 4339 },
+//   { title: "Orthodontists", positions: 20079 },
+//   { title: "Maxillofacial Surgeons", positions: 74875 },
+//   { title: "Software Developer", positions: 43359 },
+//   { title: "Psychiatrists", positions: 18599 },
+//   { title: "Data Scientist", positions: 28200, link: "#" },
+//   { title: "Financial Manager", positions: 61391 },
+//   { title: "Management Analysis", positions: 93046 },
+//   { title: "IT Manager", positions: 50963 },
+//   { title: "Operations Research Analysis", positions: 16627 },
+// ];
 </script>
 
 <style scoped>
-.vacancy-item {
-  background-color: #f8f9fa;
-  transition: background-color 0.3s ease;
+.card {
+  background-color: #f1f5f9;
+  transition: all 0.3s ease-in-out;
 }
 
-.vacancy-item:hover {
-  background-color: #e9ecef;
+.card.active {
+  background-color: #fff;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
 }
 
-h2 {
-  font-size: 2rem;
-  font-weight: 700;
-  color: #1a1a1a;
+.card:hover {
+  transform: translateY(-5px);
+  background-color: #fff;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
 }
 
-h5 {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #333;
+.link {
+  font-size: 1.08rem;
+  text-decoration: none;
+  color: black;
 }
-
-p {
-  font-size: 0.9rem;
+.link:hover {
+  font-size: 1.15rem;
+  text-decoration: underline;
+  color: #0a88ca;
+  cursor: pointer;
 }
 </style>

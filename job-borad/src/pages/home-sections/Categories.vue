@@ -4,12 +4,12 @@
       <!-- Header -->
       <div class="d-flex justify-content-between align-items-center mb-5">
         <h2 class="fw-bold">Popular category</h2>
-        <a
-          href="#"
+        <RouterLink
+          to="find-job"
           class="btn btn-outline-primary d-flex align-items-center gap-2"
         >
           View All <i class="fas fa-arrow-right"></i>
-        </a>
+        </RouterLink>
       </div>
 
       <!-- Category Grid -->
@@ -18,6 +18,7 @@
           v-for="category in categories"
           :key="category.name"
           class="col-12 col-sm-6 col-lg-3"
+          @click="goToFindJob(category.name)"
         >
           <div
             class="category-card p-4 rounded-3 h-100"
@@ -25,10 +26,8 @@
           >
             <div class="icon-box mb-3">
               <i :class="category.icon"></i>
-              <!--we can use category.icon later by adding it to the database in table categories -->
             </div>
             <h6 class="fw-semibold mb-1">{{ category.name }}</h6>
-            <!-- we can use category.positions later by adding it to the database in table categories -->
             <p class="text-muted small mb-0">
               {{ category.positions }} Open position
             </p>
@@ -40,19 +39,31 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
-// import axios from "axios";
-import apiClient from "../../Interceptor/getaxiox";
-const categories = ref([]);
+import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import apiClient from '../../Interceptor/getaxiox';
 
+// Reactive state for categories
+const categories = ref([]);
+const router = useRouter(); // Initialize router
+
+// Fetch categories on component mount
 onMounted(async () => {
   try {
-    const res = await apiClient.get("/categories"); // instead of axios.get(http://localhost:8000/api/categories) it's a long path
+    const res = await apiClient.get('/categories');
     categories.value = res.data;
   } catch (error) {
-    console.error("Failed to fetch categories:", error);
+    console.error('Failed to fetch categories:', error);
   }
 });
+
+// Navigate to find-job with category filter
+const goToFindJob = (categoryName) => {
+  router.push({
+    path: '/find-job',
+    query: { category: categoryName },
+  });
+};
 </script>
 
 <style>

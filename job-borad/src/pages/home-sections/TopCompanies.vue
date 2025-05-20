@@ -56,46 +56,6 @@
         console.error('Error fetching top companies:', err);
       }
     });
-  
-  // const companies = ref([
-  //   {
-  //     name: 'Dribbble',
-  //     location: 'Dhaka, Bangladesh',
-  //     positions: 3,
-  //     logo: 'https://cdn.worldvectorlogo.com/logos/dribbble-icon-1.svg'
-  //   },
-  //   // Duplicate for 6 cards
-  //   {
-  //     name: 'Dribbble',
-  //     location: 'Dhaka, Bangladesh',
-  //     positions: 3,
-  //     logo: 'https://cdn.worldvectorlogo.com/logos/dribbble-icon-1.svg'
-  //   },
-  //   {
-  //     name: 'Dribbble',
-  //     location: 'Dhaka, Bangladesh',
-  //     positions: 3,
-  //     logo: 'https://cdn.worldvectorlogo.com/logos/dribbble-icon-1.svg'
-  //   },
-  //   {
-  //     name: 'Dribbble',
-  //     location: 'Dhaka, Bangladesh',
-  //     positions: 3,
-  //     logo: 'https://cdn.worldvectorlogo.com/logos/dribbble-icon-1.svg'
-  //   },
-  //   {
-  //     name: 'Dribbble',
-  //     location: 'Dhaka, Bangladesh',
-  //     positions: 3,
-  //     logo: 'https://cdn.worldvectorlogo.com/logos/dribbble-icon-1.svg'
-  //   },
-  //   {
-  //     name: 'Dribbble',
-  //     location: 'Dhaka, Bangladesh',
-  //     positions: 3,
-  //     logo: 'https://cdn.worldvectorlogo.com/logos/dribbble-icon-1.svg'
-  //   }
-  // ])
   </script>
   
   <style scoped>

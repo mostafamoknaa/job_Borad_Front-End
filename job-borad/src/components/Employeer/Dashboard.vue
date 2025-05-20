@@ -77,16 +77,19 @@
                         >
                           {{ job.status === 'accepted' ? 'Done' : 'View Applications' }}
                         </button>
-                          <div class="dropdown">
-                            <button class="btn btn-light btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                              <i class="bi bi-three-dots-vertical"></i>
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-end">
-                              <li><a class="dropdown-item" href="#">Promote Job</a></li>
-                              <li><a class="dropdown-item" href="#">View Detail</a></li>
-                              <li><a class="dropdown-item" href="#">Mark as expired</a></li>
-                            </ul>
-                          </div>
+                        <div class="dropdown">
+                          <button class="btn btn-light btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-three-dots-vertical"></i>
+                          </button>
+                          <ul class="dropdown-menu dropdown-menu-end">
+                            <li>
+                              <a class="dropdown-item" :href="`/employeer/single/${job.id}`">View Detail</a>
+                            </li>
+                            <li>
+                              <a class="dropdown-item" :href="`/employer/edit-job/${job.id}`">Edit Detail</a>
+                            </li>
+                          </ul>
+                        </div>
                         </div>
                       </td>
                     </tr>

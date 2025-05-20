@@ -1,15 +1,14 @@
 <template>
   <nav>
-   
     <div class="navbar navbar-expand-lg bg-body-tertiary">
       <div class="container justify-content-between">
-        <a
+        <RouterLink
           class="navbar-brand fw-bold d-flex align-items-center me-4 d-lg-none"
-          href="#"
+          to="/"
         >
           <i class="fas fa-thin fa-briefcase fs-4 text-primary me-2"></i>
-          Jobpilot
-        </a>
+          Forsa
+        </RouterLink>
         <button
           class="navbar-toggler"
           type="button"
@@ -24,76 +23,76 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a
+              <RouterLink
                 class="nav-link"
                 :class="{ active: activeLink === 'home' }"
                 aria-current="page"
-                href="/"
+                to="/"
                 @click="setActiveLink('home')"
-                >Home</a
+                >Home</RouterLink
               >
             </li>
-            <li class="nav-item">
-              <a
+            <!-- <li class="nav-item">
+              <RouterLink
                 class="nav-link"
                 :class="{ active: activeLink === 'jobs' }"
-                href="#"
+                to="/jobs"
                 @click="setActiveLink('jobs')"
-                >Jobs</a
+                >Jobs</RouterLink
               >
-            </li>
+            </li> -->
             <li class="nav-item">
-              <a
+              <RouterLink
                 class="nav-link"
                 :class="{ active: activeLink === 'FindJob' }"
-                href="/find-job"
+                to="/find-job"
                 @click="setActiveLink('FindJob')"
-                >Find Job</a
+                >Find Job</RouterLink
               >
             </li>
             <li class="nav-item">
-              <a
+              <RouterLink
                 class="nav-link"
                 :class="{ active: activeLink === 'Employers' }"
-                href="/employers"
+                to="/employers"
                 @click="setActiveLink('Employers')"
-                >Employers</a
+                >Employers</RouterLink
               >
             </li>
             <li class="nav-item">
-              <a
+              <RouterLink
                 class="nav-link"
                 :class="{ active: activeLink === 'Candidates' }"
-                href="/candidates"
+                to="/candidates"
                 @click="setActiveLink('Candidates')"
-                >Candidates</a
+                >Candidates</RouterLink
               >
             </li>
             <li class="nav-item">
-              <a
+              <RouterLink
                 class="nav-link"
                 :class="{ active: activeLink === 'candidates' }"
-                href="/candidatedashbord"
+                to="/candidatedashbord"
                 @click="setActiveLink('candidates')"
-                >Dashboard</a
+                >Dashboard</RouterLink
               >
             </li>
             <li class="nav-item">
-              <a
+              <RouterLink
                 class="nav-link"
                 :class="{ active: activeLink === 'jobalert' }"
-                href="/jobalert"
+                to="/jobalert"
                 @click="setActiveLink('jobalert')"
-                >Job Alert</a
+                >Job Alert</RouterLink
               >
             </li>
             <li class="nav-item">
-              <a
+              <RouterLink
                 class="nav-link"
                 :class="{ active: activeLink === 'customer' }"
-                href="/CustomerService"
+                to="/CustomerService"
                 @click="setActiveLink('customer')"
-                >Customer Supports</a
+                >Customer Supports</RouterLink
               >
             </li>
           </ul>
@@ -127,9 +126,9 @@
               </button>
               <ul class="dropdown-menu">
                 <li v-for="country in countries" :key="country.name">
-                  <a
+                  <RouterLink
                     class="dropdown-item d-flex align-items-center"
-                    href="#"
+                    :to="country.name"
                     @click.prevent="selectedCountry = country.name"
                   >
                     <img
@@ -142,7 +141,7 @@
                     <div class="d-flex flex-column">
                       <span>{{ country.name }}</span>
                     </div>
-                  </a>
+                  </RouterLink>
                 </li>
               </ul>
             </div>
@@ -159,14 +158,14 @@
         <div class="d-flex align-items-center w-md-100">
           <a
             class="navbar-brand fw-bold d-flex align-items-center me-4 d-none d-lg-block"
-            href="#"
+            href="/"
           >
             <i class="fas fa-thin fa-briefcase fs-4 text-primary me-2"></i>
             Forsa
           </a>
 
           <form
-            action=""
+            @submit.prevent="searchFunction"
             class="d-flex align-items-center border px-5 ms-2 rounded-2"
           >
             <!-- Country Selector as Dropdown -->
@@ -191,10 +190,10 @@
                 </button>
                 <ul class="dropdown-menu">
                   <li v-for="country in countries" :key="country.name">
-                    <a
+                    <RouterLink
                       class="dropdown-item d-flex align-items-center"
-                      href="#"
                       @click.prevent="selectedCountry = country.name"
+                      :to="country.name"
                     >
                       <img
                         :src="getFlag(country.name)"
@@ -204,7 +203,7 @@
                         class="me-2"
                       />
                       {{ country.name }}
-                    </a>
+                    </RouterLink>
                   </li>
                 </ul>
               </div>
@@ -214,9 +213,12 @@
 
             <!-- Search Input with Icon Inside -->
             <div class="position-relative w-100 me-lg-3">
-              <i
-                class="fas fa-search position-absolute top-50 start-0 translate-middle-y text-primary ms-3"
-              ></i>
+              <button
+                class="btn position-absolute top-50 end-0 translate-middle-y text-primary"
+                type="submit"
+              >
+                <i class="fas fa-search"></i>
+              </button>
               <input
                 type="text"
                 v-model="searchQuery"
@@ -229,14 +231,20 @@
 
         <!-- Right Section -->
         <div class="d-flex mt-3 mt-lg-0">
-          <button
-          class="btn btn-outline-primary border border-info px-3 me-2 rounded-1"
-          @click="goToSignIn"
-        >
-          Sign In
-        </button>
-        
-         
+          <router-link
+            v-if="!user"
+            to="/employeer/login"
+            class="btn btn-outline-primary border border-info px-3 me-2 rounded-1"
+            >Sign In</router-link
+          >
+          <div v-else class="d-flex">
+
+            <span class="me-3 text-primary fs-5 fw-bold mt-1">👋 Welcome, {{ user?.name }}</span>
+
+            <button class="btn btn-danger" @click="handleLogout">
+              <i class="fas fa-sign-out-alt me-1"></i> Logout
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -244,16 +252,16 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import { useRouter } from 'vue-router';
+import { ref, onMounted } from "vue";
+import { useRouter } from "vue-router";
+import { loggedInUser, logoutUser } from "../stores/userStore";
 
 const router = useRouter();
-const activeLink = ref("home");
-const setActiveLink = (link) => {
-  activeLink.value = link;
-};
+const user = loggedInUser;
+
 const selectedCountry = ref("Egypt");
 const searchQuery = ref("");
+const activeLink = ref("home");
 
 const countries = ref([
   { name: "India", code: "IN", phone: "+91 011 2727 2667" },
@@ -264,16 +272,35 @@ const countries = ref([
   { name: "Egypt", code: "EG", phone: "+20 011 2727 2667" },
 ]);
 
-const goToSignIn = () => {
-  router.push('/employeer/login');
-};
-
 const getFlag = (countryName) => {
   const country = countries.value.find((c) => c.name === countryName);
   return country
     ? `https://flagsapi.com/${country.code}/flat/64.png`
     : "https://flagsapi.com/IN/flat/64.png";
 };
+
+function handleLogout() {
+  logoutUser();
+  router.push("/employeer/login");
+}
+
+function setActiveLink(link) {
+  activeLink.value = link;
+}
+
+function searchFunction() {
+  if (searchQuery.value.trim()) {
+    router.push({ name: "FindJob", query: { search: searchQuery.value } });
+    searchQuery.value = "";
+  }
+}
+
+onMounted(() => {
+  const savedUser = localStorage.getItem("user");
+  if (savedUser && !loggedInUser.value) {
+    loggedInUser.value = JSON.parse(savedUser);
+  }
+});
 </script>
 
 <style scoped>
