@@ -18,7 +18,9 @@
 </template>
 
 <script setup>
+import { setLoggedInUser } from "../stores/userStore";
 import { loggedIn } from "../stores/auth";
+import { loggedInUser, logoutUser } from "../stores/userStore";
 
 import HeroSection from "./home-sections/HeroSection.vue";
 import PopularVacancies from "./home-sections/PopularVacancies.vue";
