@@ -213,7 +213,12 @@ const routes = [{
         path: '/candidates',
         name: 'Candidates',
         component: Candidates
-    },
+    }, 
+    // {
+    //     path: '/candidates/:id',
+    //     name: 'SingleCandidate',
+    //     component: SingleCandidate
+    //   },
 
     // {
     //     path: '/jobs',

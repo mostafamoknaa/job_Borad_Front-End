@@ -39,7 +39,8 @@
 </template>
 
 <script setup>
-import logoimage from '../assets/logo.jpg'
+import logoimage from '../assets/logo.jpg';
+
 defineProps({
   employer: {
     type: Object,

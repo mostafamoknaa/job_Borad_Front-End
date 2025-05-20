@@ -33,11 +33,20 @@
     <!-- Candidates List -->
     <div v-else class="row g-4">
       <CandidateCard
-        v-for="candidate in candidates"
-        :key="candidate.id"
-        :candidate="candidate"
-      />
+  v-for="candidate in candidates"
+  :key="candidate.id"
+  :candidate="candidate"
+  @view-details="openModal"
+/>
+
     </div>
+    <SingleCandidate
+  v-if="selectedCandidate"
+  :visible="!!selectedCandidate"
+  :candidate="selectedCandidate"
+  @close="selectedCandidate = null"
+/>
+
 
     <!-- No Results -->
     <div v-if="!loading && candidates.length === 0" class="text-center py-5">
@@ -47,9 +56,9 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue'
 import apiClient from '../Interceptor/getaxiox'
-
+import SingleCandidate from '../components/SingleCandidate.vue'
 import CandidateCard from '../components/CandidateCard.vue';
 
 const candidates = ref([]);
@@ -59,27 +68,33 @@ const experienceFilter = ref('');
 
 const fetchCandidates = async () => {
   try {
-    loading.value = true;
+    loading.value = true
     const response = await apiClient.get('/candidates', {
       params: {
-        search: searchQuery.value,
+        search:           searchQuery.value,
         experience_level: experienceFilter.value
       }
-    });
-    
-    console.log('API response:', response.data);
-
-     candidates.value = Array.isArray(response.data.data)
+    })
+    candidates.value = Array.isArray(response.data.data)
       ? response.data.data
-      : [];
+      : []
   } catch (error) {
-    console.error('Error fetching candidates:', error);
+    console.error('Error fetching candidates:', error)
   } finally {
-    loading.value = false;
+    loading.value = false
   }
-};
+}
 
-onMounted(() => {
-  fetchCandidates();
-});
+const selectedCandidate = ref(null)
+
+const openModal = (candidate) => {
+  selectedCandidate.value = candidate
+}
+
+
+watch([searchQuery, experienceFilter], () => {
+  fetchCandidates()
+})
+
+onMounted(fetchCandidates)
 </script>

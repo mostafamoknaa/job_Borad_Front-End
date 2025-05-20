@@ -29,12 +29,10 @@
           </p>
         </div>
 
-        <router-link
-          :to="`/candidates/${candidate.id}`"
-          class="btn btn-outline-primary"
-        >
-          View Profile
-        </router-link>
+        <button class="btn btn-outline-primary" @click="$emit('view-details', candidate)">
+  View Details
+</button>
+
       </div>
     </div>
   </div>
