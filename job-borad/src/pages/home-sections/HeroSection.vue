@@ -1,5 +1,5 @@
 <template>
-    <section class="hero-section py-5">
+  <section class="hero-section py-5">
     <div class="container">
       <div class="row align-items-center">
         <!-- Left: Text & Search -->
@@ -9,8 +9,8 @@
             your interest & skills.
           </h1>
           <p class="text-muted fs-5 mb-4">
-            Aliquam vitae turpis in diam convallis finibus in at risus.
-            Nullam in scelerisque leo, eget sollicitudin velit vestibulum.
+            Aliquam vitae turpis in diam convallis finibus in at risus. Nullam
+            in scelerisque leo, eget sollicitudin velit vestibulum.
           </p>
 
           <!-- Search Form -->
@@ -18,24 +18,29 @@
             class="bg-white p-3 rounded-3 shadow-sm d-flex flex-column flex-md-row align-items-stretch gap-2"
           >
             <div class="position-relative flex-grow-1">
-              <i class="fas fa-search position-absolute top-50 start-0 translate-middle-y text-primary ms-3 fs-4"></i>
+              <i
+                class="fas fa-search position-absolute top-50 start-0 translate-middle-y text-primary ms-3 fs-4"
+              ></i>
               <input
                 type="text"
                 class="form-control form-control-lg ps-5 border-0"
                 placeholder="Job title, Keyword..."
+                v-model="searchQuery"
               />
             </div>
 
-            <div class="position-relative flex-grow-1">
-              <i class="fas fa-map-marker-alt position-absolute top-50 start-0 translate-middle-y text-primary ms-3 fs-4"></i>
+            <!-- <div class="position-relative flex-grow-1">
+              <i
+                class="fas fa-map-marker-alt position-absolute top-50 start-0 translate-middle-y text-primary ms-3 fs-4"
+              ></i>
               <input
                 type="text"
                 class="form-control form-control-lg ps-5 border-0"
                 placeholder="Your Location"
               />
-            </div>
+            </div> -->
 
-            <button class="btn btn-primary px-4 text-nowrap">Find Jobs</button>
+            <button class="btn btn-primary px-4 text-nowrap" @click="searchFunction">Find Jobs</button>
           </div>
 
           <!-- Suggestions -->
@@ -64,7 +69,7 @@
             <div class="col-3 text-center stat-icon">
               <i class="fas fa-briefcase fs-4"></i>
             </div>
-            <div class=" offset-1 col-8 text-start">
+            <div class="offset-1 col-8 text-start">
               <h5 class="stat-value">1,75,324</h5>
               <p class="stat-label">Live Job</p>
             </div>
@@ -110,17 +115,27 @@
           </div>
         </div>
       </div>
-
     </div>
   </section>
-
 </template>
 
 <script setup>
+import { ref } from "vue";
+import { useRouter } from 'vue-router'
+const router = useRouter()
+const searchQuery = ref("");
+
+
+
+function searchFunction() {
+  // Implement your search logic here
+  console.log("Searching for:", searchQuery.value);
+  router.push({ name: 'FindJob', query: { search: searchQuery.value } })
+}
+
 </script>
 
 <style>
-
 /* Hero Section */
 .hero-section {
   background: rgba(241, 242, 244, 0.6);
@@ -154,21 +169,20 @@
   font-size: 0.875rem;
 }
 
-
-.stat-icon{
+.stat-icon {
   transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
 
-.stat-icon i{
+.stat-icon i {
   color: var(--bs-primary);
   transition: color 0.1s ease-in-out;
 }
 
-.stat-icon:hover i{
+.stat-icon:hover i {
   color: white;
 }
 
-.stat-icon:hover{
+.stat-icon:hover {
   background-color: var(--bs-primary) !important;
   transform: scale(1.009);
 }
@@ -186,5 +200,4 @@
     padding-right: 300px;
   }
 }
-
 </style>
