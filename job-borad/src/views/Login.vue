@@ -73,6 +73,7 @@
 <script>
 import { ref } from 'vue';
 import { loggedIn } from '../stores/auth';
+import { setLoggedInUser} from '../stores/userStore';
 import axios from 'axios';
 export default {
   name: 'LoginPage',
@@ -109,17 +110,21 @@ export default {
         if (user.role === 'candidate') {
           localStorage.setItem('token', token);
           localStorage.setItem('user', JSON.stringify(user));
+          localStorage.setItem('user', JSON.stringify(user));
+          setLoggedInUser(user); // 👈 update global state
           this.$router.push({ name: 'Home' });
           loggedIn.value = true;
         } else if (user.role === 'employer') {
           localStorage.setItem('token', token);
           localStorage.setItem('user', JSON.stringify(user));
           localStorage.setItem('employer_id', user.id);
+          setLoggedInUser(user); // 👈 update global state
           this.$router.push({ name: 'Home' });
           loggedIn.value = true;
         } else {
           localStorage.setItem('token', token);
           localStorage.setItem('user', JSON.stringify(user));
+          setLoggedInUser(user); // 👈 update global state
           this.$router.push({ name: 'JobsApproval' });
           loggedIn.value = true;
         }

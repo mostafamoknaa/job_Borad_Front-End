@@ -232,14 +232,19 @@
         <!-- Right Section -->
         <div class="d-flex mt-3 mt-lg-0">
           <router-link
-            v-if="!loggedIn"
+            v-if="!user"
             to="/employeer/login"
             class="btn btn-outline-primary border border-info px-3 me-2 rounded-1"
             >Sign In</router-link
           >
-          <button v-else class="btn btn-danger" @click="handleLogout">
-            <i class="fas fa-sign-out-alt me-1"></i> Logout
-          </button>
+          <div v-else class="d-flex">
+
+            <span class="me-3 text-primary fs-5 fw-bold mt-1">👋 Welcome, {{ user?.name }}</span>
+
+            <button class="btn btn-danger" @click="handleLogout">
+              <i class="fas fa-sign-out-alt me-1"></i> Logout
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -247,31 +252,16 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import { loggedIn, logout } from "../stores/auth";
+import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
+import { loggedInUser, logoutUser } from "../stores/userStore";
 
 const router = useRouter();
+const user = loggedInUser;
 
-const handleLogout = () => {
-  logout();
-  router.push("/employeer/login");
-};
-
-function searchFunction() {
-  if (searchQuery.value.trim()) {
-    console.log("searching...", searchQuery.value.trim());
-    router.push({ name: "FindJob", query: { search: searchQuery.value } });
-    searchQuery.value = "";
-  }
-}
-
-const activeLink = ref("home");
-const setActiveLink = (link) => {
-  activeLink.value = link;
-};
 const selectedCountry = ref("Egypt");
 const searchQuery = ref("");
+const activeLink = ref("home");
 
 const countries = ref([
   { name: "India", code: "IN", phone: "+91 011 2727 2667" },
@@ -282,13 +272,35 @@ const countries = ref([
   { name: "Egypt", code: "EG", phone: "+20 011 2727 2667" },
 ]);
 
-
 const getFlag = (countryName) => {
   const country = countries.value.find((c) => c.name === countryName);
   return country
     ? `https://flagsapi.com/${country.code}/flat/64.png`
     : "https://flagsapi.com/IN/flat/64.png";
 };
+
+function handleLogout() {
+  logoutUser();
+  router.push("/employeer/login");
+}
+
+function setActiveLink(link) {
+  activeLink.value = link;
+}
+
+function searchFunction() {
+  if (searchQuery.value.trim()) {
+    router.push({ name: "FindJob", query: { search: searchQuery.value } });
+    searchQuery.value = "";
+  }
+}
+
+onMounted(() => {
+  const savedUser = localStorage.getItem("user");
+  if (savedUser && !loggedInUser.value) {
+    loggedInUser.value = JSON.parse(savedUser);
+  }
+});
 </script>
 
 <style scoped>
