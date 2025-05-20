@@ -36,15 +36,6 @@
             <li class="nav-item">
               <a
                 class="nav-link"
-                :class="{ active: activeLink === 'jobs' }"
-                href="#"
-                @click="setActiveLink('jobs')"
-                >Jobs</a
-              >
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link"
                 :class="{ active: activeLink === 'FindJob' }"
                 href="/find-job"
                 @click="setActiveLink('FindJob')"
