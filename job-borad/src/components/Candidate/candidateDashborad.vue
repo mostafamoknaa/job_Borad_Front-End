@@ -54,7 +54,6 @@
     
       <div class="profile-alert">
         <div class="profile-info">
-          <img src="https://i.pravatar.cc/50" alt="Profile" />
           <div>
             <h3>Your profile editing is not completed.</h3>
             <p>Complete your profile editing & build your custom Resume</p>
