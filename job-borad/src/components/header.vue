@@ -77,7 +77,7 @@
                 >Dashboard</RouterLink
               >
             </li>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <RouterLink
                 class="nav-link"
                 :class="{ active: activeLink === 'jobalert' }"
@@ -85,7 +85,7 @@
                 @click="setActiveLink('jobalert')"
                 >Job Alert</RouterLink
               >
-            </li>
+            </li> -->
             <li class="nav-item">
               <RouterLink
                 class="nav-link"

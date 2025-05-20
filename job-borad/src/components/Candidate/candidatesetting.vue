@@ -32,7 +32,7 @@
                   <img v-if="imagePreview" :src="imagePreview" class="preview-image">
                   <i v-else class="fas fa-user"></i>
                 </div>
-                <input type="file" ref="fileInput" class="hidden" @change="handleFileUpload" accept="image/*">
+                <input type="file" ref="fileInput" class="hidden" @change="handleFileUpload('logo')" accept="image/*">
                 <button type="button" class="upload-button" @click="$refs.fileInput.click()">
                   Browse photo or drop here
                 </button>
@@ -132,22 +132,25 @@ export default {
     };
   },
   methods: {
-    handleFileUpload(event) {
-      const file = event.target.files[0];
-      if (file) {
-        if (file.size > 5 * 1024 * 1024) {
-          this.errors.image = ['File size must be less than 5MB'];
+    handleFileUpload(type) {
+      const fileInput = this.$refs.logoInput;
+      const file = fileInput.files[0];
+
+      if (file && file.type.startsWith('image/')) {
+        if (file.size > 5 * 1024 * 1024) { 
+          this.errorMessage = 'Image size must be less than 5MB.';
           return;
         }
-        
+
+        this.logoFile = file;
+
         const reader = new FileReader();
         reader.onload = (e) => {
-          this.imagePreview = e.target.result;
+          this.logoPreview = e.target.result;
         };
         reader.readAsDataURL(file);
-        
-        this.form.profilePicture = file;
-        this.errors.image = null;
+      } else {
+        this.errorMessage = 'Please upload a valid image file.';
       }
     },
     async saveChanges() {
@@ -167,11 +170,8 @@ export default {
           formData.append('image', this.form.profilePicture);
         }
         
-        const response = await interceptor.post('/candidates', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        }).then(response => {
+        const response = await interceptor.post('/candidates', formData)
+        .then(response => {
           console.log('Profile updated successfully:', response.data);
           this.$router.push('SettingProffile');
 

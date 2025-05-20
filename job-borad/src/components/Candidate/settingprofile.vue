@@ -38,7 +38,7 @@
     
               <div class="col-md-6 mb-3">
                 <label class="form-label">Date of Birth</label>
-                <input v-model="form.dob" type="date" class="form-control">
+                <input v-model="form.date_of_birth" type="date" class="form-control">
               </div>
             </div>
     
@@ -97,7 +97,8 @@
           Nationality: '',
             gender: '',
             marital_status: '',
-            bio: ''
+            bio: '',
+            date_of_birth: '',
         },
       };
     },
@@ -106,7 +107,7 @@
       try {
         const response = await interceptor.put('/candidates', this.form);
         console.log(response.data);
-        this.$router.push({ name: 'Candidatedashbord' });
+        this.$router.push({ name: 'profile' });
       } catch (error) {
         console.error(error);
         

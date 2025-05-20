@@ -74,6 +74,8 @@
 import { ref } from 'vue';
 import { loggedIn } from '../stores/auth';
 import { setLoggedInUser} from '../stores/userStore';
+import { useRouter } from 'vue-router';
+import router from '../router';
 import axios from 'axios';
 export default {
   name: 'LoginPage',

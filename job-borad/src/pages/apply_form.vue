@@ -2,6 +2,12 @@
   <div class="container my-5" v-if="job">
     <h2 class="mb-4">Apply for {{ job.title }} at {{ job.company }}</h2>
 
+
+    <div v-if="successMessage" class="alert alert-success alert-dismissible fade show" role="alert">
+      {{ successMessage }}
+      <button type="button" class="btn-close" @click="successMessage = ''" aria-label="Close"></button>
+    </div>
+    
     <form @submit.prevent="submitApplication" class="card p-4 shadow-sm rounded-4">
 
 
@@ -40,6 +46,7 @@ import axios from 'axios'
 import interceptor from '../Interceptor/getaxiox';
 const route = useRoute()
 const job = ref(null)
+const successMessage = ref('');
 
 const form = ref({
   message: '',
@@ -84,7 +91,17 @@ async function submitApplication() {
       }
     });
     console.log(response);
-    window.location.href = '/find-job';
+    console.log(response);
+    successMessage.value = 'Application submitted successfully!';
+    
+    form.value.message = '';
+    form.value.cv = null;
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setTimeout(() => {
+      window.location.href = '/find-job';
+    }, 5000);
+
   } catch (err) {
     console.error('Upload failed:', err);
   }
