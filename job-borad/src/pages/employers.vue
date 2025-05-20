@@ -2,6 +2,17 @@
   <div class="container py-5">
     <h2 class="mb-4 fw-bold">Browse Employers</h2>
 
+    <!-- 🔍 Search input -->
+    <div class="mb-4">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Search by employer name..."
+        v-model="searchQuery"
+      />
+    </div>
+
+    <!-- 🔁 Cards -->
     <div class="row g-4 mb-4">
       <EmployerCard
         v-for="employer in employers"
@@ -10,7 +21,8 @@
       />
     </div>
 
-    <nav aria-label="Employer pagination">
+    <!-- 📄 Pagination -->
+    <nav aria-label="Employer pagination" v-if="totalPages > 1">
       <ul class="pagination justify-content-center">
         <li
           class="page-item"
@@ -43,36 +55,47 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 import EmployerCard from '../components/EmployerCard.vue'
 
 const employers = ref([])
 const currentPage = ref(1)
 const totalPages = ref(1)
-const limit = 6 // Employers per page
+const limit = 6
+const searchQuery = ref('')
 
-const fetchEmployers = async (page = 1) => {
+const fetchEmployers = async (page = 1, search = '') => {
   try {
-    const res = await fetch(
-      `http://localhost:3001/employers?_page=${page}&_limit=${limit}`
-    )
-    employers.value = await res.json()
+    const url = new URL('http://127.0.0.1:8000/api/employers')
+    url.searchParams.set('per_page', limit)
+    url.searchParams.set('page', page)
+    if (search) url.searchParams.set('search', search)
 
-    const totalCount = res.headers.get('X-Total-Count')
-    totalPages.value = Math.ceil(totalCount / limit)
+    const res = await fetch(url)
+    const data = await res.json()
+
+    employers.value = data.data
+    totalPages.value = data.meta?.last_page || 1
   } catch (error) {
-    console.error('Failed to load employers:', error)
+    console.error('Failed to fetch employers:', error)
   }
 }
 
 const changePage = (page) => {
   if (page >= 1 && page <= totalPages.value) {
     currentPage.value = page
-    fetchEmployers(page)
+    fetchEmployers(page, searchQuery.value)
   }
 }
 
+// 🔍 search listener
+watch(searchQuery, (newValue) => {
+  currentPage.value = 1
+  fetchEmployers(1, newValue)
+})
+
+// on page load
 onMounted(() => {
-  fetchEmployers(currentPage.value)
+  fetchEmployers()
 })
 </script>
