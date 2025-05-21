@@ -6,7 +6,7 @@
       <div class="row">
         <div class="col-md-12 text-center mb-4">
           <img
-            :src="candidate.image || defaultImage"
+           :src="'http://localhost:8000/storage/' + candidate.image || candidateImage"
             class="rounded-circle"
             width="100"
             height="100"

@@ -45,7 +45,7 @@ export default {
   },
   methods: {
     getEmployers(page = 1) {
-      interceptor.get(`/employers?page=${page}`)
+      interceptor.get(`/adminEmp?page=${page}`)
         .then(response => {
           this.employers = response.data
           console.log(response.data)

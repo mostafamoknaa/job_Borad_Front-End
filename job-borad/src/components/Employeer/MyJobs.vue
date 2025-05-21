@@ -17,7 +17,7 @@
                   <select v-model="selectedStatus" class="form-select form-select-sm w-auto">
                     <option value="">All Jobs</option>
                     <option value="pending">Pending</option>
-                    <option value="aproved">Aproved</option>
+                    <option value="approved">Aproved</option>
                      <option value="rejected">Rejected</option>
                   </select>
                 </div>

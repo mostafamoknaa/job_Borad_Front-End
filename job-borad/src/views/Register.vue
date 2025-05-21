@@ -212,11 +212,12 @@ export default {
         if (this.accountType === "candidate") {
           localStorage.setItem("token", response.data.token);
           localStorage.setItem("user", JSON.stringify(response.data.user));
-          this.$router.push({ name: "Home" });
+          this.$router.push({ name: "Settings" });
           loggedIn.value = true;
         } else {
           localStorage.setItem("token", response.data.token);
-          this.$router.push({ name: "Home" });
+          localStorage.setItem("user", JSON.stringify(response.data.user));
+          this.$router.push({ name: "company" });
           loggedIn.value = true;
         }
       } catch (error) {

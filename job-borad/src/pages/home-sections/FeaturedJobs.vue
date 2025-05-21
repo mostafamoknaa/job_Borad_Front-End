@@ -20,11 +20,11 @@
             <p class="text-muted mb-2">Salary: {{ job.salary_range }}</p>
             <div class="d-flex align-items-center">
               <img
-                :src="job.employer?.company_logo"
-                alt="logo"
-                class="me-2"
-                style="width: 32px"
-              />
+              :src="'http://localhost:8000/storage/' + job.employer?.company_logo"
+              alt="logo"
+              class="me-2"
+              style="width: 32px"
+            />
               <div>
                 <div class="fw-semibold">{{ job.employer?.company_name }}</div>
                 <div class="text-muted small">

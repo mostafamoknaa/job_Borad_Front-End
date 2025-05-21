@@ -240,10 +240,6 @@
           <div v-else class="d-flex">
 
             <span class="me-3 text-primary fs-5 fw-bold mt-1">👋 Welcome, {{ user?.name }}</span>
-
-            <button class="btn btn-danger" @click="handleLogout">
-              <i class="fas fa-sign-out-alt me-1"></i> Logout
-            </button>
           </div>
         </div>
       </div>

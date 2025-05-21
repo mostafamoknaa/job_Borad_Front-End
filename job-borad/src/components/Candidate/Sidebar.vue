@@ -38,8 +38,6 @@
           { id: 'Candidatedashbord', label: 'OverView', icon: 'fas fa-home' },
           { id: 'appliedjobs', label: 'Applied Job', icon: 'fas fa-user' },
           {id :'profile', label: 'Profile', icon: 'fas fa-user' },
-          { id: 'FavoriteJob', label: 'Favorite Job', icon: 'fas fa-bookmark' },
-          { id: 'jobalert', label: 'Job Alert', icon: 'fas fa-bell' },
           { id: 'Settings', label: 'Settings', icon: 'fas fa-cog' },
           { id: 'Logout', label: 'Logout', icon: 'fas fa-sign-out-alt' }
         ]

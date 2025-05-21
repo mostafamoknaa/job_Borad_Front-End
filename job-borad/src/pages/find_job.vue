@@ -1,8 +1,8 @@
 <template>
   <div class="container my-5">
+    <MainNavbar v-if="parsedUser.role === 'employer'" />
+    
     <h2 class="mb-4">Find Jobs</h2>
-
-    <!-- Filters Section -->
     <div class="row mb-4">
       <div class="col-md-4 mb-2">
         <input
@@ -77,9 +77,13 @@
 import { ref, computed, onMounted, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import apiClient from "../Interceptor/getaxiox";
+import MainNavbar from "../components/Employeer/MainNavbar.vue";
+
 
 const route = useRoute();
 const router = useRouter();
+const storedUser = localStorage.getItem('user')
+const parsedUser = JSON.parse(storedUser)
 
 
 const searchQuery = ref(route.query.search || "");

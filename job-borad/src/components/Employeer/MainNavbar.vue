@@ -110,6 +110,9 @@ import { useRouter, useRoute } from "vue-router";
 const router = useRouter();
 const route = useRoute();
 
+const storedUser = localStorage.getItem('user')
+const parsedUser = JSON.parse(storedUser)
+
 const gotojob = () => {
   router.push("/employeer/postjob");
 };

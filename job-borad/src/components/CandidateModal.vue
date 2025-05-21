@@ -52,7 +52,7 @@
         <div class="modal-body">
           <div class="text-center">
           <img
-            :src="candidate?.avatar"
+            :src="'http://localhost:8000/storage/' + candidate.image "
             alt="Avatar"
             class="rounded-circle mb-3"
             width="120"

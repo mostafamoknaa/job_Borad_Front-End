@@ -123,7 +123,7 @@ const routes = [{
         component: Candidatesetting
     },
     {
-        path: '/SettingProffile',
+        path: '/SettingProfile',
         name: 'SettingProfile',
         component: Settingprofile
     },
@@ -211,12 +211,12 @@ const routes = [{
         path: '/employers/:id',
         name: 'SingleEmployer',
         component: SingleEmployer
-      },
+    },
     {
         path: '/candidates',
         name: 'Candidates',
         component: Candidates
-    }, 
+    },
     // {
     //     path: '/candidates/:id',
     //     name: 'SingleCandidate',

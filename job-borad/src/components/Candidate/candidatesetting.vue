@@ -25,14 +25,14 @@
             </router-link>
           </div>
           
-          <form @submit.prevent="saveChanges">
+          <form @submit.prevent="saveChanges" enctype="multipart/form-data">
             <div class="form-grid">
               <div class="upload-box">
                 <div class="upload-preview">
                   <img v-if="imagePreview" :src="imagePreview" class="preview-image">
                   <i v-else class="fas fa-user"></i>
                 </div>
-                <input type="file" ref="fileInput" class="hidden" @change="handleFileUpload('logo')" accept="image/*">
+                <input type="file" ref="fileInput" class="hidden" @change="handleFileUpload" accept="image/*">
                 <button type="button" class="upload-button" @click="$refs.fileInput.click()">
                   Browse photo or drop here
                 </button>
@@ -118,7 +118,7 @@ export default {
         experience_level: '',
         education: '',
         website: '',
-        profilePicture: null
+        image: null  // Changed from profilePicture to image to match API expectations
       },
       newCVName: '',
       newCVFile: null,
@@ -131,28 +131,74 @@ export default {
       cvErrors: {}
     };
   },
+  created() {
+    
+    this.fetchUserProfile();
+  },
+  
   methods: {
-    handleFileUpload(type) {
-      const fileInput = this.$refs.logoInput;
-      const file = fileInput.files[0];
 
-      if (file && file.type.startsWith('image/')) {
-        if (file.size > 5 * 1024 * 1024) { 
-          this.errorMessage = 'Image size must be less than 5MB.';
-          return;
-        }
-
-        this.logoFile = file;
-
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          this.logoPreview = e.target.result;
-        };
-        reader.readAsDataURL(file);
-      } else {
-        this.errorMessage = 'Please upload a valid image file.';
+    async fetchUserProfile() {
+      try {
+        const storedUser = localStorage.getItem('user')
+        const parsedUser = JSON.parse(storedUser)
+        const candidateId = parsedUser.id
+        const response = await interceptor.get(`/candidates/${candidateId}`);
+        this.initializeForm(response.data);
+      } catch (error) {
+        console.error('Error fetching profile data:', error);
+        this.initializeForm({});
       }
     },
+    
+    initializeForm(data) {
+     
+      this.form = {
+        title: data.title || this.$attrs.title || '',
+        experience_level: data.experience_level || this.$attrs.experience_level || '',
+        education: data.education || this.$attrs.education || '',
+        website: data.website || '',
+        image: null 
+      };
+      
+      
+      if (data.image && data.image.url) {
+        this.imagePreview = data.image.url;
+      } else if (this.$attrs.image && this.$attrs.image.url) {
+        this.imagePreview = this.$attrs.image.url;
+      }
+    },
+    
+    handleFileUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      
+    
+      this.errors.image = null;
+
+      
+      if (!file.type.startsWith('image/')) {
+        this.errors.image = ['Please upload a valid image file.'];
+        return;
+      }
+
+     
+      if (file.size > 5 * 1024 * 1024) {
+        this.errors.image = ['Image size must be less than 5MB.'];
+        return;
+      }
+
+     
+      this.form.image = file;
+      
+      
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.imagePreview = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    },
+    
     async saveChanges() {
       this.errors = {};
       this.isLoading = true;
@@ -161,21 +207,21 @@ export default {
         const formData = new FormData();
         
         
-        formData.append('title', this.form.title);
-        formData.append('experience_level', this.form.experience_level);
-        formData.append('education', this.form.education);
-        
-        
-        if (this.form.profilePicture) {
-          formData.append('image', this.form.profilePicture);
-        }
-        
-        const response = await interceptor.post('/candidates', formData)
-        .then(response => {
-          console.log('Profile updated successfully:', response.data);
-          this.$router.push('SettingProffile');
-
+        Object.keys(this.form).forEach(key => {
+          if (this.form[key] !== null && this.form[key] !== undefined) {
+            formData.append(key, this.form[key]);
+          }
         });
+        
+        
+        const response = await interceptor.post('/candidates', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        });
+        
+        console.log('Profile updated successfully:', response.data);
+        this.$router.push('/SettingProfile');
         
       } catch (error) {
         if (error.response?.status === 422) {
@@ -322,148 +368,5 @@ export default {
 .save-btn:disabled {
   background: #6c757d;
   cursor: not-allowed;
-}
-.cv-section {
-  margin-top: 3rem;
-  border-top: 1px solid #eee;
-  padding-top: 2rem;
-}
-.section-title {
-  font-size: 1.25rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
-}
-.cv-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 1rem;
-}
-.cv-card {
-  background: #fff;
-  border: 1px solid #ddd;
-  padding: 15px;
-  border-radius: 8px;
-  position: relative;
-  transition: box-shadow 0.3s;
-}
-.cv-card:hover {
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-.cv-info {
-  display: flex;
-  align-items: center;
-}
-.cv-icon-wrapper {
-  flex-shrink: 0;
-  font-size: 2rem;
-  color: #3498db;
-  margin-right: 15px;
-}
-.cv-text {
-  flex: 1;
-}
-.cv-text-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.cv-name {
-  font-weight: bold;
-  font-size: 1rem;
-  margin: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.cv-size {
-  font-size: 0.85rem;
-  color: #888;
-  margin-top: 5px;
-}
-.action-icon {
-  font-size: 1.2rem;
-  cursor: pointer;
-  color: #555;
-  padding: 5px;
-}
-.action-icon:hover {
-  color: #1d4ed8;
-}
-.dropdown-menu {
-  position: absolute;
-  top: 50px;
-  right: 10px;
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  z-index: 100;
-}
-.dropdown-menu button {
-  display: block;
-  width: 100%;
-  padding: 8px 15px;
-  background: none;
-  border: none;
-  text-align: left;
-  font-size: 0.9rem;
-  color: #333;
-  cursor: pointer;
-}
-.dropdown-menu button:hover {
-  background: #f0f0f0;
-}
-.add-cv {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  color: #1d4ed8;
-  border: 1px dashed #1d4ed8;
-}
-.add-cv:hover {
-  background: #f0f7ff;
-}
-.add-cv i {
-  font-size: 1.5rem;
-  margin-bottom: 0.5rem;
-}
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 200;
-}
-.modal-content {
-  background: white;
-  padding: 2rem;
-  border-radius: 10px;
-  width: 100%;
-  max-width: 500px;
-}
-.input-field {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-.modal-buttons {
-  display: flex;
-  justify-content: flex-end;
-  gap: 1rem;
-}
-.cancel-btn {
-  background: #6c757d;
-}
-.cancel-btn:hover {
-  background: #5a6268;
 }
 </style>

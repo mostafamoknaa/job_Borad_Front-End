@@ -10,7 +10,7 @@
               <div class="d-flex mb-2">
 
                 <div class="rounded p-2 text-center">
-                    <img :src="company.company_logo" alt="Logo" class="me-3" style="width: 50px; height: 50px; object-fit: contain" />
+                    <img :src="'http://localhost:8000/storage/' + company.company_logo" alt="Logo" class="me-3" style="width: 50px; height: 50px; object-fit: contain" />
                 </div>
                 <div class="ms-4">
                   <div class="d-flex align-items-center">

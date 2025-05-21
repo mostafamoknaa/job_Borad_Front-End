@@ -81,12 +81,11 @@
   
   const route = useRoute()
   const candidate = ref<any>(null)
-  
-  onMounted(async () => {
   const storedUser = localStorage.getItem('user')
   const parsedUser = JSON.parse(storedUser)
-  const candidateId = parsedUser.id
-
+  const candidateId = parsedUser.id-1
+  console.log(candidate)
+  onMounted(async () => {
   try {
     const res = await interceptor.get(`/candidates/${candidateId}`)
     candidate.value = res.data

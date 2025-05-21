@@ -4,7 +4,7 @@
       <div class="card-body">
         <div class="d-flex align-items-center mb-3">
           <img
-            :src="candidate.image || candidateImage"
+            :src="'http://localhost:8000/storage/' + candidate.image || candidateImage"
             alt="Candidate"
             class="rounded-circle me-3"
             width="60"

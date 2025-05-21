@@ -92,7 +92,7 @@
           <router-link :to="backLink" class="btn btn-outline-primary px-4 py-2 rounded-pill">
             <i class="bi bi-arrow-left me-2"></i>Back
           </router-link>
-          <button @click="goToapply" class="btn btn-primary px-4 py-2 rounded-pill">
+          <button @click="goToapply" class="btn btn-primary px-4 py-2 rounded-pill" :hidden="parsedUser.role=='employer'">
             <i class="bi bi-send-fill me-2"></i>Apply Now
           </button>
           
@@ -122,6 +122,10 @@ const goToapply = () => {
     router.push(`/apply/${job.value.id}`);
   }
 };
+
+const storedUser = localStorage.getItem('user')
+const parsedUser = JSON.parse(storedUser)
+console.log(parsedUser.role)
 
 const backLink = computed(() => {
   return route.fullPath.includes('employeer') ? '/employeer/dashboard' : '/find-job';
