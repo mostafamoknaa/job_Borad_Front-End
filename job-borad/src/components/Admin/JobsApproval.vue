@@ -46,7 +46,7 @@
   import Pagination from './Pagination.vue'
   import axios from 'axios'
   import interceptor from '../../Interceptor/getaxiox'
-  
+
   export default {
     components: { Pagination },
     data() {

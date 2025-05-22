@@ -25,9 +25,7 @@
             <li class="nav-item">
               <a class="nav-link" :class="{ active: activeLink === '/employeer/home' }" href="/employeer/home">Home</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" :class="{ active: activeLink === '/find-candidate' }" href="/find-candidate">Find Candidate</a>
-            </li>
+
             <li class="nav-item">
               <a class="nav-link" :class="{ active: activeLink === '/employeer/dashboard' }" href="/employeer/dashboard">Dashboard</a>
             </li>
@@ -35,14 +33,11 @@
               <a class="nav-link" :class="{ active: activeLink === '/employeer/jobs' }" href="/employeer/jobs">My Jobs</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" :class="{ active: activeLink === '/employeer/all-jobs' }" href="/employeer/all-jobs">All Job</a>
-            </li>
-            <li class="nav-item">
               <a class="nav-link" :class="{ active: activeLink === '/employeer/contactus' }" href="/employeer/contactus">Customer Supports</a>
             </li>
           </ul>
 
-          <div class="d-flex align-items-center">
+          <!-- <div class="d-flex align-items-center">
             <div class="dropdown">
               <button
                 class="btn dropdown-toggle d-flex align-items-center"
@@ -78,7 +73,7 @@
                 </li>
               </ul>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>

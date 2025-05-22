@@ -1,5 +1,5 @@
 <template>
-    <div class="sidebar bg-dark text-white">
+    <div class="sidebar bg-info text-dark">
       <div class="sidebar-sticky pt-3">
         <ul class="nav flex-column">
           <li class="nav-item">
@@ -59,7 +59,7 @@
     padding: 20px;
     overflow-x: hidden;
     overflow-y: auto;
-    box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+    box-shadow: inset -1px 0 0 rgba(248, 244, 244, 0.1);
   }
   
   .nav-link {

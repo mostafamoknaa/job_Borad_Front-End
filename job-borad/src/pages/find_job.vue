@@ -1,6 +1,6 @@
 <template>
   <div class="container my-5">
-    <MainNavbar v-if="parsedUser.role === 'employer'" />
+    <!-- <MainNavbar v-if="parsedUser.role === 'employer'" /> -->
     
     <h2 class="mb-4">Find Jobs</h2>
     <div class="row mb-4">

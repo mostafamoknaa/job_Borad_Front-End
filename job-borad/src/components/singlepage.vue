@@ -92,9 +92,12 @@
           <router-link :to="backLink" class="btn btn-outline-primary px-4 py-2 rounded-pill">
             <i class="bi bi-arrow-left me-2"></i>Back
           </router-link>
-          <button @click="goToapply" class="btn btn-primary px-4 py-2 rounded-pill" :hidden="parsedUser.role=='employer'">
-            <i class="bi bi-send-fill me-2"></i>Apply Now
-          </button>
+          <button 
+          v-if="!isEmployerPath" 
+          @click="goToapply" 
+          class="btn btn-primary px-4 py-2 rounded-pill">
+          <i class="bi bi-send-fill me-2"></i>Apply Now
+        </button>
           
         </div>
       </div>
@@ -103,29 +106,28 @@
 </template>
 
 <script setup>
-import { ref, onMounted,computed } from 'vue';
-import { useRoute } from 'vue-router';
+import { ref, onMounted, computed } from 'vue';
 import interceptor from '../Interceptor/getaxiox';
-import { useRouter } from 'vue-router';
-
-const router = useRouter();
+import { useRoute, useRouter } from 'vue-router';
 
 const route = useRoute();
+const router = useRouter();
+
+const isEmployerPath = computed(() => {
+  return route.fullPath.toLowerCase().includes('employeer');
+});
 const job = ref({});
 
 const goToapply = () => {
-  const user = localStorage.getItem('user')
+  const user = localStorage.getItem('user');
   if (!user) {
     window.location.href = '/employeer/login';
+    return;  // stop further execution after redirect
   }
   if (job.value.id) {
     router.push(`/apply/${job.value.id}`);
   }
 };
-
-const storedUser = localStorage.getItem('user')
-const parsedUser = JSON.parse(storedUser)
-console.log(parsedUser.role)
 
 const backLink = computed(() => {
   return route.fullPath.includes('employeer') ? '/employeer/dashboard' : '/find-job';
@@ -151,6 +153,7 @@ const formatDate = (dateStr) => {
 };
 
 onMounted(fetchJob);
+
 </script>
 
 <style scoped>

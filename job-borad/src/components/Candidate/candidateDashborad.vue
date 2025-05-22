@@ -8,147 +8,172 @@
         <div class="container-fluid p-0">
           <div class="row">
             <div class="col-md-12">
-             
-    <div class="dashboard">
-      <div class="top-greeting">
-        <h1>Hello, {{userName}} </h1>
-        <p>Here is your daily activities and job alerts</p>
-      </div>
-  
-      
-      <div class="stats-cards">
-        <div class="card text-center shadow-sm p-4 hover-shadow">
-            <div class="d-flex justify-content-between align-items-center">
-              <div>
-                <h2 class="mb-1 fw-bold">589</h2>
-                <p class="mb-0 text-muted">Applied Jobs</p>
-              </div>
-              <div class="text-primary fs-1">
-                <i class="fas fa-briefcase"></i>
-              </div>
-            </div>
-        </div>          
-        <div class="card text-center shadow-sm p-4 hover-shadow">
-                <div class="d-flex justify-content-between align-items-center">
-                  <div>
-                    <h2 class="fw-bold mb-1">238</h2>
-                    <p class="text-muted mb-0">Favorite Jobs</p>
+              <div class="dashboard">
+                <div class="top-greeting">
+                  <h1>Hello, {{ userName }}</h1>
+                  <p>Here is your daily activities and job alerts</p>
+                </div>
+
+                <!-- <div class="stats-cards">
+                  <div class="card text-center shadow-sm p-4 hover-shadow">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div>
+                        <h2 class="mb-1 fw-bold">589</h2>
+                        <p class="mb-0 text-muted">Applied Jobs</p>
+                      </div>
+                      <div class="text-primary fs-1">
+                        <i class="fas fa-briefcase"></i>
+                      </div>
+                    </div>
                   </div>
-                  <div class="text-danger fs-1">
-                    <i class="fas fa-heart"></i>
+
+                  <div class="card text-center shadow-sm p-4 hover-shadow">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div>
+                        <h2 class="fw-bold mb-1">238</h2>
+                        <p class="text-muted mb-0">Favorite Jobs</p>
+                      </div>
+                      <div class="text-danger fs-1">
+                        <i class="fas fa-heart"></i>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="card text-center shadow-sm p-4 hover-shadow">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div>
+                        <h2 class="fw-bold mb-1">574</h2>
+                        <p class="text-muted mb-0">Job Alerts</p>
+                      </div>
+                      <div class="text-warning fs-1">
+                        <i class="fas fa-bell"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div> -->
+
+                <!-- Show only if candidate does NOT exist -->
+                <div class="profile-alert" v-if="!candidateExists">
+                  <div class="profile-info">
+                    <div>
+                      <h3>Your profile editing is not completed.</h3>
+                      <p>Complete your profile editing & build your custom Resume</p>
+                    </div>
+                  </div>
+                  <button class="edit-profile-btn" @click="goToSeeting">Edit Profile</button>
+                </div>
+
+                <div class="job-list">
+                  <div
+                    v-for="job in paginatedJobs"
+                    :key="job.id"
+                    class="job-card"
+                  >
+                    <div class="job-info">
+                      <div>
+                        <h3>{{ job.title }}</h3>
+                        <div class="job-meta">
+                          <span>{{ job.job.location }}</span>
+                          <span>•</span>
+                          <span>{{ job.job.title }}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="job-date">
+                      {{ job.job.application_deadline }}
+                    </div>
+
+                    <div
+                      class="job-status"
+                      :class="{
+                        'text-success': job.status === 'accepted',
+                        'text-warning': job.status === 'pending',
+                        'text-danger': job.status === 'rejected',
+                      }"
+                    >
+                      ✔ {{ job.status }}
+                    </div>
+
+                    <button class="details-btn" @click="viewJobDetails(job.id)">
+                      View Details
+                    </button>
                   </div>
                 </div>
-        </div>
-        <div class="card text-center shadow-sm p-4 hover-shadow">
-                <div class="d-flex justify-content-between align-items-center">
-                  <div>
-                    <h2 class="fw-bold mb-1">574</h2>
-                    <p class="text-muted mb-0">Job Alerts</p>
-                  </div>
-                  <div class="text-warning fs-1">
-                    <i class="fas fa-bell"></i>
-                  </div>
+                <div class="pagination mt-3 d-flex justify-content-center gap-3">
+                  <button class="btn btn-secondary" @click="prevPage" :disabled="currentPage === 1">Previous</button>
+                  <span>Page {{ currentPage }} of {{ totalPages }}</span>
+                  <button class="btn btn-secondary" @click="nextPage" :disabled="currentPage === totalPages">Next</button>
                 </div>
-        </div>
-            </div>
-    
-      <div class="profile-alert">
-        <div class="profile-info">
-          <div>
-            <h3>Your profile editing is not completed.</h3>
-            <p>Complete your profile editing & build your custom Resume</p>
-          </div>
-        </div>
-        <button class="edit-profile-btn" @click="goToSeeting">Edit Profile</button>
-      </div>
-      <div class="job-list">
-        <div 
-          v-for="job in paginatedJobs" 
-          :key="job.id" 
-          class="job-card"
-        >
-          <div class="job-info">
-           
-            <div>
-              <h3>{{ job.title }}</h3>
-              <div class="job-meta">
-                <span>{{ job.job.location }}</span>
-                <span>•</span>
-                <span>{{ job.job.title }}</span>
+                
               </div>
             </div>
           </div>
-
-          <div class="job-date">
-            {{ job.job.application_deadline }}
-          </div>
-
-          <div 
-          class="job-status" 
-          :class="{
-            'text-success': job.status === 'accepted',
-            'text-warning': job.status === 'pending',
-            'text-danger': job.status === 'rejected',
-          }"
-        >
-          ✔ {{ job.status }}
-        </div>                    
-
-          <button class="details-btn" @click="viewJobDetails(job.id)">
-            View Details
-          </button>
         </div>
-      </div>
       </div>
     </div>
   </div>
-</div>
-</div>
-</div>
-</div>
+</template>
 
-  </template>
-  
-  <script setup>
-  import Sidebar from './Sidebar.vue';
-  import { useRouter } from 'vue-router';
-  import { ref, computed, onMounted } from 'vue';
+<script setup>
+import { ref, computed, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import Sidebar from './Sidebar.vue';
 import interceptor from '../../Interceptor/getaxiox';
 
-
-  const userName = ref('')
-  const userJson = localStorage.getItem('user')
-  if (userJson) {
-    const user = JSON.parse(userJson)
-    userName.value = user.name 
-    console.log('User name:', userName.value)
-  }
 const router = useRouter();
-  const goToSeeting = () => {
-  
-    router.push('/Settings');
-  };
 
+// Reactive state
+const userName = ref('');
+const candidateExists = ref(false);
 const jobs = ref([]);
 const currentPage = ref(1);
 const rowsPerPage = 5;
 
-const viewJobDetails = (jobId) => {
-  router.push(`/employeer/single/${jobId}`);
+
+const userJson = localStorage.getItem('user');
+if (userJson) {
+  const user = JSON.parse(userJson);
+  userName.value = user.name || 'User';
+  console.log('User name:', userName.value);
+} else {
+  console.log('User not found');
+  router.push('/employeer/login');
 }
 
+
+const goToSeeting = () => {
+  router.push('/Settings');
+};
+
+
+const checkcandidate = async () => {
+  try {
+    const res = await interceptor.get('/checkCandidate');
+    candidateExists.value = res.data.exists;
+    console.log('Candidate exists:', candidateExists.value);
+  } catch (error) {
+    console.error('Error checking candidate:', error);
+  }
+};
+
+// Fetch job applications
 const fetchApplications = async () => {
   try {
     const res = await interceptor.get('/userApplication');
     jobs.value = res.data;
-    console.log(jobs.value);
+    console.log('Fetched jobs:', jobs.value);
   } catch (err) {
     console.error('Error fetching applications:', err);
   }
 };
 
-onMounted(fetchApplications);
+// Go to job details
+const viewJobDetails = (jobId) => {
+  router.push(`/employeer/single/${jobId}`);
+};
 
+// Pagination
 const paginatedJobs = computed(() => {
   const start = (currentPage.value - 1) * rowsPerPage;
   return jobs.value.slice(start, start + rowsPerPage);
@@ -163,7 +188,14 @@ function nextPage() {
 function prevPage() {
   if (currentPage.value > 1) currentPage.value--;
 }
-  </script>
+
+// Lifecycle hook
+onMounted(() => {
+  fetchApplications();
+  checkcandidate();
+});
+</script>
+
   
   <style scoped>
   .hover-shadow:hover {

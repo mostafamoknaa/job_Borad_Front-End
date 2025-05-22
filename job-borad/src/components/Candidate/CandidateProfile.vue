@@ -83,7 +83,7 @@
   const candidate = ref<any>(null)
   const storedUser = localStorage.getItem('user')
   const parsedUser = JSON.parse(storedUser)
-  const candidateId = parsedUser.id-1
+  const candidateId = parsedUser.id
   console.log(candidate)
   onMounted(async () => {
   try {

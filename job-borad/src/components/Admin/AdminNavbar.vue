@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-dark bg-dark fixed-top">
+  <nav class="navbar navbar-dark bg-info fixed-top text-dark">
     <div class="container-fluid">
       <button class="navbar-toggler" type="button" @click="toggleSidebar">
         <span class="navbar-toggler-icon"></span>

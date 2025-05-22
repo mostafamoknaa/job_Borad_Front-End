@@ -31,23 +31,21 @@
                           <img 
                             :src="`http://localhost:8000/storage/${application.candidate.image}`" 
                             alt="Candidate Image"
-                          class="img-thumbnail rounded-circle"
-                          style="width: 150px; height: 150px; object-fit: cover;"
+                            class="img-thumbnail rounded-circle"
+                            style="width: 50px; height: 50px; object-fit: cover;"
                           >
                         </div>
                         <div>
-                          <h6 class="mb-0">#{{ application.candidate.user.name }}</h6>
+                          <h6 class="mb-0">{{ application.candidate.user.name }}</h6>
                           <small class="text-muted">{{ application.candidate.title }}</small>
                         </div>
                       </div>
                     </td>
                     
-                   
                     <td>
                       <div class="fw-semibold small">{{ application.candidate.education }}</div>
                     </td>
                     
-                   
                     <td>
                       <div class="d-flex align-items-center">
                         <div class="badge" :class="getExperienceBadgeClass(application.candidate.experience_level)">
@@ -56,7 +54,6 @@
                       </div>
                     </td>
                     
-                    
                     <td>
                       <div class="small">
                         <div><span class="fw-semibold">Nationality:</span> {{ application.candidate.Nationality }}</div>
@@ -64,24 +61,31 @@
                         <div><span class="fw-semibold">Status:</span> {{ application.candidate.marital_status }}</div>
                       </div>
                     </td>
-                    
-                    
                     <td>
                       <button 
-                        class="btn btn-sm btn-outline-primary" 
-                        @click="showBio(application.candidate)"
+                        class="btn btn-sm btn-outline-primary mb-1" 
+                        @click="showBio(application.candidate, application.cover_letter)"
                       >
                         <i class="fas fa-file-alt me-1"></i> View Bio
                       </button>
+                      <br />
+                      <a
+                        v-if="application.resume"
+                        :href="`http://localhost:8000/storage/${application.resume}`"
+                        target="_blank"
+                        download
+                        class="btn btn-sm btn-outline-success"
+                      >
+                        <i class="fas fa-download me-1"></i> View CV
+                      </a>
+                      <span v-else class="text-muted small">No CV</span>
                     </td>
                     
-                   
                     <td>
                       <span class="badge" :class="getStatusBadgeClass(application.status)">
                         {{ application.status }}
                       </span>
                     </td>
-                    
                     
                     <td>
                       <div class="dropdown">
@@ -90,7 +94,7 @@
                         </button>
                         <ul class="dropdown-menu">
                           <li><a class="dropdown-item" href="#" @click.prevent="updateStatus(application, 'shortlisted')">Save</a></li>
-                          <li><a class="dropdown-item" href="#" @click.prevent="updateStatus(application)">Hire</a></li>
+                          <li><a class="dropdown-item" href="#" @click.prevent="updateStatus(application, 'accepted')">Hire</a></li>
                         </ul>
                       </div>
                     </td>
@@ -113,16 +117,14 @@
                 <div class="row">
                   <div class="col-md-4 text-center mb-3">
                     <img
-                    v-if="selectedCandidate.image"
-                    :src="'http://localhost:8000/storage/' + selectedCandidate.image"
-                    alt="Candidate Image"
-                    class="img-thumbnail rounded-circle"
-                    style="width: 150px; height: 150px; object-fit: cover;"
-                  />
-                  
+                      v-if="selectedCandidate.image"
+                      :src="'http://localhost:8000/storage/' + selectedCandidate.image"
+                      alt="Candidate Image"
+                      class="img-thumbnail rounded-circle"
+                      style="width: 150px; height: 150px; object-fit: cover;"
+                    />
                     <div class="mt-2">
                       <strong>{{ selectedCandidate.title }}</strong>
-                      <p class="text-muted">ID: {{ selectedCandidate.id }}</p>
                     </div>
                   </div>
         
@@ -154,20 +156,6 @@
                           <td>{{ selectedCandidate.date_of_birth || 'N/A' }}</td>
                         </tr>
                         <tr>
-                          <th scope="row">Resume</th>
-                          <td>
-                            <a
-                              v-if="selectedCandidate.resume"
-                              :href="selectedCandidate.resume"
-                              target="_blank"
-                              class="text-decoration-underline text-primary"
-                            >
-                              View Resume
-                            </a>
-                            <span v-else>N/A</span>
-                          </td>
-                        </tr>
-                        <tr>
                           <th scope="row">Joined At</th>
                           <td>{{ new Date(selectedCandidate.created_at).toLocaleDateString() }}</td>
                         </tr>
@@ -180,6 +168,12 @@
                   <h6>Biography</h6>
                   <p class="text-muted">
                     {{ selectedCandidate.bio || 'No biography provided' }}
+                  </p>
+                </div>
+                <div class="mt-4">
+                  <h6>Cover Letter</h6>
+                  <p class="text-muted" style="white-space: pre-wrap;">
+                    {{ selectedCoverLetter }}
                   </p>
                 </div>
               </div>
@@ -197,13 +191,13 @@ import { ref, onMounted } from 'vue'
 import { Modal } from 'bootstrap'
 import MainNavbar from './MainNavbar.vue'
 import EmpSidebar from './EmpSidebar.vue'
-import axios from 'axios'
 import interceptor from '../../Interceptor/getaxiox'
 import { useRouter } from 'vue-router'
-const router = useRouter()
 
+const router = useRouter()
 const applications = ref([])
 const selectedCandidate = ref(null)
+const selectedCoverLetter = ref('')
 let bioModal = null
 
 const fetchApplications = async () => {
@@ -220,19 +214,21 @@ const fetchApplications = async () => {
 
 const updateStatus = async (application, status = 'accepted') => {
   try {
-    const response = await interceptor.put(`/updateapplications/${application.id}`);
+    const response = await interceptor.put(`/updateapplications/${application.id}`)
     console.log(response)
-    application.status = 'accepted'
+    application.status = status
 
-    router.push(`/payment/${application.id}`)
+    if (status === 'accepted') {
+      router.push(`/payment/${application.id}`)
+    }
   } catch (error) {
     console.error('Error updating status:', error)
   }
 }
 
-
-const showBio = (candidate) => {
+const showBio = (candidate, coverLetter = '') => {
   selectedCandidate.value = candidate
+  selectedCoverLetter.value = coverLetter || 'No cover letter provided'
   bioModal.show()
 }
 
@@ -250,6 +246,7 @@ const getStatusBadgeClass = (status) => {
     case 'pending': return 'bg-secondary text-white'
     case 'rejected': return 'bg-danger text-white'
     case 'accepted': return 'bg-success text-white'
+    case 'shortlisted': return 'bg-warning text-dark'
     default: return 'bg-light text-dark'
   }
 }
@@ -279,5 +276,10 @@ onMounted(() => {
 
 .table tbody tr:hover {
   background-color: rgba(0, 0, 0, 0.02);
+}
+
+.text-wrap {
+  white-space: normal !important;
+  word-wrap: break-word;
 }
 </style>
